@@ -8,14 +8,6 @@ function parseAndPlay() {
         return;
     }
 
-    // 验证URL格式
-    try {
-        new URL(videoUrl);
-    } catch (e) {
-        alert('请输入有效的视频链接。');
-        return;
-    }
-
     // 生成解析后的URL
     const parsedUrl = parserBase + encodeURIComponent(videoUrl);
     
