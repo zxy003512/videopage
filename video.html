@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>ZXY的视频解析网站</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHq6fRc5Lsj1ZzR8lVbQj2BjR5XgW9PdpZJECYbT+6yXCxJ9oVjR0Uyf/63jrcxvJY2JGQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* 基础样式 */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #ece9e6, #ffffff);
+            margin: 0;
+            padding: 0;
+            color: #333;
+            transition: background 0.5s ease;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a90e2;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            animation: slideDown 1s ease-out;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .buttons button {
+            flex: 1 1 30%;
+            padding: 12px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #4a90e2;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .buttons button:hover {
+            background-color: #357ab8;
+            transform: translateY(-3px);
+        }
+
+        .buttons button i {
+            margin-right: 8px;
+        }
+
+        .instructions {
+            background-color: #fdf6e3;
+            border-left: 5px solid #4a90e2;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border-radius: 3px;
+            animation: pulse 2s infinite;
+        }
+
+        .instructions p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .parser-section {
+            margin-bottom: 25px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .parser-section label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .parser-section input,
+        .parser-section select,
+        .parser-section button {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .parser-section input:focus,
+        .parser-section select:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+            outline: none;
+        }
+
+        .parser-section button {
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .parser-section button:hover {
+            background-color: #357ab8;
+            transform: translateY(-2px);
+        }
+
+        .parser-section button i {
+            margin-right: 8px;
+        }
+
+        .video-player {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: zoomIn 0.5s ease-in-out;
+            display: none;
+        }
+
+        .video-player iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { background-color: #fdf6e3; }
+            50% { background-color: #fcf1c7; }
+            100% { background-color: #fdf6e3; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 600px) {
+            .buttons button {
+                flex: 1 1 100%;
+            }
+
+            .parser-section input,
+            .parser-section select,
+            .parser-section button {
+                padding: 10px 12px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 主页面内容 -->
+    <div class="container" id="mainPage">
+        <h1>ZXY的视频解析网站</h1>
+        <div class="buttons">
+            <button onclick="window.open('https://v.qq.com/', '_blank')"><i class="fab fa-qq"></i> 腾讯视频</button>
+            <button onclick="window.open('https://www.iqiyi.com/', '_blank')"><i class="fas fa-play-circle"></i> 爱奇艺</button>
+            <button onclick="window.open('https://www.bilibili.com/', '_blank')"><i class="fas fa-video"></i> Bilibili</button>
+        </div>
+        <div class="instructions">
+            <p><strong>步骤1：</strong>点击上方视频平台按钮，将在新窗口打开相应网站观看您想看的视频。</p>
+            <p><strong>步骤2：</strong>在视频播放页面，复制该视频的URL链接。</p>
+            <p><strong>步骤3：</strong>返回本页面，粘贴视频链接到下方输入框进行解析并播放。</p>
+            <p><strong>问题反馈：</strong>如有问题请联系 QQ：2532314527</p>
+        </div>
+        <div class="parser-section">
+            <label for="videoUrl">粘贴视频链接：</label>
+            <input type="url" id="videoUrl" placeholder="例如：https://v.qq.com/x/cover/..." required>
+            
+            <label for="parserSelect">选择解析接口：</label>
+            <select id="parserSelect">
+                <option value="https://jx.hls.one/?url=">解析接口1: jx.hls.one</option>
+                <option value="https://jx.77flv.cc/?url=">解析接口2: jx.77flv.cc</option>
+                <option value="https://www.yemu.xyz/?url=">解析接口3: yemu.xyz</option>
+            </select>
+            
+            <button onclick="parseAndPlay()"><i class="fas fa-play"></i> 解析并播放</button>
+        </div>
+        <div class="video-player" id="videoPlayerContainer">
+            <iframe id="videoIframePlayer" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        // 解析并播放函数
+        function parseAndPlay() {
+            const videoUrl = document.getElementById('videoUrl').value.trim();
+            const parserBase = document.getElementById('parserSelect').value;
+            
+            if (!videoUrl) {
+                alert('请先粘贴视频链接。');
+                return;
+            }
+
+            // 生成解析后的URL
+            const parsedUrl = parserBase + encodeURIComponent(videoUrl);
+            
+            // 提示用户，尝试播放解析后的URL
+            alert('正在尝试解析视频链接并播放。如果无法播放，请尝试使用其他解析接口。');
+
+            // 设置iframe播放器的源
+            const videoPlayerContainer = document.getElementById('videoPlayerContainer');
+            const videoIframePlayer = document.getElementById('videoIframePlayer');
+            videoIframePlayer.src = parsedUrl;
+            // 显示播放器容器
+            videoPlayerContainer.style.display = 'block';
+            // 平滑滚动到播放器位置
+            videoPlayerContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
