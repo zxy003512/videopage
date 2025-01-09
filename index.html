@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>ZXY的视频解析网站</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHq6fRc5Lsj1ZzR8lVbQj2BjR5XgW9PdpZJECYbT+6yXCxJ9oVjR0Uyf/63jrcxvJY2JGQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- 引入外部CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- 主页面内容 -->
+    <div class="container" id="mainPage">
+        <h1>ZXY的视频解析网站</h1>
+        <div class="buttons">
+            <button onclick="window.open('https://v.qq.com/', '_blank')"><i class="fab fa-qq"></i> 腾讯视频</button>
+            <button onclick="window.open('https://www.iqiyi.com/', '_blank')"><i class="fas fa-play-circle"></i> 爱奇艺</button>
+            <button onclick="window.open('https://www.bilibili.com/', '_blank')"><i class="fas fa-video"></i> Bilibili</button>
+        </div>
+        <div class="instructions">
+            <p><strong>步骤1：</strong>点击上方视频平台按钮，将在新窗口打开相应网站观看您想看的视频。</p>
+            <p><strong>步骤2：</strong>在视频播放页面，复制该视频的URL链接。</p>
+            <p><strong>步骤3：</strong>返回本页面，粘贴视频链接到下方输入框进行解析并播放。</p>
+            <p><strong>问题反馈：</strong>如有问题请联系 QQ：2532314527</p>
+        </div>
+        <div class="parser-section">
+            <label for="videoUrl">粘贴视频链接：</label>
+            <input type="url" id="videoUrl" placeholder="例如：https://v.qq.com/x/cover/..." required>
+            
+            <label for="parserSelect">选择解析接口：</label>
+            <select id="parserSelect">
+                <option value="https://jx.hls.one/?url=">解析接口1: jx.hls.one</option>
+                <option value="https://jx.77flv.cc/?url=">解析接口2: jx.77flv.cc</option>
+                <option value="https://www.yemu.xyz/?url=">解析接口3: yemu.xyz</option>
+            </select>
+            
+            <button onclick="parseAndPlay()"><i class="fas fa-play"></i> 解析并播放</button>
+        </div>
+        <div class="video-player" id="videoPlayerContainer">
+            <iframe id="videoIframePlayer" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- 引入外部JS -->
+    <script src="js/script.js"></script>
+</body>
+</html>
