@@ -25,7 +25,6 @@
         /* 基础样式 */
         body {
             font-family: 'Noto Sans SC', 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
             margin: 0;
             padding: 0;
             color: #333;
@@ -33,17 +32,53 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            position: relative; /* For the particles */
+            position: relative; /* For the particles and snow */
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
 
-        /* Particles Background */
+        /* Background with animation */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            z-index: -2;
+        }
+
+        /* Particle.js container */
         #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Snow Effect */
+        .snow {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            z-index: -1;
+            z-index: 0; /* Adjusted to be above particles but below content */
+            pointer-events: none; /* Ensure snow doesn't interfere with clicks */
+        }
+
+        .snowflake {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
         }
 
         .container {
@@ -55,7 +90,11 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             animation: fadeIn 1s ease-in-out;
             backdrop-filter: blur(10px); /* Blur effect */
+            z-index: 1; /* Ensure container is above snow */
         }
+
+        /* ... rest of your CSS ... */
+
         /* Logo */
         .logo {
             display: block;
@@ -229,11 +268,26 @@
                 font-size: 0.9em;
             }
         }
+        .disclaimer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8em;
+            color: #777;
+        }
     </style>
 </head>
 <body>
     <!-- Particles.js container -->
     <div id="particles-js"></div>
+
+    <!-- Snow Container -->
+    <div class="snow" id="snow-container"></div>
+
+    <!-- Audio Player -->
+    <audio id="bg-music" loop>
+        <source src="http://ws.stream.qqmusic.qq.com/C4000044UfqL3eMKa6.m4a?guid=407573158&vkey=1ACF33DA5196C3BFB44C7E0E16DF702A533AACFDFF5964F706E10CE2A50A78ED1D0697B1EE09087DA1BED497233CE4D5A59A3760A47D9C8C__v2b94c7a3&uin=&fromtag=120032" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
     <!-- 主页面内容 -->
     <div class="container" id="mainPage">
@@ -269,117 +323,154 @@
         <div class="video-player" id="videoPlayerContainer">
             <iframe id="videoIframePlayer" src="" allowfullscreen></iframe>
         </div>
+        <div class="disclaimer">
+            <p>声明：本网站仅供学习交流使用，请勿用于商业用途。</p>
+        </div>
     </div>
 
-    <!-- Particles.js library - using CDN for GitHub Pages -->
+    <!-- Include Particles.js library -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Particles.js configuration
-        particlesJS('particles-js', {
-            particles: {
-                number: {
-                    value: 80,
-                    density: {
-                        enable: true,
-                        value_area: 800
+        /* ---- particles.js config ---- */
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
                     }
                 },
-                color: {
-                    value: '#ffffff'
+                "color": {
+                    "value": "#ffffff"
                 },
-                shape: {
-                    type: 'circle',
-                    stroke: {
-                        width: 0,
-                        color: '#000000'
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
                     },
-                    polygon: {
-                        nb_sides: 5
+                    "polygon": {
+                        "nb_sides": 5
                     }
                 },
-                opacity: {
-                    value: 0.5,
-                    random: false,
-                    anim: {
-                        enable: false,
-                        speed: 1,
-                        opacity_min: 0.1,
-                        sync: false
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
                     }
                 },
-                size: {
-                    value: 3,
-                    random: true,
-                    anim: {
-                        enable: false,
-                        speed: 40,
-                        size_min: 0.1,
-                        sync: false
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
                     }
                 },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#ffffff',
-                    opacity: 0.4,
-                    width: 1
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
                 },
-                move: {
-                    enable: true,
-                    speed: 6,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false,
-                    attract: {
-                        enable: false,
-                        rotateX: 600,
-                        rotateY: 1200
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
                     }
                 }
             },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: 'repulse'
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
                     },
-                    onclick: {
-                        enable: true,
-                        mode: 'push'
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
                     },
-                    resize: true
+                    "resize": true
                 },
-                modes: {
-                    grab: {
-                        distance: 400,
-                        line_linked: {
-                            opacity: 1
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
                         }
                     },
-                    bubble: {
-                        distance: 400,
-                        size: 40,
-                        duration: 2,
-                        opacity: 8,
-                        speed: 3
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
                     },
-                    repulse: {
-                        distance: 200,
-                        duration: 0.4
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
                     },
-                    push: {
-                        particles_nb: 4
+                    "push": {
+                        "particles_nb": 4
                     },
-                    remove: {
-                        particles_nb: 2
+                    "remove": {
+                        "particles_nb": 2
                     }
                 }
             },
-            retina_detect: true
+            "retina_detect": true
         });
+
+        // Function to create snowflakes
+        function createSnowflakes() {
+            const snowContainer = document.getElementById('snow-container');
+            const numFlakes = 50; // Number of snowflakes
+
+            for (let i = 0; i < numFlakes; i++) {
+                let snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.style.left = `${Math.random() * 100}vw`;
+                snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`; // Between 2 and 5 seconds
+                snowflake.style.animationDelay = `${Math.random() * 5}s`;
+                snowflake.style.width = `${Math.random() * 3}px`;
+                snowflake.style.height = snowflake.style.width;
+                snowContainer.appendChild(snowflake);
+            }
+        }
+
+        // Initialize snowflakes
+        createSnowflakes();
+
+        // Get the background music element
+        const bgMusic = document.getElementById('bg-music');
+        bgMusic.volume = 0.3; // Set volume to 30%
+
+        // Function to play background music
+        function playBackgroundMusic() {
+            bgMusic.play().catch(error => {
+                console.error("Error playing background music:", error);
+            });
+        }
+
+        // Play background music when the page is loaded
+        window.addEventListener('load', playBackgroundMusic);
 
         // 解析并播放函数
         function parseAndPlay() {
@@ -390,6 +481,10 @@
                 alert('请先粘贴视频链接。');
                 return;
             }
+
+            // Stop the background music
+            bgMusic.pause();
+            bgMusic.currentTime = 0; // Reset in case it's paused mid-track
 
             // 生成解析后的URL
             const parsedUrl = parserBase + encodeURIComponent(videoUrl);
