@@ -3,15 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZXY的视频解析网站</title>
+    <title>ZXY的视频解析网站 - 高清无广告在线观看</title>
+    <meta name="description" content="ZXY的视频解析网站提供各大视频平台VIP视频解析服务，支持腾讯视频、爱奇艺、哔哩哔哩等，让您享受高清无广告的观影体验。">
+    <meta name="keywords" content="视频解析, VIP视频, 腾讯视频, 爱奇艺, 哔哩哔哩, 无广告, 高清, 在线观看, ZXY">
+    <!-- Open Graph -->
+    <meta property="og:title" content="ZXY的视频解析网站 - 高清无广告在线观看">
+    <meta property="og:description" content="ZXY的视频解析网站提供各大视频平台VIP视频解析服务，支持腾讯视频、爱奇艺、哔哩哔哩等，让您享受高清无广告的观影体验。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zxy003512.github.io/videopage/">
+    <meta property="og:image" content="https://picture.gptkong.com/20250110/13265253c534ee452fb3ff48c6bdb5d709.jpg">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ZXY的视频解析网站 - 高清无广告在线观看">
+    <meta name="twitter:description" content="ZXY的视频解析网站提供各大视频平台VIP视频解析服务，支持腾讯视频、爱奇艺、哔哩哔哩等，让您享受高清无广告的观影体验。">
+    <meta name="twitter:image" content="https://picture.gptkong.com/20250110/13265253c534ee452fb3ff48c6bdb5d709.jpg">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* 基础样式 */
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Noto Sans SC', 'Roboto', sans-serif;
             background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
             margin: 0;
             padding: 0;
@@ -20,16 +33,36 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            position: relative; /* For the particles */
+        }
+
+        /* Particles Background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
 
         .container {
             width: 90%;
             max-width: 900px;
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             animation: fadeIn 1s ease-in-out;
+            backdrop-filter: blur(10px); /* Blur effect */
+        }
+        /* Logo */
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 150px;
+            height: auto;
+            border-radius: 50%;
         }
 
         h1 {
@@ -199,8 +232,12 @@
     </style>
 </head>
 <body>
+    <!-- Particles.js container -->
+    <div id="particles-js"></div>
+
     <!-- 主页面内容 -->
     <div class="container" id="mainPage">
+        <img src="https://picture.gptkong.com/20250110/13265253c534ee452fb3ff48c6bdb5d709.jpg" alt="ZXY Logo" class="logo">
         <h1>ZXY的视频解析网站</h1>
         <div class="buttons">
             <button onclick="window.open('https://v.qq.com/', '_blank')"><i class="fab fa-qq"></i> 腾讯视频</button>
@@ -223,6 +260,8 @@
                 <option value="https://jx.77flv.cc/?url=">解析接口2: jx.77flv.cc</option>
                 <option value="https://www.yemu.xyz/?url=">解析接口3: yemu.xyz</option>
                 <option value="https://jx.xmflv.com/?url=">解析接口4: jx.xmflv.com</option>
+                <option value="https://jx.m3u8.tv/jiexi/?url=">解析接口5: jx.m3u8.tv</option>
+                <option value="https://yparse.jn1.cc/index.php?url=">解析接口6: yparse.jn1.cc</option>
             </select>
             
             <button onclick="parseAndPlay()"><i class="fas fa-play"></i> 解析并播放</button>
@@ -232,7 +271,116 @@
         </div>
     </div>
 
+    <!-- Particles.js library - using CDN for GitHub Pages -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
+        // Particles.js configuration
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#ffffff'
+                },
+                shape: {
+                    type: 'circle',
+                    stroke: {
+                        width: 0,
+                        color: '#000000'
+                    },
+                    polygon: {
+                        nb_sides: 5
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: false,
+                    anim: {
+                        enable: false,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: false,
+                        speed: 40,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#ffffff',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 6,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'repulse'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 400,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    bubble: {
+                        distance: 400,
+                        size: 40,
+                        duration: 2,
+                        opacity: 8,
+                        speed: 3
+                    },
+                    repulse: {
+                        distance: 200,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    },
+                    remove: {
+                        particles_nb: 2
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
         // 解析并播放函数
         function parseAndPlay() {
             const videoUrl = document.getElementById('videoUrl').value.trim();
