@@ -6,102 +6,97 @@
     <title>ZXY的视频解析网站 - 高清无广告在线观看</title>
     <meta name="description" content="ZXY的视频解析网站提供各大视频平台VIP视频解析服务，支持腾讯视频、爱奇艺、哔哩哔哩等，让您享受高清无广告的观影体验。">
     <meta name="keywords" content="视频解析, VIP视频, 腾讯视频, 爱奇艺, 哔哩哔哩, 无广告, 高清, 在线观看, ZXY">
-    <!-- Open Graph -->
-    <meta property="og:title" content="ZXY的视频解析网站 - 高清无广告在线观看">
-    <meta property="og:description" content="ZXY的视频解析网站提供各大视频平台VIP视频解析服务，支持腾讯视频、爱奇艺、哔哩哔哩等，让您享受高清无广告的观影体验。">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://zxy003512.github.io/videopage/">
-    <meta property="og:image" content="https://picture.gptkong.com/20250110/13265253c534ee452fb3ff48c6bdb5d709.jpg">
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ZXY的视频解析网站 - 高清无广告在线观看">
-    <meta name="twitter:description" content="ZXY的视频解析网站提供各大视频平台VIP视频解析服务，支持腾讯视频、爱奇艺、哔哩哔哩等，让您享受高清无广告的观影体验。">
-    <meta name="twitter:image" content="https://picture.gptkong.com/20250110/13265253c534ee452fb3ff48c6bdb5d709.jpg">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 基础样式 */
         body {
             font-family: 'Noto Sans SC', 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            color: #333;
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            position: relative; /* For the particles and snow */
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            position: relative;
+            overflow-x: hidden;
+            background: #000;
         }
 
-        /* Background with animation */
         body::before {
             content: '';
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
             z-index: -2;
+            animation: gradientBG 15s ease infinite;
         }
 
-        /* Particle.js container */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         #particles-js {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
             z-index: -1;
         }
 
-        /* Snow Effect */
         .snow {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0; /* Adjusted to be above particles but below content */
-            pointer-events: none; /* Ensure snow doesn't interfere with clicks */
+            z-index: 0;
+            pointer-events: none;
         }
 
         .snowflake {
             position: absolute;
-            background-color: #fff;
+            background-color: white;
             border-radius: 50%;
             opacity: 0.8;
-            animation: fall linear forwards;
+            animation: fall linear infinite;
         }
 
         @keyframes fall {
             to {
-                transform: translateY(100vh);
+                transform: translateY(100vh) rotate(360deg);
             }
         }
 
         .container {
             width: 90%;
             max-width: 900px;
-            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+            background-color: rgba(255, 255, 255, 0.1);
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1;
             animation: fadeIn 1s ease-in-out;
-            backdrop-filter: blur(10px); /* Blur effect */
-            z-index: 1; /* Ensure container is above snow */
+            margin: 20px 0;
         }
 
-        /* ... rest of your CSS ... */
-
-        /* Logo */
         .logo {
             display: block;
             margin: 0 auto 20px;
             max-width: 150px;
             height: auto;
             border-radius: 50%;
+            box-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
         }
 
         h1 {
@@ -109,6 +104,7 @@
             color: #4a90e2;
             margin-bottom: 20px;
             font-size: 2.5em;
+            text-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
             animation: slideDown 1s ease-out;
         }
 
@@ -122,107 +118,88 @@
 
         .buttons button {
             flex: 1 1 30%;
-            padding: 12px 20px;
-            font-size: 1em;
+            padding: 15px 25px;
+            font-size: 1.1em;
             color: #fff;
-            background-color: #4a90e2;
+            background: linear-gradient(45deg, #4a90e2, #357ab8);
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: transform 0.2s, background-color 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
         }
 
         .buttons button:hover {
-            background-color: #357ab8;
-            transform: translateY(-3px);
-        }
-
-        .buttons button i {
-            margin-right: 8px;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
         }
 
         .instructions {
-            background-color: #f8f9fa;
+            background-color: rgba(248, 249, 250, 0.1);
             border-left: 5px solid #4a90e2;
-            padding: 15px 20px;
+            padding: 20px;
             margin-bottom: 25px;
-            border-radius: 3px;
+            border-radius: 10px;
             animation: pulse 2s infinite;
         }
 
         .instructions p {
             margin: 10px 0;
-            line-height: 1.6;
-            color: #555;
+            line-height: 1.8;
+            color: #fff;
         }
 
         .parser-section {
             margin-bottom: 25px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-
-        .parser-section label {
-            font-weight: 500;
-            margin-bottom: 5px;
-            display: block;
-            color: #333;
         }
 
         .parser-section input,
-        .parser-section select,
-        .parser-section button {
+        .parser-section select {
             width: 100%;
-            padding: 12px 15px;
+            padding: 15px;
+            margin-bottom: 15px;
             font-size: 1em;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            background-color: #f8f9fa;
-            color: #333;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            transition: all 0.3s ease;
         }
 
         .parser-section input:focus,
         .parser-section select:focus {
-            border-color: #4a90e2;
-            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
             outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
         }
 
         .parser-section button {
-            background-color: #4a90e2;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            background: linear-gradient(45deg, #4a90e2, #357ab8);
             color: #fff;
             border: none;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: all 0.3s ease;
         }
 
         .parser-section button:hover {
-            background-color: #357ab8;
-            transform: translateY(-2px);
-        }
-
-        .parser-section button i {
-            margin-right: 8px;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
         }
 
         .video-player {
             width: 100%;
             height: 0;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            padding-bottom: 56.25%;
             position: relative;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            animation: zoomIn 0.5s ease-in-out;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             display: none;
+            margin-top: 20px;
         }
 
         .video-player iframe {
@@ -234,62 +211,48 @@
             border: none;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .disclaimer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0% { background-color: #f8f9fa; }
-            50% { background-color: #e9ecef; }
-            100% { background-color: #f8f9fa; }
-        }
-
-        @keyframes zoomIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        /* 响应式设计 */
         @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
             .buttons button {
                 flex: 1 1 100%;
+                padding: 12px;
+                font-size: 0.9em;
             }
 
             .parser-section input,
             .parser-section select,
             .parser-section button {
-                padding: 10px 12px;
+                padding: 12px;
                 font-size: 0.9em;
             }
-        }
-        .disclaimer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.8em;
-            color: #777;
         }
     </style>
 </head>
 <body>
-    <!-- Particles.js container -->
     <div id="particles-js"></div>
-
-    <!-- Snow Container -->
     <div class="snow" id="snow-container"></div>
-
-    <!-- Audio Player -->
     <audio id="bg-music" loop>
         <source src="http://ws.stream.qqmusic.qq.com/C4000044UfqL3eMKa6.m4a?guid=407573158&vkey=1ACF33DA5196C3BFB44C7E0E16DF702A533AACFDFF5964F706E10CE2A50A78ED1D0697B1EE09087DA1BED497233CE4D5A59A3760A47D9C8C__v2b94c7a3&uin=&fromtag=120032" type="audio/mpeg">
-        Your browser does not support the audio element.
     </audio>
 
-    <!-- 主页面内容 -->
     <div class="container" id="mainPage">
         <img src="https://picture.gptkong.com/20250110/13265253c534ee452fb3ff48c6bdb5d709.jpg" alt="ZXY Logo" class="logo">
         <h1>ZXY的视频解析网站</h1>
@@ -299,14 +262,15 @@
             <button onclick="window.open('https://www.bilibili.com/', '_blank')"><i class="fas fa-video"></i> Bilibili</button>
         </div>
         <div class="instructions">
-            <p><strong>步骤1：</strong>点击上方视频平台按钮，将在新窗口打开相应网站观看您想看的视频。</p>
+            <p><strong>步骤1：</strong>点击上方视频平台按钮，将在新窗口打开相应网站。</p>
             <p><strong>步骤2：</strong>在视频播放页面，复制该视频的URL链接。</p>
-            <p><strong>步骤3：</strong>返回本页面，粘贴视频链接到下方输入框进行解析并播放。</p>
-            <p><strong>问题反馈：</strong>如有问题请联系 QQ：2532314527</p>
+            <p><strong>步骤3：</strong>返回本页面，粘贴视频链接到下方输入框进行解析。</p>
+            <p><strong>注意：</strong>如遇到广告或不健康内容，请更换其他接口。</p>
+            <p><strong>问题反馈：</strong>QQ：2532314527</p>
         </div>
         <div class="parser-section">
             <label for="videoUrl">粘贴视频链接：</label>
-            <input type="url" id="videoUrl" placeholder="例如：https://v.qq.com/x/cover/..." required>
+            <input type="url" id="videoUrl" placeholder="请粘贴视频链接..." required>
             
             <label for="parserSelect">选择解析接口：</label>
             <select id="parserSelect">
@@ -324,181 +288,129 @@
             <iframe id="videoIframePlayer" src="" allowfullscreen></iframe>
         </div>
         <div class="disclaimer">
-            <p>声明：本网站仅供学习交流使用，请勿用于商业用途。</p>
+            <p>声明：本站仅供学习交流，请勿用于商业用途。如遇问题请更换解析接口。</p>
         </div>
     </div>
 
-    <!-- Include Particles.js library -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        /* ---- particles.js config ---- */
         particlesJS("particles-js", {
-            "particles": {
-                "number": {
-                    "value": 80,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    animation: { enable: true, speed: 1, minimumValue: 0.1, sync: false }
                 },
-                "color": {
-                    "value": "#ffffff"
+                size: {
+                    value: 3,
+                    random: true,
+                    animation: { enable: true, speed: 4, minimumValue: 0.3, sync: false }
                 },
-                "shape": {
-                    "type": "circle",
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000000"
-                    },
-                    "polygon": {
-                        "nb_sides": 5
-                    }
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 1
                 },
-                "opacity": {
-                    "value": 0.5,
-                    "random": false,
-                    "anim": {
-                        "enable": false,
-                        "speed": 1,
-                        "opacity_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "size": {
-                    "value": 3,
-                    "random": true,
-                    "anim": {
-                        "enable": false,
-                        "speed": 40,
-                        "size_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#ffffff",
-                    "opacity": 0.4,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 6,
-                    "direction": "none",
-                    "random": false,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": false,
-                        "rotateX": 600,
-                        "rotateY": 1200
-                    }
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
                 }
             },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": {
-                        "enable": true,
-                        "mode": "grab"
-                    },
-                    "onclick": {
-                        "enable": true,
-                        "mode": "push"
-                    },
-                    "resize": true
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
                 },
-                "modes": {
-                    "grab": {
-                        "distance": 140,
-                        "line_linked": {
-                            "opacity": 1
-                        }
-                    },
-                    "bubble": {
-                        "distance": 400,
-                        "size": 40,
-                        "duration": 2,
-                        "opacity": 8,
-                        "speed": 3
-                    },
-                    "repulse": {
-                        "distance": 200,
-                        "duration": 0.4
-                    },
-                    "push": {
-                        "particles_nb": 4
-                    },
-                    "remove": {
-                        "particles_nb": 2
-                    }
+                modes: {
+                    grab: { distance: 140, line_linked: { opacity: 1 } },
+                    push: { particles_nb: 4 }
                 }
             },
-            "retina_detect": true
+            retina_detect: true
         });
 
-        // Function to create snowflakes
         function createSnowflakes() {
             const snowContainer = document.getElementById('snow-container');
-            const numFlakes = 50; // Number of snowflakes
-
-            for (let i = 0; i < numFlakes; i++) {
-                let snowflake = document.createElement('div');
+            const createSnowflake = () => {
+                const snowflake = document.createElement('div');
                 snowflake.classList.add('snowflake');
                 snowflake.style.left = `${Math.random() * 100}vw`;
-                snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`; // Between 2 and 5 seconds
-                snowflake.style.animationDelay = `${Math.random() * 5}s`;
-                snowflake.style.width = `${Math.random() * 3}px`;
-                snowflake.style.height = snowflake.style.width;
+                snowflake.style.opacity = Math.random();
+                snowflake.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
+                snowflake.style.width = snowflake.style.height = `${Math.random() * 4 + 2}px`;
                 snowContainer.appendChild(snowflake);
+                
+                setTimeout(() => snowflake.remove(), 5000);
+            };
+
+            setInterval(createSnowflake, 100);
+        }
+
+        createSnowflakes();
+
+        const bgMusic = document.getElementById('bg-music');
+        bgMusic.volume = 0.3;
+
+        // 使用 Promise 确保音频能够播放
+        function playAudio() {
+            const playPromise = bgMusic.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // 自动播放成功
+                }).catch(error => {
+                    console.log("音频播放失败:", error);
+                    // 自动播放失败，显示一个提示或按钮让用户手动播放
+                    // 可以添加一个按钮来触发播放
+                    const playButton = document.createElement('button');
+                    playButton.textContent = '播放背景音乐';
+                    playButton.style.position = 'absolute';
+                    playButton.style.top = '10px';
+                    playButton.style.left = '10px';
+                    playButton.style.zIndex = '1000';
+                    playButton.onclick = () => {
+                        bgMusic.play();
+                        document.body.removeChild(playButton);
+                    };
+                    document.body.appendChild(playButton);
+                });
             }
         }
 
-        // Initialize snowflakes
-        createSnowflakes();
+        // 页面加载后尝试播放音频
+        window.addEventListener('load', playAudio);
 
-        // Get the background music element
-        const bgMusic = document.getElementById('bg-music');
-        bgMusic.volume = 0.3; // Set volume to 30%
-
-        // Function to play background music
-        function playBackgroundMusic() {
-            bgMusic.play().catch(error => {
-                console.error("Error playing background music:", error);
-            });
-        }
-
-        // Play background music when the page is loaded
-        window.addEventListener('load', playBackgroundMusic);
-
-        // 解析并播放函数
         function parseAndPlay() {
             const videoUrl = document.getElementById('videoUrl').value.trim();
             const parserBase = document.getElementById('parserSelect').value;
             
             if (!videoUrl) {
-                alert('请先粘贴视频链接。');
+                alert('请先粘贴视频链接！');
                 return;
             }
 
-            // Stop the background music
             bgMusic.pause();
-            bgMusic.currentTime = 0; // Reset in case it's paused mid-track
+            bgMusic.currentTime = 0;
 
-            // 生成解析后的URL
-            const parsedUrl = parserBase + encodeURIComponent(videoUrl);
+            alert('正在解析视频，如遇到广告或不适内容，请更换其他接口尝试。');
             
-            // 提示用户，尝试播放解析后的URL
-            alert('正在尝试解析视频链接并播放。如果无法播放，请尝试使用其他解析接口。');
-
-            // 设置iframe播放器的源
+            const parsedUrl = parserBase + encodeURIComponent(videoUrl);
             const videoPlayerContainer = document.getElementById('videoPlayerContainer');
             const videoIframePlayer = document.getElementById('videoIframePlayer');
+            
             videoIframePlayer.src = parsedUrl;
-            // 显示播放器容器
             videoPlayerContainer.style.display = 'block';
-            // 平滑滚动到播放器位置
             videoPlayerContainer.scrollIntoView({ behavior: 'smooth' });
         }
     </script>
