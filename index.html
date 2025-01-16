@@ -153,8 +153,7 @@
             margin-bottom: 25px;
         }
 
-        .parser-section input,
-        .parser-section select {
+        .parser-section input {
             width: 100%;
             padding: 15px;
             margin-bottom: 15px;
@@ -166,8 +165,7 @@
             transition: all 0.3s ease;
         }
 
-        .parser-section input:focus,
-        .parser-section select:focus {
+        .parser-section input:focus {
             outline: none;
             border-color: #4a90e2;
             box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
@@ -221,6 +219,42 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
+        #loadingMessage {
+            text-align: center;
+            margin-top: 20px;
+            color: #ffea00;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
         @media (max-width: 600px) {
             .container {
                 width: 95%;
@@ -238,7 +272,6 @@
             }
 
             .parser-section input,
-            .parser-section select,
             .parser-section button {
                 padding: 12px;
                 font-size: 0.9em;
@@ -249,9 +282,6 @@
 <body>
     <div id="particles-js"></div>
     <div class="snow" id="snow-container"></div>
-    <audio id="bg-music" loop>
-        <source src="http://ws.stream.qqmusic.qq.com/C4000044UfqL3eMKa6.m4a?guid=407573158&vkey=1ACF33DA5196C3BFB44C7E0E16DF702A533AACFDFF5964F706E10CE2A50A78ED1D0697B1EE09087DA1BED497233CE4D5A59A3760A47D9C8C__v2b94c7a3&uin=&fromtag=120032" type="audio/mpeg">
-    </audio>
 
     <div class="container" id="mainPage">
         <img src="https://picture.gptkong.com/20250110/13265253c534ee452fb3ff48c6bdb5d709.jpg" alt="ZXY Logo" class="logo">
@@ -265,30 +295,20 @@
             <p><strong>步骤1：</strong>点击上方视频平台按钮，将在新窗口打开相应网站。</p>
             <p><strong>步骤2：</strong>在视频播放页面，复制该视频的URL链接。</p>
             <p><strong>步骤3：</strong>返回本页面，粘贴视频链接到下方输入框进行解析。</p>
-            <p><strong>注意：</strong>如遇到广告或不健康内容，请更换其他接口。</p>
+            <p><strong>注意：</strong>正在尝试多个接口解析，请耐心等待。如长时间无法播放，请联系管理员。</p>
             <p><strong>问题反馈：</strong>QQ：2532314527</p>
         </div>
         <div class="parser-section">
             <label for="videoUrl">粘贴视频链接：</label>
             <input type="url" id="videoUrl" placeholder="请粘贴视频链接..." required>
-            
-            <label for="parserSelect">选择解析接口：</label>
-            <select id="parserSelect">
-                <option value="https://jx.hls.one/?url=">解析接口1: jx.hls.one</option>
-                <option value="https://jx.77flv.cc/?url=">解析接口2: jx.77flv.cc</option>
-                <option value="https://www.yemu.xyz/?url=">解析接口3: yemu.xyz</option>
-                <option value="https://jx.xmflv.com/?url=">解析接口4: jx.xmflv.com</option>
-                <option value="https://jx.m3u8.tv/jiexi/?url=">解析接口5: jx.m3u8.tv</option>
-                <option value="https://yparse.jn1.cc/index.php?url=">解析接口6: yparse.jn1.cc</option>
-            </select>
-            
             <button onclick="parseAndPlay()"><i class="fas fa-play"></i> 解析并播放</button>
         </div>
+        <p id="loadingMessage">正在尝试解析，请稍候...</p>
         <div class="video-player" id="videoPlayerContainer">
             <iframe id="videoIframePlayer" src="" allowfullscreen></iframe>
         </div>
         <div class="disclaimer">
-            <p>声明：本站仅供学习交流，请勿用于商业用途。如遇问题请更换解析接口。</p>
+            <p>声明：本站仅供学习交流，请勿用于商业用途。如遇问题请联系管理员。</p>
         </div>
     </div>
 
@@ -351,7 +371,7 @@
                 snowflake.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
                 snowflake.style.width = snowflake.style.height = `${Math.random() * 4 + 2}px`;
                 snowContainer.appendChild(snowflake);
-                
+
                 setTimeout(() => snowflake.remove(), 5000);
             };
 
@@ -360,58 +380,73 @@
 
         createSnowflakes();
 
-        const bgMusic = document.getElementById('bg-music');
-        bgMusic.volume = 0.3;
+        const parserInterfaces = [
+            "https://www.playm3u8.cn/jiexi.php?url=",
+            "https://jx.xmflv.com/?url=",
+            "https://jx.m3u8.tv/jiexi/?url=",
+            "https://bd.jx.cn/?url=",
+            "https://www.8090g.cn/?url=",
+            "https://jx.xmflv.cc/?url=",
+            "https://jx.hls.one/?url=",
+            "https://jx.77flv.cc/?url=",
+            "https://www.yemu.xyz/?url=",
+            "https://yparse.jn1.cc/index.php?url="
+        ];
 
-        // 使用 Promise 确保音频能够播放
-        function playAudio() {
-            const playPromise = bgMusic.play();
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    // 自动播放成功
-                }).catch(error => {
-                    console.log("音频播放失败:", error);
-                    // 自动播放失败，显示一个提示或按钮让用户手动播放
-                    // 可以添加一个按钮来触发播放
-                    const playButton = document.createElement('button');
-                    playButton.textContent = '播放背景音乐';
-                    playButton.style.position = 'absolute';
-                    playButton.style.top = '10px';
-                    playButton.style.left = '10px';
-                    playButton.style.zIndex = '1000';
-                    playButton.onclick = () => {
-                        bgMusic.play();
-                        document.body.removeChild(playButton);
-                    };
-                    document.body.appendChild(playButton);
-                });
-            }
+        async function testInterface(interfaceUrl, videoUrl) {
+            return new Promise((resolve) => {
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = interfaceUrl + encodeURIComponent(videoUrl);
+
+                iframe.onload = () => {
+                    console.log(`接口 ${interfaceUrl} 加载成功`);
+                    resolve(true);
+                };
+
+                iframe.onerror = () => {
+                    console.log(`接口 ${interfaceUrl} 加载失败`);
+                    resolve(false);
+                };
+
+                document.body.appendChild(iframe);
+                setTimeout(() => {
+                    document.body.removeChild(iframe);
+                }, 5000); // 设置超时时间，避免一直等待
+            });
         }
 
-        // 页面加载后尝试播放音频
-        window.addEventListener('load', playAudio);
-
-        function parseAndPlay() {
+        async function parseAndPlay() {
             const videoUrl = document.getElementById('videoUrl').value.trim();
-            const parserBase = document.getElementById('parserSelect').value;
-            
+            const videoPlayerContainer = document.getElementById('videoPlayerContainer');
+            const videoIframePlayer = document.getElementById('videoIframePlayer');
+            const loadingMessage = document.getElementById('loadingMessage');
+
             if (!videoUrl) {
                 alert('请先粘贴视频链接！');
                 return;
             }
 
-            bgMusic.pause();
-            bgMusic.currentTime = 0;
+            loadingMessage.style.display = 'block';
+            videoPlayerContainer.style.display = 'none'; // 隐藏播放器
 
-            alert('正在解析视频，如遇到广告或不适内容，请更换其他接口尝试。');
-            
-            const parsedUrl = parserBase + encodeURIComponent(videoUrl);
-            const videoPlayerContainer = document.getElementById('videoPlayerContainer');
-            const videoIframePlayer = document.getElementById('videoIframePlayer');
-            
-            videoIframePlayer.src = parsedUrl;
-            videoPlayerContainer.style.display = 'block';
-            videoPlayerContainer.scrollIntoView({ behavior: 'smooth' });
+            let played = false;
+            for (const parserBase of parserInterfaces) {
+                const canPlay = await testInterface(parserBase, videoUrl);
+                if (canPlay) {
+                    const parsedUrl = parserBase + encodeURIComponent(videoUrl);
+                    videoIframePlayer.src = parsedUrl;
+                    videoPlayerContainer.style.display = 'block';
+                    videoPlayerContainer.scrollIntoView({ behavior: 'smooth' });
+                    loadingMessage.style.display = 'none';
+                    played = true;
+                    break; // 找到可用的接口就停止尝试
+                }
+            }
+
+            if (!played) {
+                loadingMessage.textContent = '所有接口尝试失败，请检查链接或稍后再试。';
+            }
         }
     </script>
 </body>
