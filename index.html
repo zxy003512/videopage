@@ -23,6 +23,8 @@
             --background-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
             --text-color: #fff;
             --container-bg: rgba(255, 255, 255, 0.1);
+            --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+            --animation-duration: 0.3s;
         }
 
         * {
@@ -52,7 +54,12 @@
             height: 100%;
             background: var(--background-gradient);
             z-index: -2;
-            animation: gradientBG 15s ease infinite;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            body::before {
+                animation: gradientBG 15s ease infinite;
+            }
         }
 
         @keyframes gradientBG {
@@ -66,9 +73,9 @@
             width: 100%;
             height: 100%;
             z-index: -1;
+            will-change: transform;
         }
 
-        /* 优化雪花动画性能 */
         .snow {
             position: fixed;
             width: 100%;
@@ -84,6 +91,12 @@
             border-radius: 50%;
             animation: fall linear infinite forwards;
             will-change: transform;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .snowflake {
+                animation: none;
+            }
         }
 
         @keyframes fall {
@@ -102,7 +115,12 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             margin: 2rem 0;
-            animation: fadeIn 1s ease-out;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .container {
+                animation: fadeIn 1s var(--transition-timing);
+            }
         }
 
         .logo {
@@ -112,7 +130,7 @@
             aspect-ratio: 1;
             border-radius: 50%;
             box-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
-            transition: transform 0.3s ease;
+            transition: transform var(--animation-duration) var(--transition-timing);
             object-fit: cover;
         }
 
@@ -147,13 +165,33 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all var(--animation-duration) var(--transition-timing);
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        .btn:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        .btn:active::after {
+            width: 200px;
+            height: 200px;
         }
 
         .instructions {
@@ -182,7 +220,7 @@
             border-radius: 10px;
             color: var(--text-color);
             font-size: 1rem;
-            transition: all 0.3s ease;
+            transition: all var(--animation-duration) var(--transition-timing);
         }
 
         select.form-control {
@@ -194,9 +232,8 @@
         }
 
         .form-control:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25);
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
         }
 
         .video-container {
@@ -265,33 +302,55 @@
                 transform: translateY(0);
             }
         }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
     </style>
 </head>
 <body>
-    <div id="particles-js"></div>
-    <div class="snow" id="snow-container"></div>
+    <div id="particles-js" role="presentation"></div>
+    <div class="snow" id="snow-container" role="presentation"></div>
 
     <main class="container">
         <img src="https://picture.gptkong.com/20250110/13265253c534ee452fb3ff48c6bdb5d709.jpg" 
              alt="ZXY视频解析演示网站" 
              class="logo"
-             loading="lazy">
+             loading="lazy"
+             decoding="async">
         
         <h1>ZXY视频解析演示网站</h1>
         
-        <nav class="button-group">
-            <button class="btn" onclick="window.open('https://v.qq.com/', '_blank')">
-                <i class="fab fa-qq"></i> 腾讯视频
+        <nav class="button-group" aria-label="视频平台导航">
+            <button class="btn" 
+                    type="button"
+                    aria-label="打开腾讯视频"
+                    data-platform="腾讯视频">
+                <i class="fab fa-qq" aria-hidden="true"></i> 腾讯视频
             </button>
-            <button class="btn" onclick="window.open('https://www.iqiyi.com/', '_blank')">
-                <i class="fas fa-play-circle"></i> 爱奇艺
+            <button class="btn" 
+                    type="button"
+                    aria-label="打开爱奇艺"
+                    data-platform="爱奇艺">
+                <i class="fas fa-play-circle" aria-hidden="true"></i> 爱奇艺
             </button>
-            <button class="btn" onclick="window.open('https://www.bilibili.com/', '_blank')">
-                <i class="fas fa-video"></i> Bilibili
+            <button class="btn" 
+                    type="button"
+                    aria-label="打开Bilibili"
+                    data-platform="Bilibili">
+                <i class="fas fa-video" aria-hidden="true"></i> Bilibili
             </button>
         </nav>
 
-        <section class="instructions">
+        <section class="instructions" aria-labelledby="instructions-heading">
+            <h2 id="instructions-heading" class="sr-only">使用说明</h2>
             <p><strong>步骤1：</strong>点击视频平台按钮前往目标网站</p>
             <p><strong>步骤2：</strong>复制视频播放页面的URL地址</p>
             <p><strong>步骤3：</strong>返回本页面选择接口并粘贴链接解析</p>
@@ -299,9 +358,12 @@
             <p><strong>技术支持：</strong>QQ 2532314527</p>
         </section>
 
-        <section class="parser-section">
+        <section class="parser-section" aria-labelledby="parser-heading">
+            <h2 id="parser-heading" class="sr-only">视频解析设置</h2>
             <label for="parserInterface">解析接口：</label>
-            <select id="parserInterface" class="form-control">
+            <select id="parserInterface" 
+                    class="form-control"
+                    aria-describedby="interface-description">
                 <option value="https://www.playm3u8.cn/jiexi.php?url=">接口1 - playm3u8.cn</option>
                 <option value="https://jx.xmflv.com/?url=">接口2 - xmflv.com</option>
                 <option value="https://jx.m3u8.tv/jiexi/?url=">接口3 - m3u8.tv</option>
@@ -319,19 +381,31 @@
                    class="form-control"
                    placeholder="粘贴视频链接..."
                    required
-                   autocomplete="off">
+                   autocomplete="off"
+                   aria-describedby="url-description">
             
-            <button class="btn" onclick="parseVideo()">
-                <i class="fas fa-play"></i> 立即解析
+            <button class="btn" 
+                    type="button"
+                    id="parseButton"
+                    aria-label="开始解析视频">
+                <i class="fas fa-play" aria-hidden="true"></i> 立即解析
             </button>
         </section>
 
-        <div class="status-message loading" id="loadingMessage">解析中，请稍候...</div>
-        <div class="status-message error" id="errorMessage" style="display:none"></div>
+        <div class="status-message loading" 
+             id="loadingMessage"
+             role="status"
+             aria-live="polite">解析中，请稍候...</div>
+        <div class="status-message error" 
+             id="errorMessage"
+             role="alert"
+             aria-live="assertive"
+             style="display:none"></div>
 
         <div class="video-container" id="videoContainer">
             <iframe class="video-iframe" 
                     id="videoPlayer"
+                    title="视频播放器"
                     allow="autoplay; fullscreen" 
                     allowfullscreen></iframe>
         </div>
@@ -343,107 +417,145 @@
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // 初始化粒子背景
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 600 } },
-                color: { value: '#ffffff' },
-                opacity: { value: 0.5, random: true },
-                size: { value: 3, random: true },
-                line_linked: {
-                    enable: true,
-                    distance: 120,
-                    color: '#ffffff',
-                    opacity: 0.4,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: 'none',
-                    out_mode: 'out'
-                }
-            },
-            interactivity: {
-                events: {
-                    onhover: { enable: true, mode: 'grab' },
-                    onclick: { enable: true, mode: 'push' }
-                }
-            }
-        });
+        (function() {
+            // 性能优化配置
+            const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        // 优化雪花生成逻辑
-        function initSnow() {
-            const container = document.getElementById('snow-container');
-            const createFlake = () => {
-                const flake = document.createElement('div');
-                flake.className = 'snowflake';
-                flake.style.left = Math.random() * 100 + '%';
-                flake.style.animationDuration = Math.random() * 3 + 2 + 's';
-                flake.style.width = flake.style.height = Math.random() * 4 + 2 + 'px';
-                container.appendChild(flake);
-
-                flake.addEventListener('animationend', () => {
-                    flake.remove();
+            // 粒子动画配置
+            function initParticles() {
+                particlesJS('particles-js', {
+                    particles: {
+                        number: { 
+                            value: isMobile ? 40 : 80,
+                            density: { enable: true, value_area: 600 }
+                        },
+                        color: { value: '#ffffff' },
+                        opacity: { value: 0.5, random: true },
+                        size: { value: 3, random: true },
+                        line_linked: {
+                            enable: !isMobile,
+                            distance: 120,
+                            color: '#ffffff',
+                            opacity: 0.4,
+                            width: 1
+                        },
+                        move: {
+                            enable: !prefersReducedMotion,
+                            speed: 2,
+                            direction: 'none',
+                            out_mode: 'out'
+                        }
+                    },
+                    interactivity: {
+                        events: {
+                            onhover: { enable: !isMobile, mode: 'grab' },
+                            onclick: { enable: !isMobile, mode: 'push' }
+                        }
+                    }
                 });
-            };
-
-            let interval = 200;
-            if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                interval = 1000;
-            }
-            setInterval(createFlake, interval);
-        }
-
-        // 视频解析功能
-        async function parseVideo() {
-            const videoUrl = document.getElementById('videoUrl').value.trim();
-            const interfaceUrl = document.getElementById('parserInterface').value;
-            const player = document.getElementById('videoPlayer');
-            const container = document.getElementById('videoContainer');
-            const loading = document.getElementById('loadingMessage');
-            const errorMsg = document.getElementById('errorMessage');
-
-            if (!videoUrl) {
-                showError('请先输入视频链接');
-                return;
             }
 
-            try {
-                showLoading();
-                const parsedUrl = interfaceUrl + encodeURIComponent(videoUrl);
-                player.src = parsedUrl;
-                container.style.display = 'block';
-                player.onload = hideLoading;
-                player.onerror = () => showError('解析失败，请尝试其他接口');
-            } catch (err) {
-                showError('发生错误：' + err.message);
+            // 雪花动画
+            function initSnow() {
+                if (prefersReducedMotion) return;
+
+                const container = document.getElementById('snow-container');
+                const createFlake = () => {
+                    const flake = document.createElement('div');
+                    flake.className = 'snowflake';
+                    flake.style.left = Math.random() * 100 + '%';
+                    flake.style.animationDuration = Math.random() * 3 + 2 + 's';
+                    flake.style.width = flake.style.height = Math.random() * 4 + 2 + 'px';
+                    container.appendChild(flake);
+
+                    flake.addEventListener('animationend', () => {
+                        flake.remove();
+                    });
+                };
+
+                setInterval(createFlake, isMobile ? 300 : 200);
             }
-        }
 
-        // 工具函数
-        function showLoading() {
-            document.querySelectorAll('.status-message').forEach(el => el.style.display = 'none');
-            document.getElementById('loadingMessage').style.display = 'block';
-        }
+            // 视频解析功能
+            async function parseVideo() {
+                const videoUrl = document.getElementById('videoUrl').value.trim();
+                const interfaceUrl = document.getElementById('parserInterface').value;
+                const player = document.getElementById('videoPlayer');
+                const container = document.getElementById('videoContainer');
+                const parseButton = document.getElementById('parseButton');
+                
+                try {
+                    parseButton.disabled = true;
+                    showLoading();
 
-        function hideLoading() {
-            document.getElementById('loadingMessage').style.display = 'none';
-        }
+                    if (!videoUrl) {
+                        throw new Error('请先输入视频链接');
+                    }
 
-        function showError(message) {
-            hideLoading();
-            const errorEl = document.getElementById('errorMessage');
-            errorEl.textContent = message;
-            errorEl.style.display = 'block';
-            setTimeout(() => errorEl.style.display = 'none', 3000);
-        }
+                    const fullUrl = videoUrl.startsWith('http') ? videoUrl : `https://${videoUrl}`;
+                    const parsedUrl = interfaceUrl + encodeURIComponent(fullUrl);
+                    
+                    player.src = parsedUrl;
+                    container.style.display = 'block';
+                    
+                    await new Promise((resolve) => {
+                        player.onload = resolve;
+                        player.onerror = () => {
+                            throw new Error('解析失败，请尝试其他接口');
+                        };
+                    });
 
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            initSnow();
-            document.getElementById('videoUrl').focus();
-        });
+                } catch (err) {
+                    showError(err.message);
+                } finally {
+                    parseButton.disabled = false;
+                    hideLoading();
+                }
+            }
+
+            // 工具函数
+            function showLoading() {
+                document.querySelectorAll('.status-message').forEach(el => el.style.display = 'none');
+                document.getElementById('loadingMessage').style.display = 'block';
+            }
+
+            function hideLoading() {
+                document.getElementById('loadingMessage').style.display = 'none';
+            }
+
+            function showError(message) {
+                const errorEl = document.getElementById('errorMessage');
+                errorEl.textContent = message;
+                errorEl.style.display = 'block';
+                errorEl.focus();
+                setTimeout(() => errorEl.style.display = 'none', 5000);
+            }
+
+            // 事件绑定
+            function initEventListeners() {
+                document.getElementById('parseButton').addEventListener('click', parseVideo);
+                
+                document.querySelectorAll('.btn[data-platform]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const platforms = {
+                            '腾讯视频': 'https://v.qq.com/',
+                            '爱奇艺': 'https://www.iqiyi.com/',
+                            'Bilibili': 'https://www.bilibili.com/'
+                        };
+                        window.open(platforms[btn.dataset.platform], '_blank');
+                    });
+                });
+            }
+
+            // 初始化
+            document.addEventListener('DOMContentLoaded', () => {
+                initParticles();
+                initSnow();
+                initEventListeners();
+                document.getElementById('videoUrl').focus();
+            });
+        })();
     </script>
 </body>
 </html>
