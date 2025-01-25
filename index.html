@@ -1,1049 +1,561 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-
-<title>ZXY视频解析演示网站</title>
-
-<meta name="description" content="ZXY视频解析演示网站，支持腾讯、爱奇艺、B站等平台视频解析演示">
-
-<meta name="keywords" content="视频解析演示,VIP视频解析演示,免广告看视频解析演示,腾讯视频解析演示,爱奇艺解析演示,B站解析演示,高清在线播放演示,ZXY解析演示">
-
-<link rel="canonical" href="https://yourdomain.com/">
-
-<!-- 预连接关键第三方资源 -->
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax/libs">
-
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-
-<!-- 字体资源 -->
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" 
-
-crossorigin="anonymous">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
-
-integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" 
-
-crossorigin="anonymous" 
-
-referrerpolicy="no-referrer">
-
-<style>
-
-:root {
-
---primary-color: #4a90e2;
-
---secondary-color: #357ab8;
-
---background-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-
---text-color: #fff;
-
---container-bg: rgba(255, 255, 255, 0.1);
-
---transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
-
---animation-duration: 0.3s;
-
-}
-
-* {
-
-box-sizing: border-box;
-
-margin: 0;
-
-padding: 0;
-
-}
-
-body {
-
-font-family: 'Noto Sans SC', 'Roboto', sans-serif;
-
-color: var(--text-color);
-
-min-height: 100vh;
-
-display: flex;
-
-justify-content: center;
-
-align-items: center;
-
-background: #000;
-
-overflow-x: hidden;
-
-line-height: 1.6;
-
--webkit-tap-highlight-color: transparent;
-
-}
-
-body::before {
-
-content: '';
-
-position: fixed;
-
-top: 0;
-
-left: 0;
-
-width: 100%;
-
-height: 100%;
-
-background: var(--background-gradient);
-
-z-index: -2;
-
-}
-
-@media (prefers-reduced-motion: no-preference) {
-
-body::before {
-
-animation: gradientBG 15s ease infinite;
-
-background-size: 200% 200%;
-
-}
-
-}
-
-@keyframes gradientBG {
-
-0% { background-position: 0% 50%; }
-
-50% { background-position: 100% 50%; }
-
-100% { background-position: 0% 50%; }
-
-}
-
-#particles-js {
-
-position: fixed;
-
-width: 100%;
-
-height: 100%;
-
-z-index: -1;
-
-will-change: transform;
-
-pointer-events: none;
-
-}
-
-.snow {
-
-position: fixed;
-
-width: 100%;
-
-height: 100%;
-
-z-index: 0;
-
-pointer-events: none;
-
-}
-
-/* 移动端禁用雪花动画 */
-
-@media (hover: none) and (pointer: coarse) {
-
-.snow {
-
-display: none;
-
-}
-
-}
-
-.snowflake {
-
-position: absolute;
-
-background: rgba(255,255,255,0.8);
-
-border-radius: 50%;
-
-animation: fall linear infinite forwards;
-
-will-change: transform;
-
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-.snowflake {
-
-animation: none;
-
-}
-
-}
-
-@keyframes fall {
-
-to {
-
-transform: translateY(100vh) rotate(360deg);
-
-}
-
-}
-
-.container {
-
-width: min(90%, 900px);
-
-background: var(--container-bg);
-
-padding: 2rem;
-
-border-radius: 20px;
-
-backdrop-filter: blur(5px);
-
--webkit-backdrop-filter: blur(5px);
-
-border: 1px solid rgba(255, 255, 255, 0.1);
-
-box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-
-margin: 2rem 0;
-
-}
-
-@media (prefers-reduced-motion: no-preference) {
-
-.container {
-
-animation: fadeIn 1s var(--transition-timing);
-
-}
-
-}
-
-/* 移动端优化 */
-
-@media (max-width: 768px) {
-
-.container {
-
-padding: 1.2rem;
-
-border-radius: 12px;
-
-backdrop-filter: blur(3px);
-
--webkit-backdrop-filter: blur(3px);
-
-}
-
-.logo {
-
-width: 100px;
-
-}
-
-}
-
-.logo:hover {
-
-transform: scale(1.05);
-
-}
-
-h1 {
-
-text-align: center;
-
-color: var(--primary-color);
-
-margin-bottom: 1.5rem;
-
-font-size: clamp(1.8rem, 4vw, 2.5rem);
-
-text-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
-
-}
-
-.button-group {
-
-display: grid;
-
-grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-
-gap: 1rem;
-
-margin-bottom: 1.5rem;
-
-}
-
-.btn {
-
-display: flex;
-
-align-items: center;
-
-justify-content: center;
-
-gap: 0.5rem;
-
-padding: 1rem;
-
-font-size: 1rem;
-
-color: var(--text-color);
-
-background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-
-border: none;
-
-border-radius: 10px;
-
-cursor: pointer;
-
-transition: all var(--animation-duration) var(--transition-timing);
-
-text-decoration: none;
-
-position: relative;
-
-overflow: hidden;
-
-}
-
-.btn:focus {
-
-outline: 2px solid var(--primary-color);
-
-outline-offset: 2px;
-
-}
-
-.btn::after {
-
-content: '';
-
-position: absolute;
-
-top: 50%;
-
-left: 50%;
-
-width: 0;
-
-height: 0;
-
-background: rgba(255, 255, 255, 0.1);
-
-border-radius: 50%;
-
-transform: translate(-50%, -50%);
-
-transition: width 0.3s ease, height 0.3s ease;
-
-}
-
-.btn:active::after {
-
-width: 200px;
-
-height: 200px;
-
-}
-
-.instructions {
-
-background: rgba(248, 249, 250, 0.1);
-
-border-left: 5px solid var(--primary-color);
-
-padding: 1.5rem;
-
-margin-bottom: 1.5rem;
-
-border-radius: 10px;
-
-}
-
-.instructions p {
-
-margin: 0.5rem 0;
-
-}
-
-.parser-section {
-
-display: grid;
-
-gap: 1rem;
-
-margin-bottom: 1.5rem;
-
-}
-
-.form-control {
-
-width: 100%;
-
-padding: 1rem;
-
-background: rgba(26, 26, 46, 0.8);
-
-border: 1px solid rgba(255, 255, 255, 0.2);
-
-border-radius: 10px;
-
-color: var(--text-color);
-
-font-size: 1rem;
-
-transition: all var(--animation-duration) var(--transition-timing);
-
-}
-
-select.form-control {
-
-appearance: none;
-
-background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-
-background-repeat: no-repeat;
-
-background-position: right 1rem center;
-
-background-size: 1.2em;
-
-}
-
-.form-control:focus {
-
-outline: 2px solid var(--primary-color);
-
-outline-offset: 2px;
-
-}
-
-.video-container {
-
-position: relative;
-
-padding-bottom: 56.25%;
-
-border-radius: 15px;
-
-overflow: hidden;
-
-background: #000;
-
-display: none;
-
-}
-
-.video-iframe {
-
-position: absolute;
-
-width: 100%;
-
-height: 100%;
-
-border: none;
-
-}
-
-.status-message {
-
-text-align: center;
-
-padding: 1rem;
-
-border-radius: 8px;
-
-display: none;
-
-}
-
-.loading {
-
-background: rgba(255, 234, 0, 0.1);
-
-color: #ffea00;
-
-}
-
-.error {
-
-background: rgba(255, 0, 0, 0.1);
-
-color: #ff4444;
-
-}
-
-footer {
-
-text-align: center;
-
-margin-top: 1.5rem;
-
-font-size: 0.9em;
-
-color: rgba(255, 255, 255, 0.8);
-
-}
-
-@media (max-width: 768px) {
-
-.container {
-
-padding: 1.5rem;
-
-border-radius: 15px;
-
-}
-
-.btn {
-
-font-size: 0.9rem;
-
-padding: 0.8rem;
-
-}
-
-.form-control {
-
-padding: 0.8rem;
-
-}
-
-}
-
-@keyframes fadeIn {
-
-from {
-
-opacity: 0;
-
-transform: translateY(-20px);
-
-}
-
-to {
-
-opacity: 1;
-
-transform: translateY(0);
-
-}
-
-}
-
-.sr-only {
-
-position: absolute;
-
-width: 1px;
-
-height: 1px;
-
-padding: 0;
-
-margin: -1px;
-
-overflow: hidden;
-
-clip: rect(0, 0, 0, 0);
-
-border: 0;
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>ZXY视频解析演示网站</title>
+    <meta name="description" content="ZXY视频解析演示网站，支持腾讯、爱奇艺、B站等平台视频解析演示">
+    <meta name="keywords" content="视频解析演示,VIP视频解析演示,免广告看视频解析演示,腾讯视频解析演示,爱奇艺解析演示,B站解析演示,高清在线播放演示,ZXY解析演示">
+    <link rel="canonical" href="https://yourdomain.com/">
+    
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style">
+    
+    <!-- 字体资源 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #357ab8;
+            --background-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            --text-color: #fff;
+            --container-bg: rgba(255, 255, 255, 0.1);
+            --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+            --animation-duration: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', 'Roboto', sans-serif;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background-gradient);
+            z-index: -2;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            body::before {
+                animation: gradientBG 15s ease infinite;
+            }
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            will-change: transform;
+        }
+
+        .snow {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        .snowflake {
+            position: absolute;
+            background: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            animation: fall linear infinite forwards;
+            will-change: transform;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .snowflake {
+                animation: none;
+            }
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .container {
+            width: min(90%, 900px);
+            background: var(--container-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin: 2rem 0;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .container {
+                animation: fadeIn 1s var(--transition-timing);
+            }
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto 1.5rem;
+            width: 150px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
+            transition: transform var(--animation-duration) var(--transition-timing);
+            object-fit: cover;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            text-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            font-size: 1rem;
+            color: var(--text-color);
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all var(--animation-duration) var(--transition-timing);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        .btn:active::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        .instructions {
+            background: rgba(248, 249, 250, 0.1);
+            border-left: 5px solid var(--primary-color);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 10px;
+        }
+
+        .instructions p {
+            margin: 0.5rem 0;
+        }
+
+        .parser-section {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all var(--animation-duration) var(--transition-timing);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2em;
+        }
+
+        .form-control:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #000;
+            display: none;
+        }
+
+        .video-iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .loading {
+            background: rgba(255, 234, 0, 0.1);
+            color: #ffea00;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff4444;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                border-radius: 15px;
+            }
+
+            .btn {
+                font-size: 0.9rem;
+                padding: 0.8rem;
+            }
+
+            .form-control {
+                padding: 0.8rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
 </head>
-
 <body>
-
-<div id="particles-js" role="presentation"></div>
-
-<div class="snow" id="snow-container" role="presentation"></div>
-
-<main class="container">
-
-<img src="https://picture.gptkong.com/20250110/13265253c534ee452fb3ff48c6bdb5d709.jpg" 
-
-alt="ZXY视频解析演示网站" 
-
-class="logo"
-
-loading="lazy"
-
-decoding="async">
-
-<h1>ZXY视频解析演示网站</h1>
-
-<nav class="button-group" aria-label="视频平台导航">
-
-<button class="btn" 
-
-type="button"
-
-aria-label="打开腾讯视频"
-
-data-platform="腾讯视频">
-
-<i class="fab fa-qq" aria-hidden="true"></i> 腾讯视频
-
-</button>
-
-<button class="btn" 
-
-type="button"
-
-aria-label="打开爱奇艺"
-
-data-platform="爱奇艺">
-
-<i class="fas fa-play-circle" aria-hidden="true"></i> 爱奇艺
-
-</button>
-
-<button class="btn" 
-
-type="button"
-
-aria-label="打开Bilibili"
-
-data-platform="Bilibili">
-
-<i class="fas fa-video" aria-hidden="true"></i> Bilibili
-
-</button>
-
-</nav>
-
-<section class="instructions" aria-labelledby="instructions-heading">
-
-<h2 id="instructions-heading" class="sr-only">使用说明</h2>
-
-<p><strong>步骤1：</strong>点击视频平台按钮前往目标网站</p>
-
-<p><strong>步骤2：</strong>复制视频播放页面的URL地址</p>
-
-<p><strong>步骤3：</strong>返回本页面选择接口并粘贴链接解析</p>
-
-<p><strong>注意事项：</strong>如遇播放问题请切换接口，仅用于视频解析演示以及学习交流，禁止其他用途</p>
-
-<p><strong>技术支持：</strong>QQ 2532314527</p>
-
-</section>
-
-<section class="parser-section" aria-labelledby="parser-heading">
-
-<h2 id="parser-heading" class="sr-only">视频解析设置</h2>
-
-<label for="parserInterface">解析接口：</label>
-
-<select id="parserInterface" 
-
-class="form-control"
-
-aria-describedby="interface-description">
-
-<option value="https://www.playm3u8.cn/jiexi.php?url=">接口1 - playm3u8.cn</option>
-
-<option value="https://jx.xmflv.com/?url=">接口2 - xmflv.com</option>
-
-<option value="https://jx.m3u8.tv/jiexi/?url=">接口3 - m3u8.tv</option>
-
-<option value="https://bd.jx.cn/?url=">接口4 - bd.jx.cn</option>
-
-<option value="https://www.8090g.cn/?url=">接口5 - 8090g.cn</option>
-
-<option value="https://jx.xmflv.cc/?url=">接口6 - xmflv.cc</option>
-
-<option value="https://jx.hls.one/?url=">接口7 - hls.one</option>
-
-<option value="https://jx.77flv.cc/?url=">接口8 - 77flv.cc</option>
-
-<option value="https://www.yemu.xyz/?url=">接口9 - yemu.xyz</option>
-
-</select>
-
-<label for="videoUrl">视频链接：</label>
-
-<input type="url" 
-
-id="videoUrl" 
-
-class="form-control"
-
-placeholder="粘贴视频链接..."
-
-required
-
-autocomplete="off"
-
-aria-describedby="url-description">
-
-<button class="btn" 
-
-type="button"
-
-id="parseButton"
-
-aria-label="开始解析视频">
-
-<i class="fas fa-play" aria-hidden="true"></i> 立即解析
-
-</button>
-
-</section>
-
-<div class="status-message loading" 
-
-id="loadingMessage"
-
-role="status"
-
-aria-live="polite">解析中，请稍候...</div>
-
-<div class="status-message error" 
-
-id="errorMessage"
-
-role="alert"
-
-aria-live="assertive"
-
-style="display:none"></div>
-
-<div class="video-container" id="videoContainer">
-
-<iframe class="video-iframe" 
-
-id="videoPlayer"
-
-title="视频播放器"
-
-allow="autoplay; fullscreen" 
-
-allowfullscreen></iframe>
-
-</div>
-
-<footer>
-
-<p>免责声明：本网站仅用于视频解析演示以及学习交流，禁止作为其它用途，如有问题，本人概不承担任何责任</p>
-
-</footer>
-
-</main>
-
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" 
-
-integrity="sha384-9jM4Z8C1fBkYmvzwJ2z+Z9QXjM8JQIHSAIE3zUyAPWz0J5KOXtYJOHUZrzNfAMAY" 
-
-crossorigin="anonymous"></script>
-
-<script>
-
-(function() {
-
-// 性能优化配置
-
-const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-// 优化后的粒子配置
-
-function initParticles() {
-
-particlesJS('particles-js', {
-
-particles: {
-
-number: { 
-
-value: isMobile ? 20 : 60,
-
-density: { enable: true, value_area: isMobile ? 400 : 800 }
-
-},
-
-color: { value: '#ffffff' },
-
-opacity: { value: 0.5, random: true },
-
-size: { value: isMobile ? 2 : 3, random: true },
-
-line_linked: {
-
-enable: !isMobile,
-
-distance: 150,
-
-color: '#ffffff',
-
-opacity: 0.3,
-
-width: 1
-
-},
-
-move: {
-
-enable: !prefersReducedMotion,
-
-speed: isMobile ? 1.2 : 2,
-
-direction: 'none',
-
-out_mode: 'out'
-
-}
-
-},
-
-interactivity: {
-
-events: {
-
-onhover: { enable: !isMobile, mode: 'grab' },
-
-onclick: { enable: !isMobile, mode: 'push' }
-
-}
-
-}
-
-});
-
-}
-
-// 优化后的雪花动画
-
-function initSnow() {
-
-if (prefersReducedMotion || isMobile) return;
-
-const container = document.getElementById('snow-container');
-
-let lastFrameTime = 0;
-
-function createFlake(timestamp) {
-
-if (timestamp - lastFrameTime > 300) {
-
-const flake = document.createElement('div');
-
-flake.className = 'snowflake';
-
-flake.style.left = Math.random() * 100 + '%';
-
-flake.style.animationDuration = Math.random() * 3 + 2 + 's';
-
-flake.style.width = flake.style.height = Math.random() * 4 + 2 + 'px';
-
-container.appendChild(flake);
-
-flake.addEventListener('animationend', () => {
-
-flake.remove();
-
-});
-
-lastFrameTime = timestamp;
-
-}
-
-requestAnimationFrame(createFlake);
-
-}
-
-requestAnimationFrame(createFlake);
-
-}
-
-// 添加视频加载超时处理
-
-const VIDEO_LOAD_TIMEOUT = 10000; // 10秒
-
-async function parseVideo() {
-
-const videoUrl = document.getElementById('videoUrl').value.trim();
-
-const interfaceUrl = document.getElementById('parserInterface').value;
-
-const player = document.getElementById('videoPlayer');
-
-const container = document.getElementById('videoContainer');
-
-const parseButton = document.getElementById('parseButton');
-
-try {
-
-parseButton.disabled = true;
-
-showLoading();
-
-if (!videoUrl) {
-
-throw new Error('请先输入视频链接');
-
-}
-
-const fullUrl = videoUrl.startsWith('http') ? videoUrl : `https://${videoUrl}`;
-
-const parsedUrl = interfaceUrl + encodeURIComponent(fullUrl);
-
-// 设置超时处理
-
-const timeoutPromise = new Promise((_, reject) => {
-
-setTimeout(() => reject(new Error('视频加载超时，请重试')), VIDEO_LOAD_TIMEOUT);
-
-});
-
-player.src = parsedUrl;
-
-container.style.display = 'block';
-
-await Promise.race([
-
-new Promise((resolve) => {
-
-player.onload = resolve;
-
-player.onerror = () => {
-
-throw new Error('解析失败，请尝试其他接口');
-
-};
-
-}),
-
-timeoutPromise
-
-]);
-
-} catch (err) {
-
-showError(err.message);
-
-} finally {
-
-parseButton.disabled = false;
-
-hideLoading();
-
-}
-
-}
-
-function showLoading() {
-
-document.querySelectorAll('.status-message').forEach(el => el.style.display = 'none');
-
-document.getElementById('loadingMessage').style.display = 'block';
-
-}
-
-function hideLoading() {
-
-document.getElementById('loadingMessage').style.display = 'none';
-
-}
-
-function showError(message) {
-
-const errorEl = document.getElementById('errorMessage');
-
-errorEl.textContent = message;
-
-errorEl.style.display = 'block';
-
-errorEl.focus();
-
-setTimeout(() => errorEl.style.display = 'none', 5000);
-
-}
-
-// 事件绑定
-
-function initEventListeners() {
-
-document.getElementById('parseButton').addEventListener('click', parseVideo);
-
-document.querySelectorAll('.btn[data-platform]').forEach(btn => {
-
-btn.addEventListener('click', () => {
-
-const platforms = {
-
-'腾讯视频': 'https://v.qq.com/',
-
-'爱奇艺': 'https://www.iqiyi.com/',
-
-'Bilibili': 'https://www.bilibili.com/'
-
-};
-
-window.open(platforms[btn.dataset.platform], '_blank');
-
-});
-
-});
-
-}
-
-// 初始化优化
-
-document.addEventListener('DOMContentLoaded', () => {
-
-initParticles();
-
-initSnow();
-
-initEventListeners();
-
-document.getElementById('videoUrl').focus();
-
-// 移动端优化：减少重绘
-
-if (isMobile) {
-
-document.body.style.willChange = 'transform';
-
-}
-
-});
-
-})();
-
-</script>
-
+    <div id="particles-js" role="presentation"></div>
+    <div class="snow" id="snow-container" role="presentation"></div>
+
+    <main class="container">
+        <img src="https://picture.gptkong.com/20250110/13265253c534ee452fb3ff48c6bdb5d709.jpg" 
+             alt="ZXY视频解析演示网站" 
+             class="logo"
+             loading="lazy"
+             decoding="async">
+        
+        <h1>ZXY视频解析演示网站</h1>
+        
+        <nav class="button-group" aria-label="视频平台导航">
+            <button class="btn" 
+                    type="button"
+                    aria-label="打开腾讯视频"
+                    data-platform="腾讯视频">
+                <i class="fab fa-qq" aria-hidden="true"></i> 腾讯视频
+            </button>
+            <button class="btn" 
+                    type="button"
+                    aria-label="打开爱奇艺"
+                    data-platform="爱奇艺">
+                <i class="fas fa-play-circle" aria-hidden="true"></i> 爱奇艺
+            </button>
+            <button class="btn" 
+                    type="button"
+                    aria-label="打开Bilibili"
+                    data-platform="Bilibili">
+                <i class="fas fa-video" aria-hidden="true"></i> Bilibili
+            </button>
+        </nav>
+
+        <section class="instructions" aria-labelledby="instructions-heading">
+            <h2 id="instructions-heading" class="sr-only">使用说明</h2>
+            <p><strong>步骤1：</strong>点击视频平台按钮前往目标网站</p>
+            <p><strong>步骤2：</strong>复制视频播放页面的URL地址</p>
+            <p><strong>步骤3：</strong>返回本页面选择接口并粘贴链接解析</p>
+            <p><strong>注意事项：</strong>如遇播放问题请切换接口，仅用于视频解析演示以及学习交流，禁止其他用途</p>
+            <p><strong>技术支持：</strong>QQ 2532314527</p>
+        </section>
+
+        <section class="parser-section" aria-labelledby="parser-heading">
+            <h2 id="parser-heading" class="sr-only">视频解析设置</h2>
+            <label for="parserInterface">解析接口：</label>
+            <select id="parserInterface" 
+                    class="form-control"
+                    aria-describedby="interface-description">
+                <option value="https://www.playm3u8.cn/jiexi.php?url=">接口1 - playm3u8.cn</option>
+                <option value="https://jx.xmflv.com/?url=">接口2 - xmflv.com</option>
+                <option value="https://jx.m3u8.tv/jiexi/?url=">接口3 - m3u8.tv</option>
+                <option value="https://bd.jx.cn/?url=">接口4 - bd.jx.cn</option>
+                <option value="https://www.8090g.cn/?url=">接口5 - 8090g.cn</option>
+                <option value="https://jx.xmflv.cc/?url=">接口6 - xmflv.cc</option>
+                <option value="https://jx.hls.one/?url=">接口7 - hls.one</option>
+                <option value="https://jx.77flv.cc/?url=">接口8 - 77flv.cc</option>
+                <option value="https://www.yemu.xyz/?url=">接口9 - yemu.xyz</option>
+            </select>
+
+            <label for="videoUrl">视频链接：</label>
+            <input type="url" 
+                   id="videoUrl" 
+                   class="form-control"
+                   placeholder="粘贴视频链接..."
+                   required
+                   autocomplete="off"
+                   aria-describedby="url-description">
+            
+            <button class="btn" 
+                    type="button"
+                    id="parseButton"
+                    aria-label="开始解析视频">
+                <i class="fas fa-play" aria-hidden="true"></i> 立即解析
+            </button>
+        </section>
+
+        <div class="status-message loading" 
+             id="loadingMessage"
+             role="status"
+             aria-live="polite">解析中，请稍候...</div>
+        <div class="status-message error" 
+             id="errorMessage"
+             role="alert"
+             aria-live="assertive"
+             style="display:none"></div>
+
+        <div class="video-container" id="videoContainer">
+            <iframe class="video-iframe" 
+                    id="videoPlayer"
+                    title="视频播放器"
+                    allow="autoplay; fullscreen" 
+                    allowfullscreen></iframe>
+        </div>
+
+        <footer>
+            <p>免责声明：本网站仅用于视频解析演示以及学习交流，禁止作为其它用途，如有问题，本人概不承担任何责任</p>
+        </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        (function() {
+            // 性能优化配置
+            const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // 粒子动画配置
+            function initParticles() {
+                particlesJS('particles-js', {
+                    particles: {
+                        number: { 
+                            value: isMobile ? 40 : 80,
+                            density: { enable: true, value_area: 600 }
+                        },
+                        color: { value: '#ffffff' },
+                        opacity: { value: 0.5, random: true },
+                        size: { value: 3, random: true },
+                        line_linked: {
+                            enable: !isMobile,
+                            distance: 120,
+                            color: '#ffffff',
+                            opacity: 0.4,
+                            width: 1
+                        },
+                        move: {
+                            enable: !prefersReducedMotion,
+                            speed: 2,
+                            direction: 'none',
+                            out_mode: 'out'
+                        }
+                    },
+                    interactivity: {
+                        events: {
+                            onhover: { enable: !isMobile, mode: 'grab' },
+                            onclick: { enable: !isMobile, mode: 'push' }
+                        }
+                    }
+                });
+            }
+
+            // 雪花动画
+            function initSnow() {
+                if (prefersReducedMotion) return;
+
+                const container = document.getElementById('snow-container');
+                const createFlake = () => {
+                    const flake = document.createElement('div');
+                    flake.className = 'snowflake';
+                    flake.style.left = Math.random() * 100 + '%';
+                    flake.style.animationDuration = Math.random() * 3 + 2 + 's';
+                    flake.style.width = flake.style.height = Math.random() * 4 + 2 + 'px';
+                    container.appendChild(flake);
+
+                    flake.addEventListener('animationend', () => {
+                        flake.remove();
+                    });
+                };
+
+                setInterval(createFlake, isMobile ? 300 : 200);
+            }
+
+            // 视频解析功能
+            async function parseVideo() {
+                const videoUrl = document.getElementById('videoUrl').value.trim();
+                const interfaceUrl = document.getElementById('parserInterface').value;
+                const player = document.getElementById('videoPlayer');
+                const container = document.getElementById('videoContainer');
+                const parseButton = document.getElementById('parseButton');
+                
+                try {
+                    parseButton.disabled = true;
+                    showLoading();
+
+                    if (!videoUrl) {
+                        throw new Error('请先输入视频链接');
+                    }
+
+                    const fullUrl = videoUrl.startsWith('http') ? videoUrl : `https://${videoUrl}`;
+                    const parsedUrl = interfaceUrl + encodeURIComponent(fullUrl);
+                    
+                    player.src = parsedUrl;
+                    container.style.display = 'block';
+                    
+                    await new Promise((resolve) => {
+                        player.onload = resolve;
+                        player.onerror = () => {
+                            throw new Error('解析失败，请尝试其他接口');
+                        };
+                    });
+
+                } catch (err) {
+                    showError(err.message);
+                } finally {
+                    parseButton.disabled = false;
+                    hideLoading();
+                }
+            }
+
+            // 工具函数
+            function showLoading() {
+                document.querySelectorAll('.status-message').forEach(el => el.style.display = 'none');
+                document.getElementById('loadingMessage').style.display = 'block';
+            }
+
+            function hideLoading() {
+                document.getElementById('loadingMessage').style.display = 'none';
+            }
+
+            function showError(message) {
+                const errorEl = document.getElementById('errorMessage');
+                errorEl.textContent = message;
+                errorEl.style.display = 'block';
+                errorEl.focus();
+                setTimeout(() => errorEl.style.display = 'none', 5000);
+            }
+
+            // 事件绑定
+            function initEventListeners() {
+                document.getElementById('parseButton').addEventListener('click', parseVideo);
+                
+                document.querySelectorAll('.btn[data-platform]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const platforms = {
+                            '腾讯视频': 'https://v.qq.com/',
+                            '爱奇艺': 'https://www.iqiyi.com/',
+                            'Bilibili': 'https://www.bilibili.com/'
+                        };
+                        window.open(platforms[btn.dataset.platform], '_blank');
+                    });
+                });
+            }
+
+            // 初始化
+            document.addEventListener('DOMContentLoaded', () => {
+                initParticles();
+                initSnow();
+                initEventListeners();
+                document.getElementById('videoUrl').focus();
+            });
+        })();
+    </script>
 </body>
-
 </html>
