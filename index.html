@@ -7,16 +7,16 @@
     <meta name="description" content="ZXY视频解析演示网站，支持腾讯、爱奇艺、B站等平台视频解析演示">
     <meta name="keywords" content="视频解析演示,VIP视频解析演示,免广告看视频解析演示,腾讯视频解析演示,爱奇艺解析演示,B站解析演示,高清在线播放演示,ZXY解析演示">
     <link rel="canonical" href="https://yourdomain.com/">
-    
-    <!-- 预加载关键资源 -->
+    <!-- 资源预加载：提前加载字体和图标，提升首屏渲染速度 -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" as="style">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style">
-    
-    <!-- 字体资源 -->
+    <!-- 字体和图标库 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <!-- Content Security Policy (CSP) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; frame-src *;">
     <style>
+        /* CSS 代码 - 性能优化和标注样式 */
         :root {
             --primary-color: #4a90e2;
             --secondary-color: #357ab8;
@@ -25,8 +25,11 @@
             --container-bg: rgba(255, 255, 255, 0.1);
             --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
             --animation-duration: 0.3s;
+            --restricted-interface-bg: rgba(255, 255, 0, 0.15); /* 标注接口背景色 */
+            --restricted-interface-color: #ffea00; /* 标注接口文字颜色 */
         }
 
+        /* 基础样式保持不变 */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -63,9 +66,15 @@
         }
 
         @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         #particles-js {
@@ -120,6 +129,17 @@
         @media (prefers-reduced-motion: no-preference) {
             .container {
                 animation: fadeIn 1s var(--transition-timing);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
@@ -236,6 +256,13 @@
             outline-offset: 2px;
         }
 
+        /* 标注接口样式 */
+        .form-control option.restricted-mobile {
+            background-color: var(--restricted-interface-bg);
+            color: var(--restricted-interface-color);
+            font-weight: 500; /* 加粗文字，更醒目 */
+        }
+
         .video-container {
             position: relative;
             padding-bottom: 56.25%;
@@ -259,7 +286,7 @@
             display: none;
         }
 
-        .loading {
+        .loading, .testing-interface {
             background: rgba(255, 234, 0, 0.1);
             color: #ffea00;
         }
@@ -267,6 +294,11 @@
         .error {
             background: rgba(255, 0, 0, 0.1);
             color: #ff4444;
+        }
+
+        .success {
+            background: rgba(0, 200, 83, 0.1);
+            color: #00c853;
         }
 
         footer {
@@ -292,17 +324,6 @@
             }
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .sr-only {
             position: absolute;
             width: 1px;
@@ -316,246 +337,341 @@
     </style>
 </head>
 <body>
-    <div id="particles-js" role="presentation"></div>
-    <div class="snow" id="snow-container" role="presentation"></div>
-
-    <main class="container">
-        <img src="https://picture.gptkong.com/20250110/13265253c534ee452fb3ff48c6bdb5d709.jpg" 
-             alt="ZXY视频解析演示网站" 
-             class="logo"
-             loading="lazy"
-             decoding="async">
-        
-        <h1>ZXY视频解析演示网站</h1>
-        
-        <nav class="button-group" aria-label="视频平台导航">
-            <button class="btn" 
-                    type="button"
-                    aria-label="打开腾讯视频"
-                    data-platform="腾讯视频">
-                <i class="fab fa-qq" aria-hidden="true"></i> 腾讯视频
+<div id="particles-js" role="presentation"></div>
+<div class="snow" id="snow-container" role="presentation"></div>
+<main class="container">
+    <h1>ZXY视频解析演示网站</h1>
+    <nav class="button-group" aria-label="视频平台导航">
+        <button class="btn" type="button" aria-label="打开腾讯视频" data-platform="腾讯视频">
+            <i class="fab fa-qq" aria-hidden="true"></i> 腾讯视频
+        </button>
+        <button class="btn" type="button" aria-label="打开爱奇艺" data-platform="爱奇艺">
+            <i class="fas fa-play-circle" aria-hidden="true"></i> 爱奇艺
+        </button>
+        <button class="btn" type="button" aria-label="打开Bilibili" data-platform="Bilibili">
+            <i class="fas fa-video" aria-hidden="true"></i> Bilibili
+        </button>
+    </nav>
+    <section class="instructions" aria-labelledby="instructions-heading">
+        <h2 id="instructions-heading" class="sr-only">使用说明</h2>
+        <p><strong>步骤1：</strong>点击视频平台按钮前往目标网站</p>
+        <p><strong>步骤2：</strong>复制视频播放页面的URL地址</p>
+        <p><strong>步骤3：</strong>返回本页面选择接口或点击自动测试并粘贴链接解析</p>
+        <p><strong>注意事项：</strong>如遇播放问题请切换接口，仅用于视频解析演示以及学习交流，禁止其他用途</p>
+        <p><strong>技术支持：</strong>QQ 2532314527</p>
+    </section>
+    <section class="parser-section" aria-labelledby="parser-heading">
+        <h2 id="parser-heading" class="sr-only">视频解析设置</h2>
+        <label for="parserInterface">解析接口：</label>
+        <select id="parserInterface" class="form-control" aria-describedby="interface-description">
+            <option value="https://jx.xmflv.com/?url=" data-restricted-mobile="true">接口1 - xmflv.com</option>
+            <option value="https://bd.jx.cn/?url=">接口2 - bd.jx.cn</option>
+            <option value="https://jx.xmflv.cc/?url=" data-restricted-mobile="true">接口3 - xmflv.cc</option>
+            <option value="https://jx.hls.one/?url=">接口4 - hls.one</option>
+            <option value="https://jx.77flv.cc/?url=">接口5 - 77flv.cc</option>
+            <option value="https://www.yemu.xyz/?url=" data-restricted-mobile="true">接口6 - yemu.xyz</option>
+        </select>
+        <label for="videoUrl">视频链接：</label>
+        <input type="url" id="videoUrl" class="form-control" placeholder="粘贴视频链接..." required autocomplete="off" aria-describedby="url-description">
+        <div style="display: flex; gap: 1rem;">
+            <button class="btn" type="button" id="autoTestButton" aria-label="自动测试最优接口">
+                <i class="fas fa-magic" aria-hidden="true"></i> 自动测试
             </button>
-            <button class="btn" 
-                    type="button"
-                    aria-label="打开爱奇艺"
-                    data-platform="爱奇艺">
-                <i class="fas fa-play-circle" aria-hidden="true"></i> 爱奇艺
-            </button>
-            <button class="btn" 
-                    type="button"
-                    aria-label="打开Bilibili"
-                    data-platform="Bilibili">
-                <i class="fas fa-video" aria-hidden="true"></i> Bilibili
-            </button>
-        </nav>
-
-        <section class="instructions" aria-labelledby="instructions-heading">
-            <h2 id="instructions-heading" class="sr-only">使用说明</h2>
-            <p><strong>步骤1：</strong>点击视频平台按钮前往目标网站</p>
-            <p><strong>步骤2：</strong>复制视频播放页面的URL地址</p>
-            <p><strong>步骤3：</strong>返回本页面选择接口并粘贴链接解析</p>
-            <p><strong>注意事项：</strong>如遇播放问题请切换接口，仅用于视频解析演示以及学习交流，禁止其他用途</p>
-            <p><strong>技术支持：</strong>QQ 2532314527</p>
-        </section>
-
-        <section class="parser-section" aria-labelledby="parser-heading">
-            <h2 id="parser-heading" class="sr-only">视频解析设置</h2>
-            <label for="parserInterface">解析接口：</label>
-            <select id="parserInterface" 
-                    class="form-control"
-                    aria-describedby="interface-description">
-                <option value="https://www.playm3u8.cn/jiexi.php?url=">接口1 - playm3u8.cn</option>
-                <option value="https://jx.xmflv.com/?url=">接口2 - xmflv.com</option>
-                <option value="https://jx.m3u8.tv/jiexi/?url=">接口3 - m3u8.tv</option>
-                <option value="https://bd.jx.cn/?url=">接口4 - bd.jx.cn</option>
-                <option value="https://www.8090g.cn/?url=">接口5 - 8090g.cn</option>
-                <option value="https://jx.xmflv.cc/?url=">接口6 - xmflv.cc</option>
-                <option value="https://jx.hls.one/?url=">接口7 - hls.one</option>
-                <option value="https://jx.77flv.cc/?url=">接口8 - 77flv.cc</option>
-                <option value="https://www.yemu.xyz/?url=">接口9 - yemu.xyz</option>
-            </select>
-
-            <label for="videoUrl">视频链接：</label>
-            <input type="url" 
-                   id="videoUrl" 
-                   class="form-control"
-                   placeholder="粘贴视频链接..."
-                   required
-                   autocomplete="off"
-                   aria-describedby="url-description">
-            
-            <button class="btn" 
-                    type="button"
-                    id="parseButton"
-                    aria-label="开始解析视频">
+            <button class="btn" type="button" id="parseButton" aria-label="开始解析视频">
                 <i class="fas fa-play" aria-hidden="true"></i> 立即解析
             </button>
-        </section>
-
-        <div class="status-message loading" 
-             id="loadingMessage"
-             role="status"
-             aria-live="polite">解析中，请稍候...</div>
-        <div class="status-message error" 
-             id="errorMessage"
-             role="alert"
-             aria-live="assertive"
-             style="display:none"></div>
-
-        <div class="video-container" id="videoContainer">
-            <iframe class="video-iframe" 
-                    id="videoPlayer"
-                    title="视频播放器"
-                    allow="autoplay; fullscreen" 
-                    allowfullscreen></iframe>
         </div>
+    </section>
+    <div class="status-message loading" id="loadingMessage" role="status" aria-live="polite">解析中，请稍候...</div>
+    <div class="status-message testing-interface" id="testingInterfaceMessage" role="status" aria-live="polite" style="display:none">正在自动测试接口，请稍候...</div>
+    <div class="status-message success" id="successMessage" role="status" aria-live="polite" style="display:none">接口测试成功，已选择最优接口。</div>
+    <div class="status-message error" id="errorMessage" role="alert" aria-live="assertive" style="display:none"></div>
+    <div class="video-container" id="videoContainer">
+        <iframe class="video-iframe" id="videoPlayer" title="视频播放器" allow="autoplay; fullscreen" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+    </div>
+    <footer>
+        <p>免责声明：本网站仅用于视频解析演示以及学习交流，禁止作为其它用途，如有问题，本人概不承担任何责任</p>
+    </footer>
+</main>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+    (function() {
+        // 性能优化配置
+        const isMobile = /Mobi|Android/i.test(navigator.userAgent); // 检测是否为移动设备
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; // 检测用户是否开启了减少动画模式
+        const particleNumberMobile = 40; // 移动端粒子数量（减少粒子数量提升性能）
+        const particleNumberDesktop = 80; // 桌面端粒子数量
+        const snowflakeIntervalMobile = 300; // 移动端雪花生成间隔 (毫秒) (降低雪花生成频率提升性能)
+        const snowflakeIntervalDesktop = 200; // 桌面端雪花生成间隔 (毫秒)
+        const interfaceTestTimeout = 5000; // 接口测试超时时间 (毫秒)
+        const restrictedMobileInterfaces = ["https://jx.xmflv.com/?url=", "https://jx.xmflv.cc/?url=", "https://www.yemu.xyz/?url="]; // 手机端限制的接口
+        const doubleParseInterfaces = ["https://jx.xmflv.com/?url=", "https://jx.xmflv.cc/?url=", "https://www.yemu.xyz/?url=","https://bd.jx.cn/?url="]; // 需要双重解析的接口
 
-        <footer>
-            <p>免责声明：本网站仅用于视频解析演示以及学习交流，禁止作为其它用途，如有问题，本人概不承担任何责任</p>
-        </footer>
-    </main>
-
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
-        (function() {
-            // 性能优化配置
-            const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-            // 粒子动画配置
-            function initParticles() {
-                particlesJS('particles-js', {
-                    particles: {
-                        number: { 
-                            value: isMobile ? 40 : 80,
-                            density: { enable: true, value_area: 600 }
-                        },
-                        color: { value: '#ffffff' },
-                        opacity: { value: 0.5, random: true },
-                        size: { value: 3, random: true },
-                        line_linked: {
-                            enable: !isMobile,
-                            distance: 120,
-                            color: '#ffffff',
-                            opacity: 0.4,
-                            width: 1
-                        },
-                        move: {
-                            enable: !prefersReducedMotion,
-                            speed: 2,
-                            direction: 'none',
-                            out_mode: 'out'
+        // 粒子动画配置
+        function initParticles() {
+            if (isMobile || prefersReducedMotion) return; // 移动端或用户偏好减少动画，则不初始化粒子动画
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: isMobile ? particleNumberMobile : particleNumberDesktop, // 移动端减少粒子数量
+                        density: {
+                            enable: true,
+                            value_area: 600
                         }
                     },
-                    interactivity: {
-                        events: {
-                            onhover: { enable: !isMobile, mode: 'grab' },
-                            onclick: { enable: !isMobile, mode: 'push' }
-                        }
+                    color: {
+                        value: '#ffffff'
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: true
+                    },
+                    size: {
+                        value: 3,
+                        random: true
+                    },
+                    line_linked: {
+                        enable: !isMobile, // 移动端禁用线条连接 (提升移动端性能)
+                        distance: 120,
+                        color: '#ffffff',
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: !prefersReducedMotion,
+                        speed: 2,
+                        direction: 'none',
+                        out_mode: 'out'
                     }
+                },
+                interactivity: {
+                    events: {
+                        onhover: {
+                            enable: !isMobile,
+                            mode: 'grab'
+                        }, // 移动端禁用 hover 效果 (提升移动端性能)
+                        onclick: {
+                            enable: !isMobile,
+                            mode: 'push'
+                        } // 移动端禁用 click 效果 (提升移动端性能)
+                    }
+                }
+            });
+        }
+
+        // 雪花动画
+        function initSnow() {
+            if (isMobile || prefersReducedMotion) return; // 移动端或用户偏好减少动画，则不初始化雪花动画
+            const container = document.getElementById('snow-container');
+            const createFlake = () => {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.style.left = Math.random() * 100 + '%';
+                flake.style.animationDuration = Math.random() * 3 + 2 + 's';
+                flake.style.width = flake.style.height = Math.random() * 4 + 2 + 'px';
+                container.appendChild(flake);
+                flake.addEventListener('animationend', () => {
+                    flake.remove();
                 });
-            }
+            };
+            setInterval(createFlake, isMobile ? snowflakeIntervalMobile : snowflakeIntervalDesktop); // 移动端降低雪花生成频率
+        }
 
-            // 雪花动画
-            function initSnow() {
-                if (prefersReducedMotion) return;
+        // 视频解析核心功能
+        async function _parseVideoInternal(interfaceUrl, videoUrl) {
+            const player = document.getElementById('videoPlayer');
+            const container = document.getElementById('videoContainer');
+            const parsedUrl = interfaceUrl + encodeURIComponent(videoUrl);
+            player.src = parsedUrl;
+            container.style.display = 'block';
+            return new Promise((resolve, reject) => {
+                player.onload = resolve;
+                player.onerror = reject;
+                setTimeout(() => reject(new Error('解析超时，请尝试其他接口')), interfaceTestTimeout); // 添加超时处理
+            });
+        }
 
-                const container = document.getElementById('snow-container');
-                const createFlake = () => {
-                    const flake = document.createElement('div');
-                    flake.className = 'snowflake';
-                    flake.style.left = Math.random() * 100 + '%';
-                    flake.style.animationDuration = Math.random() * 3 + 2 + 's';
-                    flake.style.width = flake.style.height = Math.random() * 4 + 2 + 'px';
-                    container.appendChild(flake);
 
-                    flake.addEventListener('animationend', () => {
-                        flake.remove();
-                    });
-                };
+        // 视频解析功能
+        async function parseVideo(interfaceUrl) {
+            const videoUrl = document.getElementById('videoUrl').value.trim();
+            const parseButton = document.getElementById('parseButton');
+            const autoTestButton = document.getElementById('autoTestButton');
+            try {
+                parseButton.disabled = true;
+                autoTestButton.disabled = true;
+                showLoading();
+                if (!videoUrl) {
+                    throw new Error('请先输入视频链接');
+                }
+                const fullUrl = videoUrl.startsWith('http') ? videoUrl : `https://${videoUrl}`;
 
-                setInterval(createFlake, isMobile ? 300 : 200);
-            }
-
-            // 视频解析功能
-            async function parseVideo() {
-                const videoUrl = document.getElementById('videoUrl').value.trim();
-                const interfaceUrl = document.getElementById('parserInterface').value;
-                const player = document.getElementById('videoPlayer');
-                const container = document.getElementById('videoContainer');
-                const parseButton = document.getElementById('parseButton');
-                
-                try {
-                    parseButton.disabled = true;
-                    showLoading();
-
-                    if (!videoUrl) {
-                        throw new Error('请先输入视频链接');
+                if (doubleParseInterfaces.includes(interfaceUrl)) {
+                    try {
+                        await _parseVideoInternal(interfaceUrl, fullUrl);
+                        await new Promise(resolve => setTimeout(resolve, 2000)); // 延迟2秒
+                        await _parseVideoInternal(interfaceUrl, fullUrl); // 第二次解析
+                    } catch (doubleParseError) {
+                        throw doubleParseError; // 抛出双重解析中的错误
                     }
+                } else {
+                    await _parseVideoInternal(interfaceUrl, fullUrl); // 单次解析
+                }
 
-                    const fullUrl = videoUrl.startsWith('http') ? videoUrl : `https://${videoUrl}`;
-                    const parsedUrl = interfaceUrl + encodeURIComponent(fullUrl);
-                    
-                    player.src = parsedUrl;
-                    container.style.display = 'block';
-                    
-                    await new Promise((resolve) => {
-                        player.onload = resolve;
-                        player.onerror = () => {
-                            throw new Error('解析失败，请尝试其他接口');
-                        };
-                    });
 
-                } catch (err) {
-                    showError(err.message);
-                } finally {
-                    parseButton.disabled = false;
-                    hideLoading();
+            } catch (err) {
+                showError(err.message);
+                document.getElementById('videoContainer').style.display = 'none'; // 解析失败隐藏视频容器
+                document.getElementById('videoPlayer').src = ''; // 清空 iframe src
+                throw err; // 重新抛出错误，方便自动测试流程捕获
+            } finally {
+                parseButton.disabled = false;
+                autoTestButton.disabled = false;
+                hideLoading();
+            }
+        }
+
+        // 自动测试最优接口
+        async function autoTestInterfaces() {
+            const interfaceSelect = document.getElementById('parserInterface');
+            // 获取所有接口选项，如果手机端，则排除限制接口
+            let interfaces = Array.from(interfaceSelect.options)
+                .filter(option => !(isMobile && restrictedMobileInterfaces.includes(option.value))) // 手机端排除限制接口
+                .map(option => option.value);
+
+            if (isMobile && interfaces.length === 0) {
+                showError('手机端无可用的自动测试接口'); // 如果所有接口都被排除，提示错误
+                hideTestingInterface();
+                return;
+            }
+
+            let bestInterface = null;
+            showTestingInterface();
+            for (const iface of interfaces) {
+                try {
+                    await parseVideo(iface); // 尝试使用当前接口解析
+                    bestInterface = iface;
+                    break; // 找到第一个成功接口就停止测试
+                } catch (error) {
+                    console.warn(`接口 ${iface} 测试失败: ${error.message}`); // 忽略错误，继续尝试下一个接口
                 }
             }
-
-            // 工具函数
-            function showLoading() {
-                document.querySelectorAll('.status-message').forEach(el => el.style.display = 'none');
-                document.getElementById('loadingMessage').style.display = 'block';
+            hideTestingInterface();
+            if (bestInterface) {
+                showSuccessMessage();
+                interfaceSelect.value = bestInterface; // 自动选择最优接口
+            } else {
+                showError('所有可用接口测试失败，请检查链接或稍后重试'); // 修改错误提示信息
             }
+        }
 
-            function hideLoading() {
-                document.getElementById('loadingMessage').style.display = 'none';
-            }
+        // 工具函数
+        function showLoading() {
+            document.querySelectorAll('.status-message:not(#testingInterfaceMessage)').forEach(el => el.style.display = 'none'); // 排除 testingInterfaceMessage
+            document.getElementById('loadingMessage').style.display = 'block';
+        }
 
-            function showError(message) {
-                const errorEl = document.getElementById('errorMessage');
-                errorEl.textContent = message;
-                errorEl.style.display = 'block';
-                errorEl.focus();
-                setTimeout(() => errorEl.style.display = 'none', 5000);
-            }
+        function hideLoading() {
+            document.getElementById('loadingMessage').style.display = 'none';
+        }
 
-            // 事件绑定
-            function initEventListeners() {
-                document.getElementById('parseButton').addEventListener('click', parseVideo);
-                
-                document.querySelectorAll('.btn[data-platform]').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const platforms = {
-                            '腾讯视频': 'https://v.qq.com/',
-                            '爱奇艺': 'https://www.iqiyi.com/',
-                            'Bilibili': 'https://www.bilibili.com/'
-                        };
-                        window.open(platforms[btn.dataset.platform], '_blank');
-                    });
+        function showTestingInterface() {
+            document.querySelectorAll('.status-message').forEach(el => el.style.display = 'none');
+            document.getElementById('testingInterfaceMessage').style.display = 'block';
+        }
+
+        function hideTestingInterface() {
+            document.getElementById('testingInterfaceMessage').style.display = 'none';
+        }
+
+        function showSuccessMessage() {
+            document.querySelectorAll('.status-message:not(#testingInterfaceMessage)').forEach(el => el.style.display = 'none'); // 排除 testingInterfaceMessage
+            document.getElementById('successMessage').style.display = 'block';
+            setTimeout(() => document.getElementById('successMessage').style.display = 'none', 3000); // 3秒后自动消失
+        }
+
+        function showError(message) {
+            document.querySelectorAll('.status-message:not(#testingInterfaceMessage)').forEach(el => el.style.display = 'none'); // 排除 testingInterfaceMessage
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+            errorEl.focus();
+            setTimeout(() => errorEl.style.display = 'none', 5000);
+        }
+
+        // 事件绑定
+        function initEventListeners() {
+            const parseButton = document.getElementById('parseButton');
+            const autoTestButton = document.getElementById('autoTestButton');
+            const interfaceSelect = document.getElementById('parserInterface'); // 获取接口选择器
+
+            parseButton.addEventListener('click', handleParseButtonClick); // 立即解析按钮事件
+            autoTestButton.addEventListener('click', autoTestInterfaces); // 自动测试按钮事件
+
+            document.querySelectorAll('.btn[data-platform]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const platforms = {
+                        '腾讯视频': 'https://v.qq.com/',
+                        '爱奇艺': 'https://www.iqiyi.com/',
+                        'Bilibili': 'https://www.bilibili.com/'
+                    };
+                    window.open(platforms[btn.dataset.platform], '_blank');
                 });
-            }
+            });
 
-            // 初始化
-            document.addEventListener('DOMContentLoaded', () => {
+            // 监听接口选择变化事件
+            interfaceSelect.addEventListener('change', function() {
+                if (isMobile) { // 仅在手机端进行限制
+                    const selectedOption = interfaceSelect.options[interfaceSelect.selectedIndex];
+                    if (restrictedMobileInterfaces.includes(selectedOption.value)) {
+                        const confirmed = confirm("您当前使用的是手机端，接口1, 3, 6可能包含不健康信息，确定要继续使用吗？");
+                        if (!confirmed) {
+                            // 如果用户取消，则回退到上一个选择的接口 (或者默认接口)
+                            // 这里简单地设置为接口2，您可以根据实际情况调整
+                            interfaceSelect.value = "https://bd.jx.cn/?url=";
+                        }
+                    }
+                }
+            });
+        }
+
+        // 处理立即解析按钮点击事件
+        function handleParseButtonClick() {
+            const selectedInterface = document.getElementById('parserInterface').value;
+            if (isMobile) { // 手机端再次检查，防止绕过 select 的 change 事件
+                const selectedOption = document.getElementById('parserInterface').options[document.getElementById('parserInterface').selectedIndex];
+                if (restrictedMobileInterfaces.includes(selectedOption.value)) {
+                    const confirmed = confirm("您当前使用的是手机端，接口1, 3, 6可能包含不健康信息，确定要继续使用吗？");
+                    if (!confirmed) {
+                        return; // 用户取消，不执行解析
+                    }
+                }
+            }
+            parseVideo(selectedInterface); // 执行解析
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!isMobile) { // 仅在非手机端初始化特效
                 initParticles();
                 initSnow();
-                initEventListeners();
-                document.getElementById('videoUrl').focus();
-            });
-        })();
-    </script>
+            }
+            initEventListeners();
+            document.getElementById('videoUrl').focus();
+            // 手机端默认选择接口2 (或其他安全接口)
+            if (isMobile) {
+                document.getElementById('parserInterface').value = "https://bd.jx.cn/?url="; // 默认选择接口2
+                // 手机端标注接口1, 3, 6
+                const interfaceOptions = document.getElementById('parserInterface').options;
+                for (let i = 0; i < interfaceOptions.length; i++) {
+                    if (restrictedMobileInterfaces.includes(interfaceOptions[i].value)) {
+                        interfaceOptions[i].classList.add('restricted-mobile');
+                        interfaceOptions[i].textContent += ' (手机端慎选)'; // 添加文字提示
+                    }
+                }
+            }
+        });
+    })();
+</script>
 </body>
 </html>
