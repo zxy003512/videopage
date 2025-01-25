@@ -2,25 +2,45 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZXY的视频解析网站 - 高清无广告在线观看</title>
-    <meta name="description" content="ZXY的视频解析网站提供各大视频平台VIP视频解析服务，支持腾讯视频、爱奇艺、哔哩哔哩等，让您享受高清无广告的观影体验。">
-    <meta name="keywords" content="视频解析, VIP视频, 腾讯视频, 爱奇艺, 哔哩哔哩, 无广告, 高清, 在线观看, ZXY">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>ZXY视频解析 - 高清无广告在线观看</title>
+    <meta name="description" content="ZXY视频解析提供全网VIP视频免费解析服务，支持腾讯、爱奇艺、B站等平台高清无广告播放，每日更新稳定解析接口。">
+    <meta name="keywords" content="视频解析,VIP解析,免广告看视频,腾讯视频解析,爱奇艺解析,B站解析,高清在线播放,ZXY解析">
+    <link rel="canonical" href="https://yourdomain.com/">
+    
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style">
+    
+    <!-- 字体资源 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
-        body {
-            font-family: 'Noto Sans SC', 'Roboto', sans-serif;
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #357ab8;
+            --background-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            --text-color: #fff;
+            --container-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            color: #fff;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', 'Roboto', sans-serif;
+            color: var(--text-color);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
             background: #000;
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
         body::before {
@@ -30,7 +50,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            background: var(--background-gradient);
             z-index: -2;
             animation: gradientBG 15s ease infinite;
         }
@@ -48,20 +68,22 @@
             z-index: -1;
         }
 
+        /* 优化雪花动画性能 */
         .snow {
             position: fixed;
             width: 100%;
             height: 100%;
             z-index: 0;
             pointer-events: none;
+            will-change: transform;
         }
 
         .snowflake {
             position: absolute;
-            background-color: white;
+            background: rgba(255,255,255,0.8);
             border-radius: 50%;
-            opacity: 0.8;
-            animation: fall linear infinite;
+            animation: fall linear infinite forwards;
+            will-change: transform;
         }
 
         @keyframes fall {
@@ -71,28 +93,27 @@
         }
 
         .container {
-            width: 90%;
-            max-width: 900px;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 30px;
+            width: min(90%, 900px);
+            background: var(--container-bg);
+            padding: 2rem;
             border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1;
-            animation: fadeIn 1s ease-in-out;
-            margin: 20px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin: 2rem 0;
+            animation: fadeIn 1s ease-out;
         }
 
         .logo {
             display: block;
-            margin: 0 auto 20px;
-            max-width: 150px;
-            height: auto;
+            margin: 0 auto 1.5rem;
+            width: 150px;
+            aspect-ratio: 1;
             border-radius: 50%;
             box-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
             transition: transform 0.3s ease;
+            object-fit: cover;
         }
 
         .logo:hover {
@@ -101,129 +122,137 @@
 
         h1 {
             text-align: center;
-            color: #4a90e2;
-            margin-bottom: 20px;
-            font-size: 2.5em;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             text-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
-            animation: slideDown 1s ease-out;
         }
 
-        .buttons {
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
             display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .buttons button {
-            flex: 1 1 30%;
-            padding: 15px 25px;
-            font-size: 1.1em;
-            color: #fff;
-            background: linear-gradient(45deg, #4a90e2, #357ab8);
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            font-size: 1rem;
+            color: var(--text-color);
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             border: none;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+            text-decoration: none;
         }
 
-        .buttons button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
-        }
-
-        .instructions {
-            background-color: rgba(248, 249, 250, 0.1);
-            border-left: 5px solid #4a90e2;
-            padding: 20px;
-            margin-bottom: 25px;
-            border-radius: 10px;
-            animation: pulse 2s infinite;
-        }
-
-        .instructions p {
-            margin: 10px 0;
-            line-height: 1.8;
-            color: #fff;
-        }
-
-        .parser-section {
-            margin-bottom: 25px;
-        }
-
-        .parser-section input {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
-            font-size: 1em;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: #fff;
-            transition: all 0.3s ease;
-        }
-
-        .parser-section input:focus {
-            outline: none;
-            border-color: #4a90e2;
-            box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
-        }
-
-        .parser-section button {
-            width: 100%;
-            padding: 15px;
-            font-size: 1.1em;
-            background: linear-gradient(45deg, #4a90e2, #357ab8);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .parser-section button:hover {
+        .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
         }
 
-        .video-player {
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%;
-            position: relative;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            display: none;
-            margin-top: 20px;
+        .instructions {
+            background: rgba(248, 249, 250, 0.1);
+            border-left: 5px solid var(--primary-color);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 10px;
         }
 
-        .video-player iframe {
+        .instructions p {
+            margin: 0.5rem 0;
+        }
+
+        .parser-section {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2em;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #000;
+            display: none;
+        }
+
+        .video-iframe {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             border: none;
         }
 
-        .disclaimer {
+        .status-message {
             text-align: center;
-            margin-top: 20px;
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .loading {
+            background: rgba(255, 234, 0, 0.1);
+            color: #ffea00;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff4444;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 1.5rem;
             font-size: 0.9em;
             color: rgba(255, 255, 255, 0.8);
         }
 
-        #loadingMessage {
-            text-align: center;
-            margin-top: 20px;
-            color: #ffea00;
-            display: none;
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                border-radius: 15px;
+            }
+
+            .btn {
+                font-size: 0.9rem;
+                padding: 0.8rem;
+            }
+
+            .form-control {
+                padding: 0.8rem;
+            }
         }
 
         @keyframes fadeIn {
@@ -236,218 +265,185 @@
                 transform: translateY(0);
             }
         }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-            }
-            to {
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.7;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                width: 95%;
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 1.8em;
-            }
-
-            .buttons button {
-                flex: 1 1 100%;
-                padding: 12px;
-                font-size: 0.9em;
-            }
-
-            .parser-section input,
-            .parser-section button {
-                padding: 12px;
-                font-size: 0.9em;
-            }
-        }
     </style>
 </head>
 <body>
     <div id="particles-js"></div>
     <div class="snow" id="snow-container"></div>
 
-    <div class="container" id="mainPage">
-        <img src="https://picture.gptkong.com/20250110/13265253c534ee452fb3ff48c6bdb5d709.jpg" alt="ZXY Logo" class="logo">
-        <h1>ZXY的视频解析网站</h1>
-        <div class="buttons">
-            <button onclick="window.open('https://v.qq.com/', '_blank')"><i class="fab fa-qq"></i> 腾讯视频</button>
-            <button onclick="window.open('https://www.iqiyi.com/', '_blank')"><i class="fas fa-play-circle"></i> 爱奇艺</button>
-            <button onclick="window.open('https://www.bilibili.com/', '_blank')"><i class="fas fa-video"></i> Bilibili</button>
+    <main class="container">
+        <img src="https://picture.gptkong.com/20250110/13265253c534ee452fb3ff48c6bdb5d709.jpg" 
+             alt="ZXY视频解析" 
+             class="logo"
+             loading="lazy">
+        
+        <h1>ZXY视频解析服务</h1>
+        
+        <nav class="button-group">
+            <button class="btn" onclick="window.open('https://v.qq.com/', '_blank')">
+                <i class="fab fa-qq"></i> 腾讯视频
+            </button>
+            <button class="btn" onclick="window.open('https://www.iqiyi.com/', '_blank')">
+                <i class="fas fa-play-circle"></i> 爱奇艺
+            </button>
+            <button class="btn" onclick="window.open('https://www.bilibili.com/', '_blank')">
+                <i class="fas fa-video"></i> Bilibili
+            </button>
+        </nav>
+
+        <section class="instructions">
+            <p><strong>步骤1：</strong>点击视频平台按钮前往目标网站</p>
+            <p><strong>步骤2：</strong>复制视频播放页面的URL地址</p>
+            <p><strong>步骤3：</strong>返回本页面选择接口并粘贴链接解析</p>
+            <p><strong>注意事项：</strong>如遇播放问题请切换接口，仅用于学习交流，禁止其他用途</p>
+            <p><strong>技术支持：</strong>QQ 2532314527</p>
+        </section>
+
+        <section class="parser-section">
+            <label for="parserInterface">解析接口：</label>
+            <select id="parserInterface" class="form-control">
+                <option value="https://www.playm3u8.cn/jiexi.php?url=">接口1 - playm3u8.cn</option>
+                <option value="https://jx.xmflv.com/?url=">接口2 - xmflv.com</option>
+                <option value="https://jx.m3u8.tv/jiexi/?url=">接口3 - m3u8.tv</option>
+                <option value="https://bd.jx.cn/?url=">接口4 - bd.jx.cn</option>
+                <option value="https://www.8090g.cn/?url=">接口5 - 8090g.cn</option>
+                <option value="https://jx.xmflv.cc/?url=">接口6 - xmflv.cc</option>
+                <option value="https://jx.hls.one/?url=">接口7 - hls.one</option>
+                <option value="https://jx.77flv.cc/?url=">接口8 - 77flv.cc</option>
+                <option value="https://www.yemu.xyz/?url=">接口9 - yemu.xyz</option>
+            </select>
+
+            <label for="videoUrl">视频链接：</label>
+            <input type="url" 
+                   id="videoUrl" 
+                   class="form-control"
+                   placeholder="粘贴视频链接..."
+                   required
+                   autocomplete="off">
+            
+            <button class="btn" onclick="parseVideo()">
+                <i class="fas fa-play"></i> 立即解析
+            </button>
+        </section>
+
+        <div class="status-message loading" id="loadingMessage">解析中，请稍候...</div>
+        <div class="status-message error" id="errorMessage" style="display:none"></div>
+
+        <div class="video-container" id="videoContainer">
+            <iframe class="video-iframe" 
+                    id="videoPlayer"
+                    allow="autoplay; fullscreen" 
+                    allowfullscreen></iframe>
         </div>
-        <div class="instructions">
-            <p><strong>步骤1：</strong>点击上方视频平台按钮，将在新窗口打开相应网站。</p>
-            <p><strong>步骤2：</strong>在视频播放页面，复制该视频的URL链接。</p>
-            <p><strong>步骤3：</strong>返回本页面，粘贴视频链接到下方输入框进行解析。</p>
-            <p><strong>注意：</strong>正在尝试多个接口解析，请耐心等待。如长时间无法播放，请联系管理员。</p>
-            <p><strong>问题反馈：</strong>QQ：2532314527</p>
-        </div>
-        <div class="parser-section">
-            <label for="videoUrl">粘贴视频链接：</label>
-            <input type="url" id="videoUrl" placeholder="请粘贴视频链接..." required>
-            <button onclick="parseAndPlay()"><i class="fas fa-play"></i> 解析并播放</button>
-        </div>
-        <p id="loadingMessage">正在尝试解析，请稍候...</p>
-        <div class="video-player" id="videoPlayerContainer">
-            <iframe id="videoIframePlayer" src="" allowfullscreen></iframe>
-        </div>
-        <div class="disclaimer">
-            <p>声明：本站仅供学习交流，请勿用于商业用途。如遇问题请联系管理员。</p>
-        </div>
-    </div>
+
+        <footer>
+            <p>免责声明：本网站仅用于学习交流，禁止作为其它用途，如有问题，本人概不承担任何责任</p>
+        </footer>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        particlesJS("particles-js", {
+        // 初始化粒子背景
+        particlesJS('particles-js', {
             particles: {
-                number: { value: 100, density: { enable: true, value_area: 800 } },
-                color: { value: "#ffffff" },
-                shape: { type: "circle" },
-                opacity: {
-                    value: 0.5,
-                    random: true,
-                    animation: { enable: true, speed: 1, minimumValue: 0.1, sync: false }
-                },
-                size: {
-                    value: 3,
-                    random: true,
-                    animation: { enable: true, speed: 4, minimumValue: 0.3, sync: false }
-                },
+                number: { value: 80, density: { enable: true, value_area: 600 } },
+                color: { value: '#ffffff' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
                 line_linked: {
                     enable: true,
-                    distance: 150,
-                    color: "#ffffff",
+                    distance: 120,
+                    color: '#ffffff',
                     opacity: 0.4,
                     width: 1
                 },
                 move: {
                     enable: true,
                     speed: 2,
-                    direction: "none",
-                    random: true,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false,
+                    direction: 'none',
+                    out_mode: 'out'
                 }
             },
             interactivity: {
-                detect_on: "canvas",
                 events: {
-                    onhover: { enable: true, mode: "grab" },
-                    onclick: { enable: true, mode: "push" },
-                    resize: true
-                },
-                modes: {
-                    grab: { distance: 140, line_linked: { opacity: 1 } },
-                    push: { particles_nb: 4 }
+                    onhover: { enable: true, mode: 'grab' },
+                    onclick: { enable: true, mode: 'push' }
                 }
-            },
-            retina_detect: true
+            }
         });
 
-        function createSnowflakes() {
-            const snowContainer = document.getElementById('snow-container');
-            const createSnowflake = () => {
-                const snowflake = document.createElement('div');
-                snowflake.classList.add('snowflake');
-                snowflake.style.left = `${Math.random() * 100}vw`;
-                snowflake.style.opacity = Math.random();
-                snowflake.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
-                snowflake.style.width = snowflake.style.height = `${Math.random() * 4 + 2}px`;
-                snowContainer.appendChild(snowflake);
+        // 优化雪花生成逻辑
+        function initSnow() {
+            const container = document.getElementById('snow-container');
+            const createFlake = () => {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.style.left = Math.random() * 100 + '%';
+                flake.style.animationDuration = Math.random() * 3 + 2 + 's';
+                flake.style.width = flake.style.height = Math.random() * 4 + 2 + 'px';
+                container.appendChild(flake);
 
-                setTimeout(() => snowflake.remove(), 5000);
+                flake.addEventListener('animationend', () => {
+                    flake.remove();
+                });
             };
 
-            setInterval(createSnowflake, 100);
+            let interval = 200;
+            if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                interval = 1000;
+            }
+            setInterval(createFlake, interval);
         }
 
-        createSnowflakes();
-
-        const parserInterfaces = [
-            "https://www.playm3u8.cn/jiexi.php?url=",
-            "https://jx.xmflv.com/?url=",
-            "https://jx.m3u8.tv/jiexi/?url=",
-            "https://bd.jx.cn/?url=",
-            "https://www.8090g.cn/?url=",
-            "https://jx.xmflv.cc/?url=",
-            "https://jx.hls.one/?url=",
-            "https://jx.77flv.cc/?url=",
-            "https://www.yemu.xyz/?url=",
-            "https://yparse.jn1.cc/index.php?url="
-        ];
-
-        async function testInterface(interfaceUrl, videoUrl) {
-            return new Promise((resolve) => {
-                const iframe = document.createElement('iframe');
-                iframe.style.display = 'none';
-                iframe.src = interfaceUrl + encodeURIComponent(videoUrl);
-
-                iframe.onload = () => {
-                    console.log(`接口 ${interfaceUrl} 加载成功`);
-                    resolve(true);
-                };
-
-                iframe.onerror = () => {
-                    console.log(`接口 ${interfaceUrl} 加载失败`);
-                    resolve(false);
-                };
-
-                document.body.appendChild(iframe);
-                setTimeout(() => {
-                    document.body.removeChild(iframe);
-                }, 5000); // 设置超时时间，避免一直等待
-            });
-        }
-
-        async function parseAndPlay() {
+        // 视频解析功能
+        async function parseVideo() {
             const videoUrl = document.getElementById('videoUrl').value.trim();
-            const videoPlayerContainer = document.getElementById('videoPlayerContainer');
-            const videoIframePlayer = document.getElementById('videoIframePlayer');
-            const loadingMessage = document.getElementById('loadingMessage');
+            const interfaceUrl = document.getElementById('parserInterface').value;
+            const player = document.getElementById('videoPlayer');
+            const container = document.getElementById('videoContainer');
+            const loading = document.getElementById('loadingMessage');
+            const errorMsg = document.getElementById('errorMessage');
 
             if (!videoUrl) {
-                alert('请先粘贴视频链接！');
+                showError('请先输入视频链接');
                 return;
             }
 
-            loadingMessage.style.display = 'block';
-            videoPlayerContainer.style.display = 'none'; // 隐藏播放器
-
-            let played = false;
-            for (const parserBase of parserInterfaces) {
-                const canPlay = await testInterface(parserBase, videoUrl);
-                if (canPlay) {
-                    const parsedUrl = parserBase + encodeURIComponent(videoUrl);
-                    videoIframePlayer.src = parsedUrl;
-                    videoPlayerContainer.style.display = 'block';
-                    videoPlayerContainer.scrollIntoView({ behavior: 'smooth' });
-                    loadingMessage.style.display = 'none';
-                    played = true;
-                    break; // 找到可用的接口就停止尝试
-                }
-            }
-
-            if (!played) {
-                loadingMessage.textContent = '所有接口尝试失败，请检查链接或稍后再试。';
+            try {
+                showLoading();
+                const parsedUrl = interfaceUrl + encodeURIComponent(videoUrl);
+                player.src = parsedUrl;
+                container.style.display = 'block';
+                player.onload = hideLoading;
+                player.onerror = () => showError('解析失败，请尝试其他接口');
+            } catch (err) {
+                showError('发生错误：' + err.message);
             }
         }
+
+        // 工具函数
+        function showLoading() {
+            document.querySelectorAll('.status-message').forEach(el => el.style.display = 'none');
+            document.getElementById('loadingMessage').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingMessage').style.display = 'none';
+        }
+
+        function showError(message) {
+            hideLoading();
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+            setTimeout(() => errorEl.style.display = 'none', 3000);
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            initSnow();
+            document.getElementById('videoUrl').focus();
+        });
     </script>
 </body>
 </html>
