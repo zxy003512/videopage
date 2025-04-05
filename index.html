@@ -2,676 +2,944 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>ZXY视频解析演示网站</title>
-    <meta name="description" content="ZXY视频解析演示网站，支持腾讯、爱奇艺、B站等平台视频解析演示">
-    <meta name="keywords" content="视频解析演示,VIP视频解析演示,免广告看视频解析演示,腾讯视频解析演示,爱奇艺解析演示,B站解析演示,高清在线播放演示,ZXY解析演示">
-    <link rel="canonical" href="https://yourdomain.com/">
-    <!-- 资源预加载：提前加载字体和图标，提升首屏渲染速度 -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style">
-    <!-- 字体和图标库 -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Content Security Policy (CSP) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; frame-src *;">
-    <style>
-        /* CSS 代码 - 性能优化和标注样式 */
-        :root {
-            --primary-color: #4a90e2;
-            --secondary-color: #357ab8;
-            --background-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-            --text-color: #fff;
-            --container-bg: rgba(255, 255, 255, 0.1);
-            --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
-            --animation-duration: 0.3s;
-            --restricted-interface-bg: rgba(255, 255, 0, 0.15); /* 标注接口背景色 */
-            --restricted-interface-color: #ffea00; /* 标注接口文字颜色 */
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 修改：网站标题 -->
+    <title>ZXY视频网站 - 在线视频解析</title>
+    <meta name="description" content="ZXY视频网站提供简洁高效的在线视频解析工具，支持主流视频平台。">
+    <meta name="keywords" content="ZXY视频, 视频解析, 在线解析, VIP视频解析, 免广告看视频">
+    <!-- Preload Fonts and Icons for performance -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style">
 
-        /* 基础样式保持不变 */
-        * {
+    <!-- Fonts and Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS Reset & Base Styles --- */
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+        :root {
+            --primary-color: #007BFF; /* 保持蓝色主调 */
+            --secondary-color: #0056b3; /* 深蓝色 */
+            --accent-color: #28a745; /* 绿色 */
+            --warning-color: #ffc107; /* 黄色 */
+            --danger-color: #dc3545; /* 红色 */
+            /* 修改：背景色调整 */
+            --light-bg: #f8f9fa; /* 非常浅的灰色作为页面底色 */
+            --text-color: #343a40; /* 深灰色文本 */
+            --text-light: #6c757d; /* 浅灰色文本 */
+            --border-color: #dee2e6;
+            --card-bg: #ffffff; /* 卡片和容器使用纯白色 */
+            /* 修改：阴影调整 */
+            --shadow-color: rgba(0, 0, 0, 0.08); /* 更柔和的阴影 */
+            --animation-speed: 0.3s;
+            --border-radius: 12px; /* 圆角保持 */
+            --restricted-interface-bg: rgba(255, 193, 7, 0.1);
+            --restricted-interface-color: #b98900;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Noto Sans SC', 'Roboto', sans-serif;
+            font-family: 'Poppins', sans-serif;
             color: var(--text-color);
-            min-height: 100vh;
+            /* 修改：使用浅灰色背景 */
+            background-color: var(--light-bg);
+            line-height: 1.6;
             display: flex;
             justify-content: center;
-            align-items: center;
-            background: #000;
+            align-items: flex-start; /* 顶部对齐 */
+            min-height: 100vh;
+            padding: 2rem 1rem;
             overflow-x: hidden;
-            line-height: 1.6;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--background-gradient);
-            z-index: -2;
-        }
-
-        @media (prefers-reduced-motion: no-preference) {
-            body::before {
-                animation: gradientBG 15s ease infinite;
-            }
-        }
-
-        @keyframes gradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            will-change: transform;
-        }
-
-        .snow {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            will-change: transform;
-        }
-
-        .snowflake {
-            position: absolute;
-            background: rgba(255,255,255,0.8);
-            border-radius: 50%;
-            animation: fall linear infinite forwards;
-            will-change: transform;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .snowflake {
-                animation: none;
-            }
-        }
-
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-            }
-        }
-
+        /* --- Main Container --- */
         .container {
-            width: min(90%, 900px);
-            background: var(--container-bg);
-            padding: 2rem;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            margin: 2rem 0;
+            width: 100%;
+            max-width: 900px;
+            /* 修改：纯白背景，移除透明和模糊 */
+            background-color: var(--card-bg);
+            padding: 3rem; /* 稍微增加内边距 */
+            border-radius: var(--border-radius);
+            /* 修改：使用调整后的柔和阴影 */
+            box-shadow: 0 8px 25px var(--shadow-color);
+            /* 移除 backdrop-filter 和相关 border */
+            animation: fadeInScale 0.8s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.95);
         }
 
-        @media (prefers-reduced-motion: no-preference) {
-            .container {
-                animation: fadeIn 1s var(--transition-timing);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
+        @keyframes fadeInScale {
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1);
             }
         }
 
-        .logo {
-            display: block;
-            margin: 0 auto 1.5rem;
-            width: 150px;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
-            transition: transform var(--animation-duration) var(--transition-timing);
-            object-fit: cover;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
+        /* --- Typography --- */
         h1 {
-            text-align: center;
             color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            text-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+            text-align: center;
+            margin-bottom: 2rem; /* 增加 H1 下方间距 */
+            font-weight: 600;
+            letter-spacing: -0.5px;
         }
 
-        .button-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+        h2 {
+            color: var(--secondary-color);
+            margin-top: 2.5rem; /* 增加 H2 上方间距 */
+            margin-bottom: 1.2rem;
+            font-weight: 500;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid var(--border-color);
         }
 
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        strong {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        /* --- Buttons --- */
         .btn {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding: 1rem;
+            padding: 0.75rem 1.5rem;
             font-size: 1rem;
-            color: var(--text-color);
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            font-weight: 500;
+            color: #fff;
+            background-color: var(--primary-color);
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all var(--animation-duration) var(--transition-timing);
+            transition: all var(--animation-speed) ease;
             text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); /* 稍微减弱阴影 */
             position: relative;
             overflow: hidden;
+            z-index: 1;
         }
 
-        .btn:focus {
-            outline: 2px solid var(--primary-color);
-            outline-offset: 2px;
+        .btn:hover {
+            background-color: var(--secondary-color);
+            box-shadow: 0 6px 15px rgba(0, 86, 179, 0.3);
+            transform: translateY(-2px);
         }
 
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 86, 179, 0.2);
+        }
+
+        .btn:disabled {
+            background-color: #adb5bd;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* Ripple effect */
         .btn::after {
             content: '';
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.1);
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
             border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s ease, height 0.3s ease;
+            transform: scale(1, 1) translate(-50%, -50%);
+            transform-origin: 50% 50%;
+            z-index: -1;
         }
 
-        .btn:active::after {
-            width: 200px;
-            height: 200px;
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
         }
 
-        .instructions {
-            background: rgba(248, 249, 250, 0.1);
-            border-left: 5px solid var(--primary-color);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-radius: 10px;
+        @keyframes ripple {
+            0% { transform: scale(0, 0) translate(-50%, -50%); opacity: 1; }
+            100% { transform: scale(40, 40) translate(-50%, -50%); opacity: 0; }
         }
 
-        .instructions p {
-            margin: 0.5rem 0;
-        }
-
-        .parser-section {
-            display: grid;
+        .platform-buttons {
+            display: flex;
+            flex-wrap: wrap;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            justify-content: center;
+            margin-bottom: 2.5rem; /* 增加下方间距 */
+        }
+
+        .platform-btn {
+            flex-grow: 1;
+            min-width: 120px;
+        }
+
+        /* --- Form Elements --- */
+        .parser-form {
+            display: grid;
+            gap: 1.2rem; /* 稍微增加表单元素间距 */
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            margin-bottom: 0.6rem; /* 增加标签和输入框间距 */
+            font-weight: 500;
+            color: var(--text-color);
         }
 
         .form-control {
             width: 100%;
-            padding: 1rem;
-            background: rgba(26, 26, 46, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            background-color: #fff; /* 确保输入框背景也是白色 */
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             color: var(--text-color);
             font-size: 1rem;
-            transition: all var(--animation-duration) var(--transition-timing);
+            font-family: inherit;
+            transition: border-color var(--animation-speed) ease, box-shadow var(--animation-speed) ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); /* 减弱焦点阴影 */
         }
 
         select.form-control {
             appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%236c757d" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');
             background-repeat: no-repeat;
             background-position: right 1rem center;
-            background-size: 1.2em;
+            background-size: 1em;
+            padding-right: 3rem;
         }
 
-        .form-control:focus {
-            outline: 2px solid var(--primary-color);
-            outline-offset: 2px;
-        }
-
-        /* 标注接口样式 */
         .form-control option.restricted-mobile {
             background-color: var(--restricted-interface-bg);
             color: var(--restricted-interface-color);
-            font-weight: 500; /* 加粗文字，更醒目 */
+            font-style: italic;
         }
 
+        .parser-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .parser-actions .btn {
+            flex-grow: 1;
+        }
+
+        /* --- Instructions Box --- */
+        .instructions {
+            /* 修改：调整背景色以适应白色主题 */
+            background-color: #eef2f7; /* 更中性的浅蓝灰色 */
+            border-left: 5px solid var(--primary-color);
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        .instructions p:last-child { margin-bottom: 0; }
+        .instructions strong { color: var(--primary-color); }
+        .instructions ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+
+
+        /* --- Video Player --- */
         .video-container {
             position: relative;
-            padding-bottom: 56.25%;
-            border-radius: 15px;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 */
+            border-radius: var(--border-radius);
             overflow: hidden;
-            background: #000;
+            background-color: #000;
+            margin-top: 2rem; /* 增加上方间距 */
             display: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* 保留一点阴影 */
+            animation: fadeIn 0.5s ease;
         }
 
         .video-iframe {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             border: none;
         }
 
+        /* --- Status Messages --- */
         .status-message {
             text-align: center;
-            padding: 1rem;
+            padding: 0.8rem 1rem;
             border-radius: 8px;
+            margin-top: 1.5rem; /* 增加上方间距 */
             display: none;
+            font-weight: 500;
+            animation: slideDown 0.3s ease-out;
+            border: 1px solid transparent;
         }
 
-        .loading, .testing-interface {
-            background: rgba(255, 234, 0, 0.1);
-            color: #ffea00;
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .error {
-            background: rgba(255, 0, 0, 0.1);
-            color: #ff4444;
+        .status-loading,
+        .status-testing {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #b98900;
+            border-color: rgba(255, 193, 7, 0.3);
+        }
+        .status-error {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+            border-color: rgba(220, 53, 69, 0.3);
+        }
+        .status-success {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--accent-color);
+            border-color: rgba(40, 167, 69, 0.3);
         }
 
-        .success {
-            background: rgba(0, 200, 83, 0.1);
-            color: #00c853;
+        /* --- Movie Site Cards --- */
+        .movie-sites {
+            margin-top: 3rem; /* 增加上方间距 */
         }
 
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem; /* 增加上方间距 */
+        }
+
+        .movie-card {
+            background-color: var(--card-bg); /* 确保卡片背景是白色 */
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow-color); /* 使用柔和阴影 */
+            transition: transform var(--animation-speed) ease, box-shadow var(--animation-speed) ease;
+            text-decoration: none;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color); /* 添加细微边框 */
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px) scale(1.02); /* 稍微减小放大效果 */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* 悬停时阴影加深 */
+        }
+
+        .movie-card-image {
+            height: 120px;
+            /* 修改：使用浅灰色背景替代渐变 */
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* 修改：图标颜色调整 */
+            color: var(--text-light);
+            font-size: 2.5rem; /* 稍微增大图标 */
+        }
+
+        .movie-card-content {
+            padding: 1rem;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .movie-card-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+
+        .movie-card-link {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            word-break: break-all;
+        }
+
+        .movie-warning {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #b98900;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .movie-warning i { margin-right: 0.5rem; }
+
+        /* --- Footer --- */
         footer {
             text-align: center;
-            margin-top: 1.5rem;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
             font-size: 0.9em;
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-light);
         }
 
+        /* --- Accessibility --- */
+        .sr-only { /* 保持不变 */ }
+
+        /* --- Responsive Design --- */
         @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem;
-                border-radius: 15px;
-            }
-
-            .btn {
-                font-size: 0.9rem;
-                padding: 0.8rem;
-            }
-
-            .form-control {
-                padding: 0.8rem;
-            }
+            body { padding: 1.5rem 0.8rem; }
+            .container { padding: 2rem 1.5rem; }
+            h1 { font-size: 1.8rem; }
+            .platform-buttons { flex-direction: column; }
+            .platform-btn { width: 100%; }
+            .parser-actions { flex-direction: column; }
+             .parser-actions .btn { width: 100%; }
+            .card-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+            .movie-card-title { font-size: 1rem; }
         }
 
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-        }
+         @media (max-width: 480px) {
+             body { padding: 1rem 0.5rem; }
+             .container { padding: 1.5rem 1rem; }
+             h1 { font-size: 1.6rem; }
+             .btn { padding: 0.7rem 1.3rem; font-size: 0.95rem; }
+             .form-control { padding: 0.7rem 0.9rem; font-size: 0.95rem; }
+              .card-grid { grid-template-columns: 1fr 1fr; }
+            .movie-card-image { height: 100px; font-size: 2rem; }
+         }
+
     </style>
 </head>
 <body>
-<div id="particles-js" role="presentation"></div>
-<div class="snow" id="snow-container" role="presentation"></div>
-<main class="container">
-    <h1>ZXY视频解析演示网站</h1>
-    <nav class="button-group" aria-label="视频平台导航">
-        <button class="btn" type="button" aria-label="打开腾讯视频" data-platform="腾讯视频">
-            <i class="fab fa-qq" aria-hidden="true"></i> 腾讯视频
-        </button>
-        <button class="btn" type="button" aria-label="打开爱奇艺" data-platform="爱奇艺">
-            <i class="fas fa-play-circle" aria-hidden="true"></i> 爱奇艺
-        </button>
-        <button class="btn" type="button" aria-label="打开Bilibili" data-platform="Bilibili">
-            <i class="fas fa-video" aria-hidden="true"></i> Bilibili
-        </button>
-    </nav>
-    <section class="instructions" aria-labelledby="instructions-heading">
-        <h2 id="instructions-heading" class="sr-only">使用说明</h2>
-        <p><strong>步骤1：</strong>点击视频平台按钮前往目标网站</p>
-        <p><strong>步骤2：</strong>复制视频播放页面的URL地址</p>
-        <p><strong>步骤3：</strong>返回本页面选择接口或点击自动测试并粘贴链接解析</p>
-        <p><strong>注意事项：</strong>如遇播放问题请切换接口，仅用于视频解析演示以及学习交流，禁止其他用途</p>
-        <p><strong>技术支持：</strong>QQ 2532314527</p>
-    </section>
-    <section class="parser-section" aria-labelledby="parser-heading">
-        <h2 id="parser-heading" class="sr-only">视频解析设置</h2>
-        <label for="parserInterface">解析接口：</label>
-        <select id="parserInterface" class="form-control" aria-describedby="interface-description">
-            <option value="https://jx.xmflv.com/?url=" data-restricted-mobile="true">接口1 - xmflv.com</option>
-            <option value="https://bd.jx.cn/?url=">接口2 - bd.jx.cn</option>
-            <option value="https://jx.xmflv.cc/?url=" data-restricted-mobile="true">接口3 - xmflv.cc</option>
-            <option value="https://jx.hls.one/?url=">接口4 - hls.one</option>
-            <option value="https://jx.77flv.cc/?url=">接口5 - 77flv.cc</option>
-            <option value="https://www.yemu.xyz/?url=" data-restricted-mobile="true">接口6 - yemu.xyz</option>
-        </select>
-        <label for="videoUrl">视频链接：</label>
-        <input type="url" id="videoUrl" class="form-control" placeholder="粘贴视频链接..." required autocomplete="off" aria-describedby="url-description">
-        <div style="display: flex; gap: 1rem;">
-            <button class="btn" type="button" id="autoTestButton" aria-label="自动测试最优接口">
-                <i class="fas fa-magic" aria-hidden="true"></i> 自动测试
-            </button>
-            <button class="btn" type="button" id="parseButton" aria-label="开始解析视频">
-                <i class="fas fa-play" aria-hidden="true"></i> 立即解析
-            </button>
+
+    <main class="container">
+        <!-- 修改：网站 H1 标题 -->
+        <h1><i class="fas fa-film fa-fw"></i> ZXY视频网站</h1>
+
+        <nav class="platform-buttons" aria-label="视频平台导航">
+            <a href="https://v.qq.com/" target="_blank" rel="noopener noreferrer" class="btn platform-btn" title="访问腾讯视频官网">
+                <i class="fab fa-qq" aria-hidden="true"></i> 腾讯视频
+            </a>
+            <a href="https://www.iqiyi.com/" target="_blank" rel="noopener noreferrer" class="btn platform-btn" title="访问爱奇艺官网">
+                <i class="fas fa-play-circle" aria-hidden="true"></i> 爱奇艺
+            </a>
+            <a href="https://www.bilibili.com/" target="_blank" rel="noopener noreferrer" class="btn platform-btn" title="访问哔哩哔哩官网">
+                <i class="fas fa-tv" aria-hidden="true"></i> Bilibili
+            </a>
+            <!-- 你可以在这里添加更多平台按钮 -->
+        </nav>
+
+        <section class="instructions" aria-labelledby="instructions-heading">
+            <h2 id="instructions-heading" class="sr-only">使用说明</h2>
+            <p><strong><i class="fas fa-info-circle fa-fw"></i> 如何使用:</strong></p>
+            <ol>
+                <li>点击上方按钮前往视频平台，或直接打开视频网站。</li>
+                <li>找到想看的视频，复制浏览器地址栏中的完整链接 (URL)。</li>
+                <li>返回本页面，将链接粘贴到下方的输入框中。</li>
+                <li>选择一个解析接口（推荐点击“自动测试”）。</li>
+                <li>点击“立即解析”按钮，稍等片刻即可播放。</li>
+            </ol>
+            <p><strong>注意：</strong> 若播放失败或卡顿，请尝试切换其他解析接口。本工具仅供学习交流，请勿用于非法用途。</p>
+        </section>
+
+        <section class="parser-form" aria-labelledby="parser-heading">
+            <h2 id="parser-heading" class="sr-only">视频解析器</h2>
+            <div class="form-group">
+                <label for="parserInterface" class="form-label"><i class="fas fa-server fa-fw"></i> 解析接口:</label>
+                <!--
+                    修改/添加/删除 解析接口:
+                    1. 复制下面的一个 <option> ... </option> 标签行。
+                    2. 修改 value="接口地址" 中的 "接口地址"，确保地址以 "?url=" 或类似的参数结尾。这是实际使用的接口链接。
+                    3. 修改 > 和 </option> 之间的文本，这是下拉列表中显示的名称。
+                    4. (可选) 如果某个接口在手机上可能有问题（如广告过多、兼容性差），可以添加 data-restricted-mobile="true" 属性，JS 会在手机访问时给出提示。
+                    5. 要删除接口，直接删除对应的 <option> ... </option> 行即可。
+                    注意：请确保接口地址是真实有效的！以下仅为示例。
+                -->
+                <select id="parserInterface" class="form-control" aria-describedby="interface-description">
+                    <option value="https://jx.xmflv.com/?url=" data-restricted-mobile="true">接口 1 (xmflv.com) 手机慎用</option>
+                    <option value="https://bd.jx.cn/?url=">接口 2 (bd.jx.cn)</option>
+                    <option value="https://jx.xmflv.cc/?url=" data-restricted-mobile="true">接口 3 (xmflv.cc) 手机慎用</option>
+                    <option value="https://jx.hls.one/?url=">接口 4 (hls.one)</option>
+                    <option value="https://jx.77flv.cc/?url=">接口 5 (77flv.cc)</option>
+                    <option value="https://www.yemu.xyz/?url=" data-restricted-mobile="true">接口 6 (yemu.xyz) 手机慎用</option>
+                    <!-- 在这里添加新的接口 -->
+                </select>
+                <small id="interface-description" class="text-light" style="margin-top: 0.3rem;">带 <i class="fas fa-mobile-alt fa-fw"></i> 标记的接口在手机端可能体验不佳。</small>
+            </div>
+
+            <div class="form-group">
+                <label for="videoUrl" class="form-label"><i class="fas fa-link fa-fw"></i> 视频链接:</label>
+                <input type="url" id="videoUrl" class="form-control" placeholder="请在此处粘贴视频播放页面的完整链接..." required autocomplete="off">
+            </div>
+
+            <div class="parser-actions">
+                <button class="btn" type="button" id="autoTestButton" title="自动测试查找可用接口">
+                    <i class="fas fa-magic fa-fw" aria-hidden="true"></i> 自动测试
+                </button>
+                <button class="btn" type="button" id="parseButton" title="使用选定接口解析视频">
+                    <i class="fas fa-play fa-fw" aria-hidden="true"></i> 立即解析
+                </button>
+            </div>
+        </section>
+
+        <!-- Status Messages Area -->
+        <div class="status-message status-loading" id="loadingMessage" role="status" aria-live="polite"><i class="fas fa-spinner fa-spin fa-fw"></i> 解析中，请稍候...</div>
+        <div class="status-message status-testing" id="testingInterfaceMessage" role="status" aria-live="polite"><i class="fas fa-vial fa-fw"></i> 正在自动测试接口...</div>
+        <div class="status-message status-success" id="successMessage" role="status" aria-live="polite"><i class="fas fa-check-circle fa-fw"></i> 接口测试成功，已选择可用接口！</div>
+        <div class="status-message status-error" id="errorMessage" role="alert" aria-live="assertive"><i class="fas fa-exclamation-triangle fa-fw"></i> <span id="errorText">发生错误</span></div>
+
+        <!-- Video Player Container -->
+        <div class="video-container" id="videoContainer">
+            <iframe class="video-iframe" id="videoPlayer" title="视频播放器" allow="autoplay; fullscreen" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
         </div>
-    </section>
-    <div class="status-message loading" id="loadingMessage" role="status" aria-live="polite">解析中，请稍候...</div>
-    <div class="status-message testing-interface" id="testingInterfaceMessage" role="status" aria-live="polite" style="display:none">正在自动测试接口，请稍候...</div>
-    <div class="status-message success" id="successMessage" role="status" aria-live="polite" style="display:none">接口测试成功，已选择最优接口。</div>
-    <div class="status-message error" id="errorMessage" role="alert" aria-live="assertive" style="display:none"></div>
-    <div class="video-container" id="videoContainer">
-        <iframe class="video-iframe" id="videoPlayer" title="视频播放器" allow="autoplay; fullscreen" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
-    </div>
-    <footer>
-        <p>免责声明：本网站仅用于视频解析演示以及学习交流，禁止作为其它用途，如有问题，本人概不承担任何责任</p>
-    </footer>
-</main>
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+        <!-- Movie Site Recommendations -->
+        <section class="movie-sites" aria-labelledby="movie-sites-heading">
+            <h2 id="movie-sites-heading"><i class="fas fa-tv fa-fw"></i> 免费影视站点推荐</h2>
+            <div class="movie-warning">
+                <i class="fas fa-exclamation-triangle"></i> <strong>注意:</strong> 以下网站非本站所有，内容可能包含广告、弹窗或潜在风险，请谨慎访问和使用！
+            </div>
+             <!--
+                修改/添加/删除 推荐网站:
+                1. 复制下面的一个 <a ... </a> 标签块 (从 <a href=...> 开始，到 </a> 结束)。
+                2. 修改 href="网站链接" 中的 "网站链接"。
+                3. 修改 <div class="movie-card-image"><i class="图标类名"></i></div> 中的 "图标类名"。你可以从 Font Awesome 官网 (fontawesome.com) 查找免费图标，例如 fas fa-film, fas fa-video, fas fa-desktop 等。
+                4. 修改 <h3 class="movie-card-title">网站名称</h3> 中的 "网站名称"。
+                5. 修改 <span class="movie-card-link">网站域名</span> 中的 "网站域名" (通常和链接一致)。
+                6. 要删除网站推荐，直接删除对应的 <a ... </a> 块即可。
+            -->
+            <div class="card-grid">
+                <!-- 推荐网站 1 -->
+                <a href="https://vip1280.net/" target="_blank" rel="noopener noreferrer" class="movie-card">
+                    <div class="movie-card-image"><i class="fas fa-film"></i></div>
+                    <div class="movie-card-content">
+                        <h3 class="movie-card-title">影视站 1</h3>
+                        <span class="movie-card-link">vip1280.net</span>
+                    </div>
+                </a>
+                <!-- 推荐网站 2 -->
+                <a href="https://wniutv.com/" target="_blank" rel="noopener noreferrer" class="movie-card">
+                    <div class="movie-card-image"><i class="fas fa-video"></i></div>
+                    <div class="movie-card-content">
+                        <h3 class="movie-card-title">影视站 2</h3>
+                        <span class="movie-card-link">wniutv.com</span>
+                    </div>
+                </a>
+                <!-- 推荐网站 3 -->
+                <a href="https://www.hainatv.net/" target="_blank" rel="noopener noreferrer" class="movie-card">
+                     <div class="movie-card-image"><i class="fas fa-desktop"></i></div>
+                    <div class="movie-card-content">
+                        <h3 class="movie-card-title">影视站 3</h3>
+                        <span class="movie-card-link">hainatv.net</span>
+                    </div>
+                </a>
+                <!-- 推荐网站 4 -->
+                <a href="https://www.yfsp.lv/" target="_blank" rel="noopener noreferrer" class="movie-card">
+                     <div class="movie-card-image"><i class="fas fa-compact-disc"></i></div>
+                    <div class="movie-card-content">
+                        <h3 class="movie-card-title">影视站 4</h3>
+                        <span class="movie-card-link">yfsp.lv</span>
+                    </div>
+                </a>
+                <!-- 在这里添加新的推荐网站卡片 -->
+
+            </div>
+        </section>
+
+
+        <footer>
+            <p>免责声明：本站仅提供视频解析技术学习与演示，不存储任何视频资源。所有解析结果均来自第三方接口，本站不对其内容和可用性负责。请勿将本站用于任何商业或非法用途，否则后果自负。</p>
+            <!-- 修改：网站页脚版权 -->
+            <p>&copy; 2024 ZXY视频网站. All Rights Reserved.</p>
+        </footer>
+    </main>
+
 <script>
-    (function() {
-        // 性能优化配置
-        const isMobile = /Mobi|Android/i.test(navigator.userAgent); // 检测是否为移动设备
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; // 检测用户是否开启了减少动画模式
-        const particleNumberMobile = 40; // 移动端粒子数量（减少粒子数量提升性能）
-        const particleNumberDesktop = 80; // 桌面端粒子数量
-        const snowflakeIntervalMobile = 300; // 移动端雪花生成间隔 (毫秒) (降低雪花生成频率提升性能)
-        const snowflakeIntervalDesktop = 200; // 桌面端雪花生成间隔 (毫秒)
-        const interfaceTestTimeout = 5000; // 接口测试超时时间 (毫秒)
-        const restrictedMobileInterfaces = ["https://jx.xmflv.com/?url=", "https://jx.xmflv.cc/?url=", "https://www.yemu.xyz/?url="]; // 手机端限制的接口
-        const doubleParseInterfaces = ["https://jx.xmflv.com/?url=", "https://jx.xmflv.cc/?url=", "https://www.yemu.xyz/?url=","https://bd.jx.cn/?url="]; // 需要双重解析的接口
+(function() {
+    'use strict';
 
-        // 粒子动画配置
-        function initParticles() {
-            if (isMobile || prefersReducedMotion) return; // 移动端或用户偏好减少动画，则不初始化粒子动画
-            particlesJS('particles-js', {
-                particles: {
-                    number: {
-                        value: isMobile ? particleNumberMobile : particleNumberDesktop, // 移动端减少粒子数量
-                        density: {
-                            enable: true,
-                            value_area: 600
-                        }
-                    },
-                    color: {
-                        value: '#ffffff'
-                    },
-                    opacity: {
-                        value: 0.5,
-                        random: true
-                    },
-                    size: {
-                        value: 3,
-                        random: true
-                    },
-                    line_linked: {
-                        enable: !isMobile, // 移动端禁用线条连接 (提升移动端性能)
-                        distance: 120,
-                        color: '#ffffff',
-                        opacity: 0.4,
-                        width: 1
-                    },
-                    move: {
-                        enable: !prefersReducedMotion,
-                        speed: 2,
-                        direction: 'none',
-                        out_mode: 'out'
-                    }
-                },
-                interactivity: {
-                    events: {
-                        onhover: {
-                            enable: !isMobile,
-                            mode: 'grab'
-                        }, // 移动端禁用 hover 效果 (提升移动端性能)
-                        onclick: {
-                            enable: !isMobile,
-                            mode: 'push'
-                        } // 移动端禁用 click 效果 (提升移动端性能)
-                    }
-                }
-            });
-        }
+    // --- Configuration ---
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    const interfaceTestTimeout = 6000; // Timeout for interface testing (ms)
+    // 从 HTML 的 <option> 标签中获取标记为 data-restricted-mobile="true" 的接口 value
+    const restrictedMobileInterfaces = Array.from(document.querySelectorAll('#parserInterface option[data-restricted-mobile="true"]'))
+                                           .map(option => option.value);
+    // Mark interfaces known to sometimes require loading the URL twice
+    // !! 请根据实际测试情况调整这个列表 !!
+    const doubleParseInterfaces = [
+        // "https://jx.xmflv.com/?url=", // 示例，如果需要双重加载则取消注释
+        // "https://jx.xmflv.cc/?url=", // 示例
+        // "https://www.yemu.xyz/?url=", // 示例
+    ];
+    // 设置一个在移动端相对安全的默认接口 (确保这个 value 在 <select> 中存在)
+    const defaultMobileInterface = "https://bd.jx.cn/?url="; // 示例，请根据实际情况选择
 
-        // 雪花动画
-        function initSnow() {
-            if (isMobile || prefersReducedMotion) return; // 移动端或用户偏好减少动画，则不初始化雪花动画
-            const container = document.getElementById('snow-container');
-            const createFlake = () => {
-                const flake = document.createElement('div');
-                flake.className = 'snowflake';
-                flake.style.left = Math.random() * 100 + '%';
-                flake.style.animationDuration = Math.random() * 3 + 2 + 's';
-                flake.style.width = flake.style.height = Math.random() * 4 + 2 + 'px';
-                container.appendChild(flake);
-                flake.addEventListener('animationend', () => {
-                    flake.remove();
-                });
-            };
-            setInterval(createFlake, isMobile ? snowflakeIntervalMobile : snowflakeIntervalDesktop); // 移动端降低雪花生成频率
-        }
+    // --- DOM Elements ---
+    const interfaceSelect = document.getElementById('parserInterface');
+    const videoUrlInput = document.getElementById('videoUrl');
+    const parseButton = document.getElementById('parseButton');
+    const autoTestButton = document.getElementById('autoTestButton');
+    const videoContainer = document.getElementById('videoContainer');
+    const videoPlayer = document.getElementById('videoPlayer');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const testingMessage = document.getElementById('testingInterfaceMessage');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    const errorText = document.getElementById('errorText');
 
-        // 视频解析核心功能
-        async function _parseVideoInternal(interfaceUrl, videoUrl) {
-            const player = document.getElementById('videoPlayer');
-            const container = document.getElementById('videoContainer');
+    // --- Core Parsing Logic ---
+    let currentParseTimeout = null; // Timeout ID for iframe loading
+
+    /**
+     * Loads URL into iframe, handling timeout and errors.
+     * @param {string} interfaceUrl - Base URL of the parsing interface.
+     * @param {string} videoUrl - Full URL of the video to parse.
+     * @returns {Promise<void>} Resolves on successful load, rejects on error/timeout.
+     */
+    function _loadVideoInIframe(interfaceUrl, videoUrl) {
+        return new Promise((resolve, reject) => {
+            clearTimeout(currentParseTimeout);
             const parsedUrl = interfaceUrl + encodeURIComponent(videoUrl);
-            player.src = parsedUrl;
-            container.style.display = 'block';
-            return new Promise((resolve, reject) => {
-                player.onload = resolve;
-                player.onerror = reject;
-                setTimeout(() => reject(new Error('解析超时，请尝试其他接口')), interfaceTestTimeout); // 添加超时处理
-            });
-        }
+            console.log(`Attempting to load: ${parsedUrl}`);
+            videoPlayer.src = 'about:blank'; // Clear previous content
 
+            setTimeout(() => { videoPlayer.src = parsedUrl; }, 50); // Slight delay
 
-        // 视频解析功能
-        async function parseVideo(interfaceUrl) {
-            const videoUrl = document.getElementById('videoUrl').value.trim();
-            const parseButton = document.getElementById('parseButton');
-            const autoTestButton = document.getElementById('autoTestButton');
-            try {
-                parseButton.disabled = true;
-                autoTestButton.disabled = true;
-                showLoading();
-                if (!videoUrl) {
-                    throw new Error('请先输入视频链接');
-                }
-                const fullUrl = videoUrl.startsWith('http') ? videoUrl : `https://${videoUrl}`;
+            videoContainer.style.display = 'block'; // Show container early
 
-                if (doubleParseInterfaces.includes(interfaceUrl)) {
-                    try {
-                        await _parseVideoInternal(interfaceUrl, fullUrl);
-                        await new Promise(resolve => setTimeout(resolve, 2000)); // 延迟2秒
-                        await _parseVideoInternal(interfaceUrl, fullUrl); // 第二次解析
-                    } catch (doubleParseError) {
-                        throw doubleParseError; // 抛出双重解析中的错误
-                    }
-                } else {
-                    await _parseVideoInternal(interfaceUrl, fullUrl); // 单次解析
-                }
+            let resolved = false; // Flag to prevent double resolution/rejection
+            const timeoutId = setTimeout(() => {
+                if (resolved) return;
+                resolved = true;
+                console.warn(`Iframe timeout for ${parsedUrl}`);
+                removeListeners();
+                videoPlayer.src = 'about:blank';
+                reject(new Error(`解析超时 (${interfaceTestTimeout / 1000}秒)，请尝试其他接口。`));
+            }, interfaceTestTimeout);
 
+            currentParseTimeout = timeoutId; // Store timeout ID globally for potential clearing
 
-            } catch (err) {
-                showError(err.message);
-                document.getElementById('videoContainer').style.display = 'none'; // 解析失败隐藏视频容器
-                document.getElementById('videoPlayer').src = ''; // 清空 iframe src
-                throw err; // 重新抛出错误，方便自动测试流程捕获
-            } finally {
-                parseButton.disabled = false;
-                autoTestButton.disabled = false;
-                hideLoading();
-            }
-        }
-
-        // 自动测试最优接口
-        async function autoTestInterfaces() {
-            const interfaceSelect = document.getElementById('parserInterface');
-            // 获取所有接口选项，如果手机端，则排除限制接口
-            let interfaces = Array.from(interfaceSelect.options)
-                .filter(option => !(isMobile && restrictedMobileInterfaces.includes(option.value))) // 手机端排除限制接口
-                .map(option => option.value);
-
-            if (isMobile && interfaces.length === 0) {
-                showError('手机端无可用的自动测试接口'); // 如果所有接口都被排除，提示错误
-                hideTestingInterface();
-                return;
-            }
-
-            let bestInterface = null;
-            showTestingInterface();
-            for (const iface of interfaces) {
+            const onLoad = () => {
+                if (resolved) return;
+                // Sometimes 'load' fires even on failure (e.g., blocked frame), add a small check
                 try {
-                    await parseVideo(iface); // 尝试使用当前接口解析
-                    bestInterface = iface;
-                    break; // 找到第一个成功接口就停止测试
-                } catch (error) {
-                    console.warn(`接口 ${iface} 测试失败: ${error.message}`); // 忽略错误，继续尝试下一个接口
+                    // Accessing contentDocument might fail for cross-origin iframes that didn't load properly
+                     if (videoPlayer.contentDocument && videoPlayer.contentDocument.readyState === 'complete') {
+                          console.log(`Iframe loaded successfully: ${parsedUrl}`);
+                     } else if (videoPlayer.contentWindow && videoPlayer.contentWindow.length > 0) {
+                         // If it has some content window elements, might be okay
+                         console.log(`Iframe loaded (basic check passed): ${parsedUrl}`);
+                     }
+                     else {
+                         // If contentDocument access fails or readyState isn't complete, it might still be loading or blocked
+                         console.log(`Iframe 'load' event fired, but content seems inaccessible or not ready: ${parsedUrl}`);
+                         // We might still resolve here, relying on the timeout for definite failures
+                     }
+                } catch (e) {
+                    console.warn(`Iframe 'load' event fired but content access failed (likely cross-origin block on failure): ${parsedUrl}`, e);
+                    // Resolve anyway, let the user see if it works. Timeout handles catastrophic failures.
                 }
-            }
-            hideTestingInterface();
-            if (bestInterface) {
-                showSuccessMessage();
-                interfaceSelect.value = bestInterface; // 自动选择最优接口
+                 resolved = true;
+                 clearTimeout(timeoutId);
+                 removeListeners();
+                 resolve();
+            };
+
+            const onError = (event) => {
+                if (resolved) return;
+                resolved = true;
+                console.error(`Iframe error for ${parsedUrl}:`, event);
+                clearTimeout(timeoutId);
+                removeListeners();
+                reject(new Error('解析接口加载失败，可能是接口失效或网络问题。'));
+            };
+
+            const removeListeners = () => {
+                videoPlayer.removeEventListener('load', onLoad);
+                videoPlayer.removeEventListener('error', onError);
+            };
+
+            videoPlayer.addEventListener('load', onLoad);
+            videoPlayer.addEventListener('error', onError);
+        });
+    }
+
+
+    /**
+     * Main function to parse the video using a selected interface.
+     * @param {string} interfaceUrl - The selected parsing interface URL.
+     * @returns {Promise<void>} Resolves if parsing initiates successfully. Rejects on failure.
+     */
+    async function parseVideo(interfaceUrl) {
+        const videoUrl = videoUrlInput.value.trim();
+        hideAllStatusMessages();
+
+        if (!videoUrl) {
+            showError('请输入有效的视频链接！');
+            return Promise.reject(new Error('No video URL'));
+        }
+
+        let fullUrl = videoUrl;
+        if (!videoUrl.startsWith('http://') && !videoUrl.startsWith('https://')) {
+            fullUrl = `https://${videoUrl}`; // Simple protocol prepending
+            console.log(`Prepended https:// to URL: ${fullUrl}`);
+        }
+
+        disableButtons(true);
+        showLoading();
+
+        try {
+            // Double parsing logic (if needed for specific interfaces)
+            if (doubleParseInterfaces.includes(interfaceUrl)) {
+                console.log(`Using double parse for interface: ${interfaceUrl}`);
+                try {
+                    await _loadVideoInIframe(interfaceUrl, fullUrl);
+                    // Optional delay: await new Promise(resolve => setTimeout(resolve, 300));
+                    console.log("First parse attempt finished, starting second...");
+                    await _loadVideoInIframe(interfaceUrl, fullUrl);
+                    console.log("Second parse attempt finished.");
+                } catch (doubleParseError) {
+                    console.error("Error during double parse:", doubleParseError);
+                    throw doubleParseError; // Re-throw to be caught below
+                }
             } else {
-                showError('所有可用接口测试失败，请检查链接或稍后重试'); // 修改错误提示信息
+                console.log(`Using single parse for interface: ${interfaceUrl}`);
+                await _loadVideoInIframe(interfaceUrl, fullUrl);
+            }
+
+            hideLoading();
+            // Success is implied by video container showing and loading message hiding
+            disableButtons(false);
+            return Promise.resolve(); // Indicate success initiation
+
+        } catch (err) {
+            console.error('Parsing failed:', err);
+            showError(err.message || '解析视频时发生未知错误。');
+            hideLoading();
+            videoContainer.style.display = 'none'; // Hide container on definite error
+            videoPlayer.src = 'about:blank';
+            disableButtons(false);
+            return Promise.reject(err); // Propagate rejection
+        }
+    }
+
+
+    /**
+     * Automatically tests available interfaces to find one that works.
+     */
+    async function autoTestInterfaces() {
+        const videoUrl = videoUrlInput.value.trim();
+        if (!videoUrl) {
+            showError('请先输入视频链接再进行测试！');
+            return;
+        }
+
+        hideAllStatusMessages();
+        showTestingInterface();
+        disableButtons(true);
+
+        // Get all options, filter out restricted ones if on mobile
+        const options = Array.from(interfaceSelect.options);
+        const interfacesToTest = options
+            .filter(option => !(isMobile && restrictedMobileInterfaces.includes(option.value)))
+            .map(option => ({ value: option.value, text: option.text }));
+
+         if (interfacesToTest.length === 0) {
+            showError('当前设备没有可用的自动测试接口。');
+            hideTestingInterface();
+            disableButtons(false);
+            return;
+        }
+
+        console.log("Starting auto-test with interfaces:", interfacesToTest.map(i => i.text));
+        let bestInterface = null;
+
+        for (const iface of interfacesToTest) {
+            console.log(`Testing interface: ${iface.text} (${iface.value})`);
+            testingMessage.innerHTML = `<i class="fas fa-vial fa-fw"></i> 正在测试接口: ${iface.text}...`; // Update testing message
+
+            try {
+                // Use parseVideo which includes timeout and error handling
+                // We need to provide a valid URL for testing, even if it's just the base
+                await parseVideo(iface.value); // parseVideo now returns a promise
+                // If parseVideo resolves without error, consider it successful for auto-test
+                bestInterface = iface.value;
+                console.log(`Interface ${iface.text} succeeded.`);
+                break; // Stop testing on the first success
+            } catch (error) {
+                console.warn(`Interface ${iface.text} failed: ${error.message}`);
+                // Hide video container immediately if this test fails
+                videoContainer.style.display = 'none';
+                videoPlayer.src = 'about:blank';
+                // Continue to the next interface
             }
         }
 
-        // 工具函数
-        function showLoading() {
-            document.querySelectorAll('.status-message:not(#testingInterfaceMessage)').forEach(el => el.style.display = 'none'); // 排除 testingInterfaceMessage
-            document.getElementById('loadingMessage').style.display = 'block';
+        hideTestingInterface(); // Hide the "testing..." message
+
+        if (bestInterface) {
+            interfaceSelect.value = bestInterface;
+            showSuccessMessage(); // Show success confirmation
+            // The successful parseVideo call would have already displayed the video
+            // Need to ensure buttons are enabled AFTER success message shows
+             disableButtons(false);
+        } else {
+            showError('所有可用接口测试失败，请检查链接或手动选择接口尝试。');
+            videoContainer.style.display = 'none'; // Ensure container is hidden if all fail
+            videoPlayer.src = 'about:blank';
+             disableButtons(false); // Re-enable buttons on failure too
         }
+    }
 
-        function hideLoading() {
-            document.getElementById('loadingMessage').style.display = 'none';
-        }
+    // --- UI Helper Functions ---
+    function showLoading() { hideAllStatusMessages(); loadingMessage.style.display = 'block'; }
+    function hideLoading() { loadingMessage.style.display = 'none'; }
+    function showTestingInterface() { hideAllStatusMessages(); testingMessage.style.display = 'block'; testingMessage.innerHTML = '<i class="fas fa-vial fa-fw"></i> 正在自动测试接口...'; }
+    function hideTestingInterface() { testingMessage.style.display = 'none'; }
 
-        function showTestingInterface() {
-            document.querySelectorAll('.status-message').forEach(el => el.style.display = 'none');
-            document.getElementById('testingInterfaceMessage').style.display = 'block';
-        }
+    function showSuccessMessage() {
+        hideAllStatusMessages();
+        successMessage.style.display = 'block';
+        setTimeout(() => { if (successMessage.style.display === 'block') successMessage.style.display = 'none'; }, 3500);
+    }
 
-        function hideTestingInterface() {
-            document.getElementById('testingInterfaceMessage').style.display = 'none';
-        }
+    function showError(message) {
+        hideAllStatusMessages();
+        errorText.textContent = message;
+        errorMessage.style.display = 'block';
+        // Keep error message visible longer
+        setTimeout(() => { if (errorMessage.style.display === 'block') errorMessage.style.display = 'none'; }, 7000);
+    }
 
-        function showSuccessMessage() {
-            document.querySelectorAll('.status-message:not(#testingInterfaceMessage)').forEach(el => el.style.display = 'none'); // 排除 testingInterfaceMessage
-            document.getElementById('successMessage').style.display = 'block';
-            setTimeout(() => document.getElementById('successMessage').style.display = 'none', 3000); // 3秒后自动消失
-        }
+    function hideAllStatusMessages() {
+        loadingMessage.style.display = 'none';
+        testingMessage.style.display = 'none';
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+    }
 
-        function showError(message) {
-            document.querySelectorAll('.status-message:not(#testingInterfaceMessage)').forEach(el => el.style.display = 'none'); // 排除 testingInterfaceMessage
-            const errorEl = document.getElementById('errorMessage');
-            errorEl.textContent = message;
-            errorEl.style.display = 'block';
-            errorEl.focus();
-            setTimeout(() => errorEl.style.display = 'none', 5000);
-        }
+    function disableButtons(disabled) {
+        parseButton.disabled = disabled;
+        autoTestButton.disabled = disabled;
+    }
 
-        // 事件绑定
-        function initEventListeners() {
-            const parseButton = document.getElementById('parseButton');
-            const autoTestButton = document.getElementById('autoTestButton');
-            const interfaceSelect = document.getElementById('parserInterface'); // 获取接口选择器
-
-            parseButton.addEventListener('click', handleParseButtonClick); // 立即解析按钮事件
-            autoTestButton.addEventListener('click', autoTestInterfaces); // 自动测试按钮事件
-
-            document.querySelectorAll('.btn[data-platform]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const platforms = {
-                        '腾讯视频': 'https://v.qq.com/',
-                        '爱奇艺': 'https://www.iqiyi.com/',
-                        'Bilibili': 'https://www.bilibili.com/'
-                    };
-                    window.open(platforms[btn.dataset.platform], '_blank');
-                });
-            });
-
-            // 监听接口选择变化事件
-            interfaceSelect.addEventListener('change', function() {
-                if (isMobile) { // 仅在手机端进行限制
-                    const selectedOption = interfaceSelect.options[interfaceSelect.selectedIndex];
-                    if (restrictedMobileInterfaces.includes(selectedOption.value)) {
-                        const confirmed = confirm("您当前使用的是手机端，接口1, 3, 6可能包含不健康信息，确定要继续使用吗？");
-                        if (!confirmed) {
-                            // 如果用户取消，则回退到上一个选择的接口 (或者默认接口)
-                            // 这里简单地设置为接口2，您可以根据实际情况调整
-                            interfaceSelect.value = "https://bd.jx.cn/?url=";
-                        }
-                    }
-                }
-            });
-        }
-
-        // 处理立即解析按钮点击事件
-        function handleParseButtonClick() {
-            const selectedInterface = document.getElementById('parserInterface').value;
-            if (isMobile) { // 手机端再次检查，防止绕过 select 的 change 事件
-                const selectedOption = document.getElementById('parserInterface').options[document.getElementById('parserInterface').selectedIndex];
-                if (restrictedMobileInterfaces.includes(selectedOption.value)) {
-                    const confirmed = confirm("您当前使用的是手机端，接口1, 3, 6可能包含不健康信息，确定要继续使用吗？");
-                    if (!confirmed) {
-                        return; // 用户取消，不执行解析
-                    }
-                }
+    /**
+     * Handles mobile confirmation logic.
+     * @param {string} selectedValue - Value of the selected interface.
+     * @returns {boolean} True if parsing should proceed, false otherwise.
+     */
+    function checkMobileRestriction(selectedValue) {
+        if (isMobile && restrictedMobileInterfaces.includes(selectedValue)) {
+            const selectedOptionText = interfaceSelect.options[interfaceSelect.selectedIndex]?.text || '该接口';
+            const confirmMessage = `您当前使用的是手机端，选择的 "${selectedOptionText}" 可能包含不适合手机浏览的内容或广告较多。确定要继续使用吗？`;
+            if (!confirm(confirmMessage)) {
+                // Optionally reset to default if user cancels
+                // interfaceSelect.value = defaultMobileInterface;
+                return false; // Do not proceed
             }
-            parseVideo(selectedInterface); // 执行解析
         }
+        return true; // Proceed
+    }
 
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!isMobile) { // 仅在非手机端初始化特效
-                initParticles();
-                initSnow();
-            }
-            initEventListeners();
-            document.getElementById('videoUrl').focus();
-            // 手机端默认选择接口2 (或其他安全接口)
-            if (isMobile) {
-                document.getElementById('parserInterface').value = "https://bd.jx.cn/?url="; // 默认选择接口2
-                // 手机端标注接口1, 3, 6
-                const interfaceOptions = document.getElementById('parserInterface').options;
-                for (let i = 0; i < interfaceOptions.length; i++) {
-                    if (restrictedMobileInterfaces.includes(interfaceOptions[i].value)) {
-                        interfaceOptions[i].classList.add('restricted-mobile');
-                        interfaceOptions[i].textContent += ' (手机端慎选)'; // 添加文字提示
-                    }
-                }
+    // --- Event Listeners ---
+    function initEventListeners() {
+        parseButton.addEventListener('click', () => {
+            const selectedInterface = interfaceSelect.value;
+            if (checkMobileRestriction(selectedInterface)) {
+                 parseVideo(selectedInterface).catch(err => {
+                    // Error already handled visually in parseVideo
+                    console.log("Parse button click resulted in error (handled).");
+                 });
+            } else {
+                console.log("Mobile restriction cancelled by user.");
+                 // Ensure buttons are re-enabled if confirm is cancelled
+                 disableButtons(false);
             }
         });
-    })();
+
+        autoTestButton.addEventListener('click', autoTestInterfaces);
+
+        // Add listener to select change for visual feedback (mobile icon)
+        interfaceSelect.addEventListener('change', () => {
+            const selectedInterface = interfaceSelect.value;
+            // Mark restricted options visually (can be done on init and change)
+             Array.from(interfaceSelect.options).forEach(option => {
+                 const iconSpan = option.querySelector('.mobile-indicator');
+                 if (iconSpan) iconSpan.remove(); // Remove existing icon first
+
+                 if (isMobile && restrictedMobileInterfaces.includes(option.value)) {
+                     option.classList.add('restricted-mobile');
+                     // Add icon using a span for better control if needed
+                     // option.innerHTML += ' <span class="mobile-indicator" style="opacity:0.7;">📱</span>';
+                 } else {
+                     option.classList.remove('restricted-mobile');
+                 }
+             });
+             // No confirmation dialog on change, only on parse button click.
+        });
+
+        videoUrlInput.focus(); // Auto-focus URL input on load
+    }
+
+    // --- Initialization ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // Apply mobile specific UI adjustments on load
+        Array.from(interfaceSelect.options).forEach(option => {
+             if (isMobile && restrictedMobileInterfaces.includes(option.value)) {
+                 option.classList.add('restricted-mobile');
+                 // Add icon/indicator directly to the option text for persistence
+                 // The \u{1F4F5} is a mobile phone with arrow symbol. Adjust styling if needed.
+                 // Check if icon already exists to prevent duplicates on potential re-runs
+                 if (!option.textContent.includes('\u{1F4F5}')) {
+                    option.textContent += ' \u{1F4F5}';
+                 }
+             }
+         });
+
+        // Set a safer default interface on mobile if the current default is restricted
+        if (isMobile && restrictedMobileInterfaces.includes(interfaceSelect.value)) {
+             // Check if defaultMobileInterface exists before setting it
+             if (Array.from(interfaceSelect.options).some(opt => opt.value === defaultMobileInterface)) {
+                interfaceSelect.value = defaultMobileInterface;
+             }
+        }
+
+        initEventListeners();
+        console.log("ZXY Video Parser Initialized. Mobile:", isMobile);
+        console.log("Restricted Mobile Interfaces:", restrictedMobileInterfaces);
+    });
+
+})();
 </script>
+
 </body>
 </html>
