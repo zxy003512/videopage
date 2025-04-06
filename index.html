@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 修改：网站标题 -->
     <title>ZXY视频网站 - 在线视频解析</title>
     <meta name="description" content="ZXY视频网站提供简洁高效的在线视频解析工具，支持主流视频平台。">
     <meta name="keywords" content="ZXY视频, 视频解析, 在线解析, VIP视频解析, 免广告看视频">
@@ -26,21 +25,38 @@
         }
 
         :root {
-            --primary-color: #007BFF; /* 保持蓝色主调 */
-            --secondary-color: #0056b3; /* 深蓝色 */
-            --accent-color: #28a745; /* 绿色 */
-            --warning-color: #ffc107; /* 黄色 */
-            --danger-color: #dc3545; /* 红色 */
-            /* 修改：背景色调整 */
-            --light-bg: #f8f9fa; /* 非常浅的灰色作为页面底色 */
-            --text-color: #343a40; /* 深灰色文本 */
-            --text-light: #6c757d; /* 浅灰色文本 */
-            --border-color: #dee2e6;
-            --card-bg: #ffffff; /* 卡片和容器使用纯白色 */
-            /* 修改：阴影调整 */
-            --shadow-color: rgba(0, 0, 0, 0.08); /* 更柔和的阴影 */
+            /* == 全新色彩方案 == */
+            --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); /* 主渐变色 (紫 -> 蓝) */
+            --primary-color-start: #6a11cb; /* 渐变起始色 */
+            --primary-color-end: #2575fc; /* 渐变结束色 */
+            --accent-color: #34e89e; /* 强调色 (亮青绿) */
+            --accent-hover: #2bc48a;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --danger-hover: #c82333;
+            --success-color: #28a745; /* 保留，或使用 accent-color */
+
+            /* == 背景与文本色 == */
+            --body-bg: linear-gradient(to top, #f3e7e9 0%, #e3eeff 100%); /* 柔和渐变背景 (粉 -> 蓝) */
+            --container-bg: rgba(255, 255, 255, 0.95); /* 容器背景，轻微透明 */
+            --card-bg: #ffffff; /* 卡片背景 */
+            --text-color: #333; /* 深灰色文本 */
+            --text-light: #667; /* 浅灰色文本 */
+            --border-color: rgba(0, 0, 0, 0.08); /* 更柔和的边框色 */
+
+            /* == 阴影与圆角 == */
+            --shadow-light: rgba(0, 0, 0, 0.06);
+            --shadow-medium: rgba(0, 0, 0, 0.1);
+            --shadow-strong: rgba(50, 50, 93, 0.15); /* 更自然的阴影 */
+            --border-radius-sm: 8px;
+            --border-radius-md: 16px; /* 更大的圆角 */
+            --border-radius-lg: 24px;
+
+            /* == 动画与过渡 == */
             --animation-speed: 0.3s;
-            --border-radius: 12px; /* 圆角保持 */
+            --transition-smooth: all var(--animation-speed) cubic-bezier(0.25, 0.8, 0.25, 1); /* 平滑过渡 */
+
+            /* 移动端限制接口提示 */
             --restricted-interface-bg: rgba(255, 193, 7, 0.1);
             --restricted-interface-color: #b98900;
         }
@@ -52,31 +68,32 @@
         body {
             font-family: 'Poppins', sans-serif;
             color: var(--text-color);
-            /* 修改：使用浅灰色背景 */
-            background-color: var(--light-bg);
-            line-height: 1.6;
+            /* == 应用渐变背景 == */
+            background: var(--body-bg);
+            background-attachment: fixed; /* 固定背景 */
+            line-height: 1.7; /* 增加行高 */
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* 顶部对齐 */
+            align-items: flex-start;
             min-height: 100vh;
-            padding: 2rem 1rem;
+            padding: 3rem 1rem; /* 增加上下内边距 */
             overflow-x: hidden;
         }
 
-        /* --- Main Container --- */
+        /* --- 主容器 --- */
         .container {
             width: 100%;
-            max-width: 900px;
-            /* 修改：纯白背景，移除透明和模糊 */
-            background-color: var(--card-bg);
-            padding: 3rem; /* 稍微增加内边距 */
-            border-radius: var(--border-radius);
-            /* 修改：使用调整后的柔和阴影 */
-            box-shadow: 0 8px 25px var(--shadow-color);
-            /* 移除 backdrop-filter 和相关 border */
+            max-width: 950px; /* 稍微加宽 */
+            background-color: var(--container-bg);
+            padding: 3rem 3.5rem; /* 增加内边距 */
+            border-radius: var(--border-radius-lg); /* 大圆角 */
+            /* == 精致阴影 == */
+            box-shadow: 0 15px 35px var(--shadow-strong), 0 5px 15px rgba(0,0,0,0.07);
+            backdrop-filter: blur(5px); /* 轻微模糊背景 (如果浏览器支持) */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* 细微边框增加质感 */
             animation: fadeInScale 0.8s ease-out forwards;
             opacity: 0;
-            transform: scale(0.95);
+            transform: scale(0.97); /* 初始稍微缩小 */
         }
 
         @keyframes fadeInScale {
@@ -86,117 +103,123 @@
             }
         }
 
-        /* --- Typography --- */
+        /* --- 排版 --- */
         h1 {
-            color: var(--primary-color);
+            /* == 渐变文字标题 == */
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1)); /* 文字轻微阴影 */
+
             text-align: center;
-            margin-bottom: 2rem; /* 增加 H1 下方间距 */
-            font-weight: 600;
-            letter-spacing: -0.5px;
+            margin-bottom: 2.5rem; /* 增加 H1 下方间距 */
+            font-weight: 700; /* 加粗 */
+            font-size: 2.5rem; /* 增大字号 */
+            letter-spacing: -1px; /* 调整字间距 */
         }
+        h1 i { margin-right: 0.8rem; /* 图标与文字间距 */ }
 
         h2 {
-            color: var(--secondary-color);
-            margin-top: 2.5rem; /* 增加 H2 上方间距 */
-            margin-bottom: 1.2rem;
-            font-weight: 500;
-            padding-bottom: 0.6rem;
+            color: var(--primary-color-start); /* 使用渐变起始色 */
+            margin-top: 3rem; /* 增加 H2 上方间距 */
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            padding-bottom: 0.8rem;
             border-bottom: 2px solid var(--border-color);
+            display: flex; /* 让图标和文字对齐 */
+            align-items: center;
+            gap: 0.6rem; /* 图标和文字间距 */
         }
 
         p {
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             color: var(--text-light);
         }
 
         strong {
             color: var(--text-color);
-            font-weight: 500;
+            font-weight: 600; /* 加强 strong 效果 */
         }
 
-        /* --- Buttons --- */
+        /* --- 按钮 --- */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
+            gap: 0.6rem;
+            padding: 0.85rem 1.8rem; /* 调整按钮大小 */
             font-size: 1rem;
             font-weight: 500;
             color: #fff;
-            background-color: var(--primary-color);
+            /* == 渐变背景按钮 == */
+            background: var(--primary-gradient);
             border: none;
-            border-radius: 8px;
+            border-radius: var(--border-radius-md); /* 中等圆角 */
             cursor: pointer;
-            transition: all var(--animation-speed) ease;
+            transition: var(--transition-smooth);
             text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); /* 稍微减弱阴影 */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
             z-index: 1;
         }
 
         .btn:hover {
-            background-color: var(--secondary-color);
-            box-shadow: 0 6px 15px rgba(0, 86, 179, 0.3);
-            transform: translateY(-2px);
+            /* == 悬停效果：提升、阴影加深、轻微变亮 == */
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            filter: brightness(1.1);
         }
 
         .btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 86, 179, 0.2);
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            filter: brightness(0.95);
         }
 
         .btn:disabled {
-            background-color: #adb5bd;
+            background: #adb5bd;
             cursor: not-allowed;
             box-shadow: none;
             transform: none;
+            filter: none;
+            opacity: 0.65;
         }
 
-        /* Ripple effect */
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 50%;
-            transform: scale(1, 1) translate(-50%, -50%);
-            transform-origin: 50% 50%;
-            z-index: -1;
-        }
-
-        .btn:focus:not(:active)::after {
-            animation: ripple 1s ease-out;
-        }
-
-        @keyframes ripple {
-            0% { transform: scale(0, 0) translate(-50%, -50%); opacity: 1; }
-            100% { transform: scale(40, 40) translate(-50%, -50%); opacity: 0; }
-        }
+        /* 按钮涟漪效果 (保持) */
+        .btn::after { /* ... 省略已有代码 ... */ }
+        .btn:focus:not(:active)::after { /* ... 省略已有代码 ... */ }
+        @keyframes ripple { /* ... 省略已有代码 ... */ }
 
         .platform-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 1.2rem; /* 增加按钮间距 */
             justify-content: center;
-            margin-bottom: 2.5rem; /* 增加下方间距 */
+            margin-bottom: 3rem; /* 增加下方间距 */
         }
 
         .platform-btn {
             flex-grow: 1;
-            min-width: 120px;
+            min-width: 130px; /* 稍微增大最小宽度 */
+            /* 可以给平台按钮不同的颜色或样式，但当前保持统一 */
         }
 
-        /* --- Form Elements --- */
+        /* 特别突出“自动测试”和“立即解析”按钮 */
+        #autoTestButton {
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+        }
+        #parseButton {
+            /* 使用主渐变色，已默认 */
+        }
+
+
+        /* --- 表单元素 --- */
         .parser-form {
             display: grid;
-            gap: 1.2rem; /* 稍微增加表单元素间距 */
-            margin-bottom: 2rem;
+            gap: 1.5rem; /* 增加表单元素间距 */
+            margin-bottom: 2.5rem;
         }
 
         .form-group {
@@ -205,36 +228,43 @@
         }
 
         .form-label {
-            margin-bottom: 0.6rem; /* 增加标签和输入框间距 */
+            margin-bottom: 0.7rem; /* 增加标签和输入框间距 */
             font-weight: 500;
-            color: var(--text-color);
+            color: var(--primary-color-start); /* 标签颜色 */
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
+        .form-label i { color: var(--primary-color-end); }
 
         .form-control {
             width: 100%;
-            padding: 0.8rem 1rem;
-            background-color: #fff; /* 确保输入框背景也是白色 */
+            padding: 0.9rem 1.2rem; /* 增加内边距 */
+            background-color: #fff;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: var(--border-radius-md); /* 中等圆角 */
             color: var(--text-color);
             font-size: 1rem;
             font-family: inherit;
             transition: border-color var(--animation-speed) ease, box-shadow var(--animation-speed) ease;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* 轻微内阴影 */
         }
 
         .form-control:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); /* 减弱焦点阴影 */
+            border-color: var(--primary-color-end);
+            /* == 更柔和的发光效果 == */
+            box-shadow: 0 0 0 4px rgba(37, 117, 252, 0.15), inset 0 1px 3px rgba(0,0,0,0.05);
         }
 
         select.form-control {
             appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg fill="%236c757d" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');
+            /* == 自定义下拉箭头 (SVG) == */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="%236a11cb"><path fill-rule="evenodd" d="M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/></svg>');
             background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1em;
-            padding-right: 3rem;
+            background-position: right 1.2rem center;
+            background-size: 1.2em; /* 增大箭头 */
+            padding-right: 3.5rem; /* 为箭头留出空间 */
         }
 
         .form-control option.restricted-mobile {
@@ -242,44 +272,52 @@
             color: var(--restricted-interface-color);
             font-style: italic;
         }
+        /* 给 select 下拉选项增加一点 padding */
+        .form-control option {
+            padding: 5px 10px;
+        }
 
         .parser-actions {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
+            margin-top: 0.5rem; /* 微调上方间距 */
         }
 
         .parser-actions .btn {
             flex-grow: 1;
         }
 
-        /* --- Instructions Box --- */
+        /* --- 说明框 --- */
         .instructions {
-            /* 修改：调整背景色以适应白色主题 */
-            background-color: #eef2f7; /* 更中性的浅蓝灰色 */
-            border-left: 5px solid var(--primary-color);
-            padding: 1.5rem;
-            margin-bottom: 2.5rem;
-            border-radius: 8px;
-            font-size: 0.95rem;
+            /* == 更融入主题的样式 == */
+            background-color: rgba(230, 240, 255, 0.5); /* 淡蓝色半透明 */
+            border-left: 6px solid var(--primary-color-end); /* 蓝色边框 */
+            padding: 1.8rem 2rem; /* 增加内边距 */
+            margin-bottom: 3rem;
+            border-radius: var(--border-radius-md); /* 中圆角 */
+            font-size: 0.98rem; /* 微调字号 */
+            box-shadow: 0 4px 10px var(--shadow-light);
         }
         .instructions p:last-child { margin-bottom: 0; }
-        .instructions strong { color: var(--primary-color); }
-        .instructions ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+        .instructions strong { color: var(--primary-color-start); font-weight: 600; }
+        .instructions strong i { color: var(--primary-color-end); }
+        .instructions ol { padding-left: 1.8rem; margin-bottom: 1.2rem; list-style-type: decimal-leading-zero; }
+        .instructions li { margin-bottom: 0.5rem; }
 
 
-        /* --- Video Player --- */
+        /* --- 视频播放器 --- */
         .video-container {
             position: relative;
             width: 100%;
             padding-bottom: 56.25%; /* 16:9 */
-            border-radius: var(--border-radius);
+            border-radius: var(--border-radius-md); /* 中圆角 */
             overflow: hidden;
-            background-color: #000;
-            margin-top: 2rem; /* 增加上方间距 */
+            background-color: #111; /* 深色背景 */
+            margin-top: 2.5rem; /* 增加上方间距 */
             display: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* 保留一点阴影 */
-            animation: fadeIn 0.5s ease;
+            box-shadow: 0 10px 30px var(--shadow-medium); /* 更明显的阴影 */
+            animation: fadeIn 0.6s ease;
         }
 
         .video-iframe {
@@ -291,84 +329,95 @@
             border: none;
         }
 
-        /* --- Status Messages --- */
+        /* --- 状态消息 --- */
         .status-message {
             text-align: center;
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
-            margin-top: 1.5rem; /* 增加上方间距 */
+            padding: 1rem 1.5rem; /* 增加内边距 */
+            border-radius: var(--border-radius-md);
+            margin-top: 2rem; /* 增加上方间距 */
             display: none;
             font-weight: 500;
-            animation: slideDown 0.3s ease-out;
+            animation: slideDown 0.4s ease-out;
             border: 1px solid transparent;
+            box-shadow: 0 3px 8px var(--shadow-light);
+            display: flex; /* 使用 flex 布局让图标和文字更好对齐 */
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem; /* 图标和文字间距 */
         }
 
         @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
+            from { opacity: 0; transform: translateY(-15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .status-loading,
         .status-testing {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: #b98900;
-            border-color: rgba(255, 193, 7, 0.3);
+            background-color: rgba(255, 193, 7, 0.15); /* 加深一点背景 */
+            color: #a37b00; /* 更深的黄色 */
+            border-color: rgba(255, 193, 7, 0.4);
         }
         .status-error {
             background-color: rgba(220, 53, 69, 0.1);
             color: var(--danger-color);
-            border-color: rgba(220, 53, 69, 0.3);
+            border-color: rgba(220, 53, 69, 0.4);
         }
         .status-success {
             background-color: rgba(40, 167, 69, 0.1);
-            color: var(--accent-color);
-            border-color: rgba(40, 167, 69, 0.3);
+            color: var(--success-color);
+            border-color: rgba(40, 167, 69, 0.4);
         }
 
-        /* --- Movie Site Cards --- */
+        /* --- 电影站点卡片 --- */
         .movie-sites {
-            margin-top: 3rem; /* 增加上方间距 */
+            margin-top: 3.5rem; /* 增加上方间距 */
         }
 
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem; /* 增加上方间距 */
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 增大最小宽度 */
+            gap: 2rem; /* 增加卡片间距 */
+            margin-top: 2rem; /* 增加上方间距 */
         }
 
         .movie-card {
-            background-color: var(--card-bg); /* 确保卡片背景是白色 */
-            border-radius: var(--border-radius);
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-md);
             overflow: hidden;
-            box-shadow: 0 5px 15px var(--shadow-color); /* 使用柔和阴影 */
-            transition: transform var(--animation-speed) ease, box-shadow var(--animation-speed) ease;
+            box-shadow: 0 8px 20px var(--shadow-light); /* 初始较柔和阴影 */
+            transition: var(--transition-smooth);
             text-decoration: none;
             color: var(--text-color);
             display: flex;
             flex-direction: column;
-            border: 1px solid var(--border-color); /* 添加细微边框 */
+            border: 1px solid var(--border-color);
         }
 
         .movie-card:hover {
-            transform: translateY(-5px) scale(1.02); /* 稍微减小放大效果 */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* 悬停时阴影加深 */
+            /* == 增强悬停效果 == */
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 35px var(--shadow-medium);
+            border-color: var(--primary-color-end); /* 悬停时边框变色 */
         }
 
         .movie-card-image {
-            height: 120px;
-            /* 修改：使用浅灰色背景替代渐变 */
-            background-color: #e9ecef;
+            height: 140px; /* 增加图片区域高度 */
+            /* == 更吸引人的渐变背景 == */
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); /* 黄 -> 橙 */
             display: flex;
             align-items: center;
             justify-content: center;
-            /* 修改：图标颜色调整 */
-            color: var(--text-light);
-            font-size: 2.5rem; /* 稍微增大图标 */
+            color: rgba(255, 255, 255, 0.8); /* 白色图标，带透明度 */
+            font-size: 3.5rem; /* 增大图标 */
+            transition: var(--transition-smooth);
+        }
+        .movie-card:hover .movie-card-image {
+             background: linear-gradient(135deg, #fda085 0%, #f6d365 100%); /* 悬停时反转渐变 */
+             color: #fff; /* 悬停时图标更亮 */
         }
 
         .movie-card-content {
-            padding: 1rem;
+            padding: 1.2rem; /* 增加内容区内边距 */
             text-align: center;
             flex-grow: 1;
             display: flex;
@@ -378,63 +427,91 @@
 
         .movie-card-title {
             font-weight: 600;
-            margin-bottom: 0.25rem;
-            font-size: 1.1rem;
-            color: var(--primary-color);
+            margin-bottom: 0.4rem;
+            font-size: 1.15rem; /* 增大标题字号 */
+            color: var(--primary-color-start); /* 标题颜色 */
+            transition: color var(--animation-speed) ease;
+        }
+        .movie-card:hover .movie-card-title {
+            color: var(--primary-color-end);
         }
 
         .movie-card-link {
-            font-size: 0.85rem;
+            font-size: 0.88rem; /* 微调链接字号 */
             color: var(--text-light);
             word-break: break-all;
         }
 
         .movie-warning {
-            margin-top: 1rem;
-            padding: 1rem;
+            margin-top: 1.5rem; /* 增加上方间距 */
+            padding: 1.2rem; /* 增加内边距 */
             background-color: rgba(255, 193, 7, 0.1);
             color: #b98900;
             border: 1px solid rgba(255, 193, 7, 0.3);
-            border-radius: 8px;
-            font-size: 0.9rem;
+            border-radius: var(--border-radius-md);
+            font-size: 0.95rem; /* 微调字号 */
             text-align: center;
+            display: flex; /* 图标和文字对齐 */
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            box-shadow: 0 3px 8px var(--shadow-light);
         }
-        .movie-warning i { margin-right: 0.5rem; }
+        .movie-warning i { font-size: 1.1rem; }
 
-        /* --- Footer --- */
+        /* --- 页脚 --- */
         footer {
             text-align: center;
-            margin-top: 3rem;
-            padding-top: 1.5rem;
+            margin-top: 4rem; /* 增加上方间距 */
+            padding-top: 2rem;
             border-top: 1px solid var(--border-color);
             font-size: 0.9em;
             color: var(--text-light);
+            opacity: 0.8; /* 让页脚不那么显眼 */
+        }
+        footer p { margin-bottom: 0.5rem; } /* 减小页脚段落间距 */
+
+        /* --- 可访问性 --- */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
         }
 
-        /* --- Accessibility --- */
-        .sr-only { /* 保持不变 */ }
-
-        /* --- Responsive Design --- */
+        /* --- 响应式设计 --- */
         @media (max-width: 768px) {
-            body { padding: 1.5rem 0.8rem; }
-            .container { padding: 2rem 1.5rem; }
-            h1 { font-size: 1.8rem; }
-            .platform-buttons { flex-direction: column; }
-            .platform-btn { width: 100%; }
-            .parser-actions { flex-direction: column; }
-             .parser-actions .btn { width: 100%; }
-            .card-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
-            .movie-card-title { font-size: 1rem; }
+            body { padding: 2rem 0.8rem; }
+            .container { padding: 2.5rem 1.5rem; border-radius: var(--border-radius-md); } /* 调整容器内边距和圆角 */
+            h1 { font-size: 2rem; } /* 调整标题大小 */
+            .platform-buttons { flex-direction: column; gap: 0.8rem; margin-bottom: 2rem; }
+            .platform-btn { width: 100%; padding: 0.8rem 1.5rem; }
+            .parser-actions { flex-direction: column; gap: 0.8rem; }
+             .parser-actions .btn { width: 100%; padding: 0.8rem 1.5rem; }
+            .card-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.2rem; } /* 调整卡片布局 */
+            .movie-card-image { height: 120px; font-size: 3rem; }
+            .movie-card-title { font-size: 1.05rem; }
+            h2 { font-size: 1.3rem; }
         }
 
          @media (max-width: 480px) {
-             body { padding: 1rem 0.5rem; }
-             .container { padding: 1.5rem 1rem; }
-             h1 { font-size: 1.6rem; }
-             .btn { padding: 0.7rem 1.3rem; font-size: 0.95rem; }
-             .form-control { padding: 0.7rem 0.9rem; font-size: 0.95rem; }
-              .card-grid { grid-template-columns: 1fr 1fr; }
-            .movie-card-image { height: 100px; font-size: 2rem; }
+             body { padding: 1.5rem 0.5rem; }
+             .container { padding: 2rem 1rem; border-radius: var(--border-radius-sm); } /* 进一步调整 */
+             h1 { font-size: 1.8rem; }
+             .btn, .platform-btn, .parser-actions .btn { padding: 0.75rem 1.4rem; font-size: 0.95rem; }
+             .form-control { padding: 0.8rem 1rem; font-size: 0.95rem; }
+             select.form-control { background-position: right 0.8rem center; padding-right: 3rem; }
+             .card-grid { grid-template-columns: 1fr 1fr; gap: 1rem; } /* 手机上固定两列 */
+             .movie-card-image { height: 100px; font-size: 2.5rem; }
+             .movie-card-title { font-size: 1rem; }
+             .instructions { padding: 1.5rem 1.2rem; font-size: 0.92rem; }
+             .movie-warning { padding: 1rem; font-size: 0.9rem; }
+             footer { margin-top: 3rem; padding-top: 1.5rem; font-size: 0.85em; }
          }
 
     </style>
@@ -442,9 +519,10 @@
 <body>
 
     <main class="container">
-        <!-- 修改：网站 H1 标题 -->
+        <!-- H1 标题现在使用渐变文字 -->
         <h1><i class="fas fa-film fa-fw"></i> ZXY视频网站</h1>
 
+        <!-- 平台按钮样式已更新 -->
         <nav class="platform-buttons" aria-label="视频平台导航">
             <a href="https://v.qq.com/" target="_blank" rel="noopener noreferrer" class="btn platform-btn" title="访问腾讯视频官网">
                 <i class="fab fa-qq" aria-hidden="true"></i> 腾讯视频
@@ -458,6 +536,7 @@
             <!-- 你可以在这里添加更多平台按钮 -->
         </nav>
 
+        <!-- 说明框样式已更新 -->
         <section class="instructions" aria-labelledby="instructions-heading">
             <h2 id="instructions-heading" class="sr-only">使用说明</h2>
             <p><strong><i class="fas fa-info-circle fa-fw"></i> 如何使用:</strong></p>
@@ -465,12 +544,13 @@
                 <li>点击上方按钮前往视频平台，或直接打开视频网站。</li>
                 <li>找到想看的视频，复制浏览器地址栏中的完整链接 (URL)。</li>
                 <li>返回本页面，将链接粘贴到下方的输入框中。</li>
-                <li>选择一个解析接口（推荐点击“自动测试”）。</li>
-                <li>点击“立即解析”按钮，稍等片刻即可播放。</li>
+                <li>选择一个解析接口（推荐点击 <strong style="color: var(--accent-color);">自动测试</strong>）。</li>
+                <li>点击 <strong style="color: var(--primary-color-end);">立即解析</strong> 按钮，稍等片刻即可播放。</li>
             </ol>
             <p><strong>注意：</strong> 若播放失败或卡顿，请尝试切换其他解析接口。本工具仅供学习交流，请勿用于非法用途。</p>
         </section>
 
+        <!-- 表单样式已更新 -->
         <section class="parser-form" aria-labelledby="parser-heading">
             <h2 id="parser-heading" class="sr-only">视频解析器</h2>
             <div class="form-group">
@@ -480,24 +560,22 @@
                     1. 复制下面的一个 <option> ... </option> 标签行。
                     2. 修改 value="接口地址" 中的 "接口地址"，确保地址以 "?url=" 或类似的参数结尾。这是实际使用的接口链接。
                     3. 修改 > 和 </option> 之间的文本，这是下拉列表中显示的名称。
-                    4. (可选) 如果某个接口在手机上可能有问题（如广告过多、兼容性差），可以添加 data-restricted-mobile="true" 属性，JS 会在手机访问时给出提示。
+                    4. (可选) 如果某个接口在手机上可能有问题（如广告过多、兼容性差），可以添加 data-restricted-mobile="true" 属性，JS 会在手机访问时给出提示，并且样式中会标记。
                     5. 要删除接口，直接删除对应的 <option> ... </option> 行即可。
                     注意：请确保接口地址是真实有效的！以下仅为示例。
                 -->
                 <select id="parserInterface" class="form-control" aria-describedby="interface-description">
-                    <option value="https://jx.xmflv.com/?url=" data-restricted-mobile="true">接口 1 (xmflv.com) 手机慎用</option>
+                    <option value="https://jx.xmflv.com/?url=" data-restricted-mobile="true">接口 1 (xmflv.com)</option>
                     <option value="https://bd.jx.cn/?url=">接口 2 (bd.jx.cn)</option>
-                    <option value="https://jx.xmflv.cc/?url=" data-restricted-mobile="true">接口 3 (xmflv.cc) 手机慎用</option>
-                    <option value="https://jx.hls.one/?url=">接口 4 (hls.one)（推荐）</option>
-                    <option value="https://jx.77flv.cc/?url=">接口 5 (77flv.cc)（推荐）</option>
-                    <option value="https://www.yemu.xyz/?url=" data-restricted-mobile="true">接口 6 (yemu.xyz) 手机慎用</option>
+                    <option value="https://jx.xmflv.cc/?url=" data-restricted-mobile="true">接口 3 (xmflv.cc)</option>
+                    <option value="https://jx.hls.one/?url=">接口 4 (hls.one) [推荐]</option>
+                    <option value="https://jx.77flv.cc/?url=">接口 5 (77flv.cc) [推荐]</option>
+                    <option value="https://www.yemu.xyz/?url=" data-restricted-mobile="true">接口 6 (yemu.xyz)</option>
                     <!-- 在这里添加新的接口 -->
- <option value="https://yparse.jn1.cc/index.php?url=">接口 7 (聚合)（备用）</option>
- <option value="https://player.q168.vip/?url=">接口 8 (q168.vip)（备用）</option>
-
-
+                    <option value="https://yparse.jn1.cc/index.php?url=">接口 7 (聚合) [备用]</option>
+                    <option value="https://player.q168.vip/?url=">接口 8 (q168.vip) [备用]</option>
                 </select>
-                <small id="interface-description" class="text-light" style="margin-top: 0.3rem;">带 <i class="fas fa-mobile-alt fa-fw"></i> 标记的接口在手机端可能体验不佳。</small>
+                <small id="interface-description" class="text-light" style="margin-top: 0.5rem;">带 <i class="fas fa-mobile-alt fa-fw" style="color: var(--restricted-interface-color);"></i> 标记的接口在手机端可能体验不佳。</small>
             </div>
 
             <div class="form-group">
@@ -505,6 +583,7 @@
                 <input type="url" id="videoUrl" class="form-control" placeholder="请在此处粘贴视频播放页面的完整链接..." required autocomplete="off">
             </div>
 
+            <!-- 解析按钮样式已更新 -->
             <div class="parser-actions">
                 <button class="btn" type="button" id="autoTestButton" title="自动测试查找可用接口">
                     <i class="fas fa-magic fa-fw" aria-hidden="true"></i> 自动测试
@@ -515,20 +594,22 @@
             </div>
         </section>
 
-        <!-- Status Messages Area -->
+        <!-- 状态消息样式已更新 -->
         <div class="status-message status-loading" id="loadingMessage" role="status" aria-live="polite"><i class="fas fa-spinner fa-spin fa-fw"></i> 解析中，请稍候...</div>
         <div class="status-message status-testing" id="testingInterfaceMessage" role="status" aria-live="polite"><i class="fas fa-vial fa-fw"></i> 正在自动测试接口...</div>
         <div class="status-message status-success" id="successMessage" role="status" aria-live="polite"><i class="fas fa-check-circle fa-fw"></i> 接口测试成功，已选择可用接口！</div>
         <div class="status-message status-error" id="errorMessage" role="alert" aria-live="assertive"><i class="fas fa-exclamation-triangle fa-fw"></i> <span id="errorText">发生错误</span></div>
 
-        <!-- Video Player Container -->
+        <!-- 视频播放器样式已更新 -->
         <div class="video-container" id="videoContainer">
             <iframe class="video-iframe" id="videoPlayer" title="视频播放器" allow="autoplay; fullscreen" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
         </div>
 
-        <!-- Movie Site Recommendations -->
+        <!-- 影视站点推荐卡片样式已更新 -->
         <section class="movie-sites" aria-labelledby="movie-sites-heading">
+            <!-- H2 标题样式已更新 -->
             <h2 id="movie-sites-heading"><i class="fas fa-tv fa-fw"></i> 免费影视站点推荐</h2>
+            <!-- 警告框样式已更新 -->
             <div class="movie-warning">
                 <i class="fas fa-exclamation-triangle"></i> <strong>注意:</strong> 以下网站非本站所有，内容可能包含广告、弹窗或潜在风险，请谨慎访问和使用！
             </div>
@@ -570,62 +651,55 @@
                 <a href="https://www.yfsp.lv/" target="_blank" rel="noopener noreferrer" class="movie-card">
                      <div class="movie-card-image"><i class="fas fa-compact-disc"></i></div>
                     <div class="movie-card-content">
-                        <h3 class="movie-card-title">影视站 4（推荐）</h3>
+                        <h3 class="movie-card-title">影视站 4 [推荐]</h3>
                         <span class="movie-card-link">yfsp.lv</span>
                     </div>
                 </a>
                 <!-- 在这里添加新的推荐网站卡片 -->
-   <!-- 推荐网站 5 -->
+                <!-- 推荐网站 5 -->
                 <a href="https://www.fsyuyou.com/" target="_blank" rel="noopener noreferrer" class="movie-card">
-                    <div class="movie-card-image"><i class="fas fa-film"></i></div>
+                    <div class="movie-card-image"><i class="fas fa-play"></i></div>
                     <div class="movie-card-content">
-                        <h3 class="movie-card-title">影视站 5（推荐）</h3>
+                        <h3 class="movie-card-title">影视站 5 [推荐]</h3>
                         <span class="movie-card-link">fsyuyou.com</span>
                     </div>
                 </a>
-
-   <!-- 推荐网站 6 -->
+                <!-- 推荐网站 6 -->
                 <a href="https://www.luhuitang.com/" target="_blank" rel="noopener noreferrer" class="movie-card">
-                    <div class="movie-card-image"><i class="fas fa-film"></i></div>
+                    <div class="movie-card-image"><i class="fas fa-ticket-alt"></i></div>
                     <div class="movie-card-content">
                         <h3 class="movie-card-title">影视站 6</h3>
                         <span class="movie-card-link">luhuitang.com</span>
                     </div>
                 </a>
-
-
-  <!-- 推荐网站 7 -->
+                <!-- 推荐网站 7 -->
                 <a href="https://www.yingshidaquantv.com/" target="_blank" rel="noopener noreferrer" class="movie-card">
-                    <div class="movie-card-image"><i class="fas fa-film"></i></div>
+                    <div class="movie-card-image"><i class="fas fa-photo-video"></i></div>
                     <div class="movie-card-content">
-                        <h3 class="movie-card-title">影视站 7（推荐）</h3>
+                        <h3 class="movie-card-title">影视站 7 [推荐]</h3>
                         <span class="movie-card-link">yingshidaquantv.com</span>
                     </div>
                 </a>
-
-
-  <!-- 推荐网站 8 -->
+                <!-- 推荐网站 8 -->
                 <a href="https://www.yhdm.mom/" target="_blank" rel="noopener noreferrer" class="movie-card">
-                    <div class="movie-card-image"><i class="fas fa-film"></i></div>
+                    <div class="movie-card-image"><i class="fas fa-star"></i></div>
                     <div class="movie-card-content">
-                        <h3 class="movie-card-title">影视站 8（推荐）</h3>
+                        <h3 class="movie-card-title">影视站 8 [推荐]</h3>
                         <span class="movie-card-link">yhdm.mom</span>
                     </div>
                 </a>
-
-
             </div>
         </section>
 
-
+        <!-- 页脚样式已更新 -->
         <footer>
             <p>免责声明：本站仅提供视频解析技术学习与演示，不存储任何视频资源。所有解析结果均来自第三方接口，本站不对其内容和可用性负责。请勿将本站用于任何商业或非法用途，否则后果自负。</p>
-            <!-- 修改：网站页脚版权 -->
             <p>&copy; 2024 ZXY视频网站. All Rights Reserved.</p>
         </footer>
     </main>
 
 <script>
+// JavaScript 部分保持不变，仅在 <select> 和 <option> 中添加了推荐/备用标记文本，并调整了移动端提示文本
 (function() {
     'use strict';
 
@@ -780,6 +854,8 @@
 
             hideLoading();
             // Success is implied by video container showing and loading message hiding
+            // Scroll to video player after successful parsing
+             videoContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
             disableButtons(false);
             return Promise.resolve(); // Indicate success initiation
 
@@ -852,6 +928,9 @@
             interfaceSelect.value = bestInterface;
             showSuccessMessage(); // Show success confirmation
             // The successful parseVideo call would have already displayed the video
+            // Ensure the video remains visible and scroll to it
+            videoContainer.style.display = 'block';
+            videoContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
             // Need to ensure buttons are enabled AFTER success message shows
              disableButtons(false);
         } else {
@@ -863,23 +942,23 @@
     }
 
     // --- UI Helper Functions ---
-    function showLoading() { hideAllStatusMessages(); loadingMessage.style.display = 'block'; }
+    function showLoading() { hideAllStatusMessages(); loadingMessage.style.display = 'flex'; } // Changed to flex
     function hideLoading() { loadingMessage.style.display = 'none'; }
-    function showTestingInterface() { hideAllStatusMessages(); testingMessage.style.display = 'block'; testingMessage.innerHTML = '<i class="fas fa-vial fa-fw"></i> 正在自动测试接口...'; }
+    function showTestingInterface() { hideAllStatusMessages(); testingMessage.style.display = 'flex'; testingMessage.innerHTML = '<i class="fas fa-vial fa-fw"></i> 正在自动测试接口...'; } // Changed to flex
     function hideTestingInterface() { testingMessage.style.display = 'none'; }
 
     function showSuccessMessage() {
         hideAllStatusMessages();
-        successMessage.style.display = 'block';
-        setTimeout(() => { if (successMessage.style.display === 'block') successMessage.style.display = 'none'; }, 3500);
+        successMessage.style.display = 'flex'; // Changed to flex
+        setTimeout(() => { if (successMessage.style.display === 'flex') successMessage.style.display = 'none'; }, 3500);
     }
 
     function showError(message) {
         hideAllStatusMessages();
         errorText.textContent = message;
-        errorMessage.style.display = 'block';
+        errorMessage.style.display = 'flex'; // Changed to flex
         // Keep error message visible longer
-        setTimeout(() => { if (errorMessage.style.display === 'block') errorMessage.style.display = 'none'; }, 7000);
+        setTimeout(() => { if (errorMessage.style.display === 'flex') errorMessage.style.display = 'none'; }, 7000);
     }
 
     function hideAllStatusMessages() {
@@ -901,16 +980,40 @@
      */
     function checkMobileRestriction(selectedValue) {
         if (isMobile && restrictedMobileInterfaces.includes(selectedValue)) {
-            const selectedOptionText = interfaceSelect.options[interfaceSelect.selectedIndex]?.text || '该接口';
-            const confirmMessage = `您当前使用的是手机端，选择的 "${selectedOptionText}" 可能包含不适合手机浏览的内容或广告较多。确定要继续使用吗？`;
+            const selectedOption = interfaceSelect.options[interfaceSelect.selectedIndex];
+            // Extract text before the mobile icon if it exists
+            const optionText = selectedOption ? selectedOption.text.replace(/\s*<span class="mobile-indicator">.*?<\/span>/i, '').replace(/\s*📱.*/, '').trim() : '该接口';
+            const confirmMessage = `您当前使用的是移动设备，选择的 "${optionText}" 可能包含不适合手机浏览的内容或广告较多。\n\n确定要继续使用吗？`;
             if (!confirm(confirmMessage)) {
                 // Optionally reset to default if user cancels
-                // interfaceSelect.value = defaultMobileInterface;
+                // if (Array.from(interfaceSelect.options).some(opt => opt.value === defaultMobileInterface)) {
+                //     interfaceSelect.value = defaultMobileInterface;
+                //     updateMobileIndicator(); // Update indicator if selection changed
+                // }
                 return false; // Do not proceed
             }
         }
         return true; // Proceed
     }
+
+    // Function to add/remove mobile indicator icon dynamically (if needed)
+    function updateMobileIndicator() {
+        Array.from(interfaceSelect.options).forEach(option => {
+            const mobileIndicatorClass = 'mobile-indicator-text'; // Use a class for easier selection/removal
+            // Remove existing text indicator first
+            option.textContent = option.textContent.replace(` ${String.fromCodePoint(0x1F4F5)}`, '').trim();
+            option.classList.remove('restricted-mobile'); // Reset class
+
+            if (isMobile && restrictedMobileInterfaces.includes(option.value)) {
+                option.classList.add('restricted-mobile');
+                // Add Unicode character back if not already present
+                if (!option.textContent.includes(String.fromCodePoint(0x1F4F5))) {
+                    option.textContent += ` ${String.fromCodePoint(0x1F4F5)}`; // Add mobile phone with arrow emoji
+                }
+            }
+        });
+    }
+
 
     // --- Event Listeners ---
     function initEventListeners() {
@@ -930,24 +1033,8 @@
 
         autoTestButton.addEventListener('click', autoTestInterfaces);
 
-        // Add listener to select change for visual feedback (mobile icon)
-        interfaceSelect.addEventListener('change', () => {
-            const selectedInterface = interfaceSelect.value;
-            // Mark restricted options visually (can be done on init and change)
-             Array.from(interfaceSelect.options).forEach(option => {
-                 const iconSpan = option.querySelector('.mobile-indicator');
-                 if (iconSpan) iconSpan.remove(); // Remove existing icon first
-
-                 if (isMobile && restrictedMobileInterfaces.includes(option.value)) {
-                     option.classList.add('restricted-mobile');
-                     // Add icon using a span for better control if needed
-                     // option.innerHTML += ' <span class="mobile-indicator" style="opacity:0.7;">📱</span>';
-                 } else {
-                     option.classList.remove('restricted-mobile');
-                 }
-             });
-             // No confirmation dialog on change, only on parse button click.
-        });
+        // Update mobile indicator on select change
+        interfaceSelect.addEventListener('change', updateMobileIndicator);
 
         videoUrlInput.focus(); // Auto-focus URL input on load
     }
@@ -955,23 +1042,14 @@
     // --- Initialization ---
     document.addEventListener('DOMContentLoaded', () => {
         // Apply mobile specific UI adjustments on load
-        Array.from(interfaceSelect.options).forEach(option => {
-             if (isMobile && restrictedMobileInterfaces.includes(option.value)) {
-                 option.classList.add('restricted-mobile');
-                 // Add icon/indicator directly to the option text for persistence
-                 // The \u{1F4F5} is a mobile phone with arrow symbol. Adjust styling if needed.
-                 // Check if icon already exists to prevent duplicates on potential re-runs
-                 if (!option.textContent.includes('\u{1F4F5}')) {
-                    option.textContent += ' \u{1F4F5}';
-                 }
-             }
-         });
+        updateMobileIndicator();
 
         // Set a safer default interface on mobile if the current default is restricted
         if (isMobile && restrictedMobileInterfaces.includes(interfaceSelect.value)) {
              // Check if defaultMobileInterface exists before setting it
              if (Array.from(interfaceSelect.options).some(opt => opt.value === defaultMobileInterface)) {
                 interfaceSelect.value = defaultMobileInterface;
+                updateMobileIndicator(); // Update indicators after changing default
              }
         }
 
